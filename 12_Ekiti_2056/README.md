@@ -18,4 +18,4 @@ Moderation, statuses, credit, anonymity and corrections are shared with My Ekiti
 
 | Path | Description | Status |
 |---|---|---|
-| (none yet) | Ekiti 2056 submission spec and categories | Planned |
+| `EKITI_2056_SPEC.md` | Submission process, form fields, categories, review focus, public presentation | Draft |
