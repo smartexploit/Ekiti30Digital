@@ -32,15 +32,13 @@ No submission moves directly from citizen submission to PUBLIC.
 
 ## D2. Status model — PROPOSED
 
-Each submission carries three status fields, plus a guardian consent field for contributors under 18.
+Each submission carries three status fields.
 
 **Lifecycle `status`:** `PENDING`, `IN_MODERATION`, `IN_CLASSIFICATION`, `IN_VERIFICATION`, `IN_EDITORIAL_REVIEW`, `NEEDS_REVISION`, `APPROVED`, `PUBLIC`, `REJECTED`, `WITHDRAWN`, `UNPUBLISHED`
 
 **`verification_status`:** `NOT_STARTED`, `NOT_REQUIRED`, plus the outcomes in D4.
 
 **`editorial_status`:** `NOT_REVIEWED`, `REVIEWED`, `REVISION_REQUESTED`.
-
-**`guardian_consent_status`** (contributors under 18 only): `NOT_REQUIRED`, `PENDING`, `GRANTED`, `DECLINED`. See D9.
 
 Naming conflicts resolved:
 - `NEEDS_REVISION` is used instead of "REVISION REQUIRED" (machine-friendly, consistent underscores).
@@ -74,62 +72,58 @@ A story can be published as a personal/community account even when some claims s
 
 Consistent with CONTRIBUTING.md §4. Conflicting sources are documented, not silently resolved (CONTRIBUTING.md §11).
 
-## D6. Submission fields — PROPOSED (updated after Member 1's reply)
+## D6. Submission fields — PROPOSED (language field added after Member 1's reply)
 
 **My Ekiti Story**
 
 | Field | Required | Public |
 |---|---|---|
-| Name (contributors under 18: first name only) | Yes | Per credit choice |
-| Contact: email or phone/WhatsApp (contributors under 18: the parent/guardian's contact instead) | Yes | **Never** |
-| Age group: "18 or over" / "Under 18" | Yes | **Never** |
+| Name | Yes | Per credit choice |
+| Contact (email or phone/WhatsApp) | Yes | **Never** |
 | Location / LGA (16-LGA list) | Yes | Yes |
+| Language of submission (English / Yoruba) | Yes | Yes (shown as a label) |
 | Story title | Yes | Yes |
 | Story | Yes | Yes |
 | Year / period (with "not sure" option) | Yes | Yes |
-| Photo / media | Optional | Only if approved and consent is on record |
+| Photo / media | Optional | If approved |
 | Permission to publish | Yes | No |
 | Contributor credit choice (D7) | Yes | Applied |
-| Confirmation: I have the right to share this content and any media | Yes | No |
-| Parent/guardian consent (under 18 only, obtained after submission, see D9) | If under 18 | No |
+| Confirmation: 18+ (D9) | Yes | No |
+| Confirmation: right to share media | If media | No |
 | Review status | System | No |
 
 **Ekiti 2056**
 
 | Field | Required | Public |
 |---|---|---|
-| Name (contributors under 18: first name only) | Yes | Per credit choice |
-| Contact (contributors under 18: the parent/guardian's contact instead) | Yes | **Never** |
-| Age group: "18 or over" / "Under 18" | Yes | **Never** |
+| Name | Yes | Per credit choice |
+| Contact | Yes | **Never** |
 | Location / LGA | Yes | Yes |
+| Language of submission (English / Yoruba) | Yes | Yes (shown as a label) |
 | Vision / idea | Yes | Yes |
 | Category | Yes | Yes |
 | Why it matters | Yes | Yes |
-| Photo / media | Optional | Only if approved and consent is on record |
+| Photo / media | Optional | If approved |
 | Permission to publish | Yes | No |
-| Contributor credit choice (D7) | Yes | Applied |
-| Confirmation: I have the right to share this content and any media | Yes | No |
-| Parent/guardian consent (under 18 only, obtained after submission, see D9) | If under 18 | No |
+| Contributor credit choice | Yes | Applied |
+| Confirmation: 18+ | Yes | No |
 | Review status | System | No |
-
-**Not collected:** date of birth, exact age, home address, school name, ID numbers, precise location, or a child's own contact details. If a field is not needed for review, follow-up, consent or credit, we do not ask for it.
 
 Changes from the v1.0 draft:
 - Added Why It Matters, Permission, Credit and Review Status to Ekiti 2056 (required by Issue #8).
-- Added Contact, needed for revision requests, follow-up, consent and anonymous handling.
-- Replaced the optional age range with a two-option age group, used only for safeguards and never public.
-- Replaced the 18+ confirmation with the under-18 safeguards in D9.
+- Added Contact, which is needed for revision requests, follow-up and anonymous handling.
+- Removed **age range** from launch scope (data minimisation, minors).
 
 System-generated on submission: Submission ID, timestamp, type, statuses, assigned reviewer.
+
+Data minimisation (D14): only the fields above are collected. Contact details are never public by default. Not collected: date of birth, home address, ID numbers, precise location.
 
 ## D7. Contributor credit — PROPOSED
 
 The contributor chooses one option at submission, stored on the record:
-1. Full name + LGA (not available to contributors under 18)
+1. Full name + LGA
 2. First name + LGA
 3. Anonymous (see D8)
-
-For contributors under 18, the parent/guardian confirms the credit choice as part of consent (D9).
 
 ## D8. Anonymous submissions — PROPOSED
 
@@ -140,50 +134,40 @@ For contributors under 18, the parent/guardian confirms the credit choice as par
 - Access to identity is limited to designated reviewers.
 - Anonymity does not prevent claim verification against sources. It only means the contributor's identity is not part of the evidence.
 
-## D9. Contributors under 18, safeguards and guardian consent — CONFIRMED (principle), details PROPOSED
-
-**Direction from Member 1 (confirmed):** the platform does not launch as 18+ only. Younger contributors are allowed, with appropriate safeguards and, where necessary, parent/guardian consent. We avoid collecting unnecessary personal information from minors.
-
-**Proposed way to apply it** (details awaiting Member 1):
-
-1. **Age group, not age.** The form asks one question: "18 or over" or "Under 18". No date of birth or exact age is collected. The answer is never shown publicly.
-2. **What is collected from under-18 contributors:** first name only, LGA, the content, and a parent/guardian's contact. Not collected: the child's own contact details, date of birth, home address, school name, ID numbers.
-3. **Guardian consent (proposed default: required for every under-18 publication).** "Where necessary" is applied as "always before publication", because a moderator cannot reliably judge necessity case by case. After submission the guardian is contacted and asked to confirm permission to publish, the credit choice, and permission for any media. The result is tracked in `guardian_consent_status`: `PENDING`, then `GRANTED` or `DECLINED`.
-4. **Gate.** A submission from someone under 18 cannot become `APPROVED` unless `guardian_consent_status = GRANTED`. Moderation and review may continue while consent is pending.
-5. **No guardian reply in 30 days:** the submission is withdrawn and the guardian's contact is deleted per D14.
-6. **Withdrawal of consent.** A guardian can withdraw consent at any time. The item becomes `UNPUBLISHED` immediately (D12).
-7. **How under-18 content is shown.** Credit is first name + LGA, or anonymous. Full name is never shown. No school name, home address or other detail that could identify or locate a child. No identifiable photo of a child unless the guardian's consent specifically covers media.
-8. **Safeguarding.** If a submission suggests a child is at risk or has been harmed, it is not published and goes to Member 1 the same day.
-9. **Verification is unchanged.** Claims are still checked by the relevant lead. Verifiers never receive the contributor's or guardian's identity or contact details.
-
-**Open for Member 1:**
-- Is there a minimum age (for example 13)?
-- Should guardian consent apply to all under-18 publications, or only some (for example under 16, or where media or identifying details are involved)?
-- Nigeria's data protection law is likely to have specific rules on children's data (to be verified). Member 1 to confirm what the platform must do. This is not legal advice.
-
-## D10. Final publication sign-off — CONFIRMED (principle), details PROPOSED
+## D9. Contributor eligibility — CONFIRMED (18+ only for the initial launch)
 
 **Direction from Member 1 (confirmed):**
-- Final publication approval sits with the **Project/Editorial Review function**.
-- **Member 8 coordinates** the submission workflow.
-- Any factual claim must be **verified by the relevant research/content lead before publication.**
+- The platform is not to be permanently restricted to 18+.
+- For the initial launch it is **18+ only**, until there is a proper guardian/consent workflow and appropriate safeguards for minors.
 
-**Who does what**
+**How this applies at launch (proposed):**
+1. Both forms include a required confirmation: "I am 18 or over."
+2. Nothing else about age is collected. No date of birth, school, or guardian details at launch.
+3. If a submission clearly shows the contributor is under 18 (for example, they say so), it is not published. The moderator declines it politely, explains that under-18 contributions are not yet accepted, and uses reason code `UNDER_AGE`.
+4. Adults may submit content that mentions children. Identifiable photos of children are not published without the permission of a parent or guardian (see D14).
 
-| Step | Owner |
+**Before the 18+ restriction is lifted (future work, not part of the launch scope):** a separate decision from Member 1 on the guardian/consent workflow, safeguards, minimum age, and what data may be collected from minors.
+
+## D10. Final publication authority — CONFIRMED (principle), details PROPOSED
+
+**Direction from Member 1 (confirmed):**
+- Member 8 coordinates moderation and editorial review.
+- Publication of submissions containing factual claims requires the relevant lead's verification before publication.
+- Sensitive allegations require Member 1 or a designated senior reviewer.
+
+**How this applies (proposed):**
+
+| Submission | Approval path |
 |---|---|
-| Intake, moderation, classification, routing claims, editorial preparation, contributor communication | Member 8 |
-| Checking factual claims | Relevant research/content lead (D11) |
-| **Final publication approval** | **Project/Editorial Review function** |
-| Publishing an approved item | Member 8 |
+| Personal account, opinion or vision, with no checkable claims | Member 8 approves after moderation and editorial review |
+| Contains factual claims | The relevant lead verifies every claim (D11). Then Member 8 approves. |
+| Sensitive allegation (`sensitive = true`) | Member 1 or a designated senior reviewer must also sign off before publication |
 
-Member 8 does not give final approval alone. Contributors are told that approval is by the project's editorial review.
+Member 8 publishes approved items.
 
-**Sensitive submissions** (`sensitive = true`) go through the same final approval, with Member 1 involved (D11).
-
-**Points to confirm with Member 1**
-1. **Who is the Project/Editorial Review function?** A named person, or a small panel? Until named, Member 1 acts as the approving reviewer.
-2. **How "verified before publication" applies to unverified claims.** Proposed reading: every factual claim must be reviewed by the relevant lead before publication, with a finding recorded. A `VERIFIED` claim may be published as fact with its source. A claim the lead cannot establish is either removed, or published only as the contributor's own account, clearly labelled and never as verified (`ATTRIBUTED`, and never for sensitive claims). If Member 1 wants a stricter rule (claims that cannot be verified are always removed), `ATTRIBUTED` is dropped from the workflow.
+**Open for Member 1:**
+1. **A claim the lead cannot establish.** Proposed reading: verification must be completed before publication, with the lead's finding recorded for every claim. A `VERIFIED` claim is stated as fact with its source. A claim that cannot be established is either removed, or published only as the contributor's own account, clearly labelled and never as verified (`ATTRIBUTED`, never for sensitive claims). Stricter alternative: unverifiable claims are always removed, and `ATTRIBUTED` is dropped from the workflow.
+2. **Designated senior reviewer.** Name a deputy for Member 1, so sensitive items do not wait.
 
 ## D11. Escalation routing — PROPOSED, needs confirmation from Members 4 and 7
 
@@ -203,46 +187,52 @@ The v1.0 draft named an "Education" lead. There is none in the current 8-member 
 - Editors never silently change a contributor's meaning. Uncertain factual statements are held, qualified, attributed or removed depending on the result.
 - A contributor may request removal of their contribution. Response timeline: to be set.
 
-## D13. Language — OPEN
-
-Should submissions be accepted in Yoruba as well as English? If yes, reviewers who can read Yoruba are needed. Decide before launch.
-
-## D14. Privacy, data minimisation and retention — CONFIRMED (principles), details PROPOSED / OPEN
+## D13. Language — CONFIRMED (English and Yoruba), details PROPOSED
 
 **Direction from Member 1 (confirmed):**
-- Data minimisation: collect only what is necessary.
-- Contributors' contact information is not publicly displayed by default.
-- Photos and media are published only with appropriate consent.
-- Personal information is not kept indefinitely without a legitimate reason.
+- Accept submissions in both English and Yoruba.
+- Yoruba submissions go through the same moderation and verification process.
+- An appropriate reviewer is involved where language-specific review is required.
 
-**Proposed practice**
+**How this applies (proposed):**
+1. Both forms include "Language of submission" (English or Yoruba). It is stored and used to assign a reviewer.
+2. Same stages, checks, reason codes and statuses for both languages. There are no shortcuts for either.
+3. Moderation and editorial review of Yoruba submissions is done by a reviewer who reads Yoruba. Member 8 still coordinates.
+4. Editorial edits to Yoruba text respect spelling, diacritics and tone marks, and never change meaning. Anything unclear goes back to the contributor.
+5. Verification requests include the claim in its original wording plus an English working translation, clearly marked as such. Leads who read Yoruba can check the original.
+6. Published in the language submitted. Any English translation shown is labelled as a translation, has been checked by a person, and does not replace the original.
+7. Machine or AI translation is a working aid only. It is never the sole basis for moderation, verification or publication (consistent with CONTRIBUTING.md section 6).
+8. For engineering (Phase 5): Yoruba characters and tone marks must be stored, displayed and searched correctly (UTF-8).
+
+**Open:** who the designated Yoruba reviewers are, including a backup.
+
+## D14. Privacy, data minimisation and retention — CONFIRMED (principles), retention period OPEN
+
+**Direction from Member 1 (confirmed):**
+- Data minimisation: collect only information necessary for submission, review, follow-up and publication.
+- Contact information is never publicly displayed by default.
+- Contributor identity and contact details have restricted access.
+- Photos and media require appropriate permission.
+- The specific retention period is left open until the project's privacy notice and retention policy are established. No period is assumed in the meantime.
+
+**Proposed practice:**
 - Only the fields in D6 are collected.
-- Contact details are used only for follow-up, revision requests, corrections and consent. They are never public and never given to verifiers, publishers or the wider team.
-- Media: the contributor confirms the right to share it. Photos of identifiable people need those people's permission. Under-18 rules are in D9.
-- Anonymous contributors: identity is held internally and access is limited to designated reviewers (D8).
-- A short privacy notice is shown on each form: what is collected, why, who sees it, how long it is kept, and how to request removal.
-- Removal: a contributor (or guardian) can request removal of a published item and of their personal data. Response time to be set.
+- Contact details are used only for follow-up, revision requests, corrections and removal requests. They are never public, and never given to verifiers, publishers or the wider team.
+- Identity and contact fields are visible to designated reviewers only (D8).
+- Media: the contributor confirms the right to share it. Identifiable people in photos, especially children, need their permission or a parent's or guardian's (D9).
+- Each form shows a short privacy notice: what is collected, why, who sees it, how long it is kept, and how to ask for removal. The text is drafted once the policy exists.
+- A contributor can ask for their item and personal data to be removed. Response time is set with the policy.
 
-**Proposed retention** (example values, for Member 1 to confirm)
+**For engineering (Phase 5):**
+- Identity and contact fields are restricted by role, and excluded from exports and public pages.
+- Retention is a configurable setting for each data type, not a fixed number in the code, so the period can be set later.
+- Deletion of a submission and its personal data must be possible.
 
-| Data | Kept | Then |
-|---|---|---|
-| Published content and its credit line | While published | Removed on request or when unpublished |
-| Contact details, item is public | While the item is public, for corrections and removal requests | Deleted when the item is unpublished or removed |
-| Contact details, item rejected or withdrawn | 90 days after the final decision | Deleted |
-| Rejected or withdrawn content and reason code | 12 months (duplicate checks, audit) | Deleted |
-| Guardian consent record | While the item is public | Deleted with the item |
-| Audit trail of status changes | Kept, without contact details | Reviewed annually |
-
-**For engineering (Phase 5)**
-- Contact fields are visible only to designated reviewers.
-- Contact details are excluded from exports and public pages.
-- A scheduled deletion job applies the retention table.
-
-**Open**
-- Retention periods above.
-- Wording of the privacy notice.
-- Legal check: Nigeria's data protection law is likely to apply (to be verified). Member 1 to confirm the platform's obligations. This is not legal advice.
+**Open:**
+- Retention periods for each data type.
+- The privacy notice and who drafts it.
+- Removal-request response time.
+- Whether a legal check against Nigeria's data protection law is needed (to be verified, not legal advice).
 
 ## D15. Where the documents live — PROPOSED
 
@@ -257,15 +247,15 @@ Should submissions be accepted in Yoruba as well as English? If yes, reviewers w
 
 | Decision | Who confirms |
 |---|---|
-| D9 open points: minimum age, scope of guardian consent | Member 1 |
-| D10 open points: who is the Project/Editorial Review function, how "verified before publication" applies to unverified claims | Member 1 |
-| D14 open points: retention periods, privacy notice, legal check | Member 1 |
-| D6 (fields, age group, guardian consent field), D2 (status model including guardian consent) | Member 2 (Engineering) |
+| D10: how "verification before publication" applies to a claim the lead cannot establish; naming the designated senior reviewer | Member 1 |
+| D14: privacy notice and retention policy (period left open); who drafts | Member 1 |
+| D13: designated Yoruba reviewers | Member 1 + Member 8 |
+| D9: conditions for lifting 18+ only (future, not for launch) | Member 1, later |
+| D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
 | D11 (routing) | Members 4, 5, 7 |
-| D13 (language) | Member 1 + Member 8 |
 
 ## Confirmation record
 
 | Date | From | Decisions | Summary |
 |---|---|---|---|
-| 2026-09-20 | Member 1 | D9, D10, D14 | Not 18+ only: younger contributors allowed with safeguards and guardian consent where necessary, minimal data from minors. Final publication approval by the Project/Editorial Review function, coordinated by Member 8, with factual claims verified by the relevant lead before publication. Data minimisation, contact details not public by default, media only with consent, no indefinite retention. |
+| 2026-09-20 | Member 1 | D9, D10, D13, D14 | D9: 18+ only for the initial launch, not permanently. Minors later, once a guardian/consent workflow and safeguards exist. D10: Member 8 coordinates moderation and editorial review. Factual claims need the relevant lead's verification before publication. Sensitive allegations need Member 1 or a designated senior reviewer. D13: English and Yoruba accepted, same moderation and verification, with a language-specific reviewer where required. D14: data minimisation, contact details never public by default, restricted access to identity and contacts, media needs permission, retention period left open until the privacy notice and retention policy exist. |
