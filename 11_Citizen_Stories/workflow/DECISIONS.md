@@ -267,22 +267,6 @@ The submission specs add these details to the D6 field lists. They contain no pe
 
 Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EKITI_2056_SPEC.md` (in `12_Ekiti_2056/`). Credit rules: `CREDIT_AND_ANONYMITY.md`. Corrections: `CORRECTIONS_AND_CLARIFICATIONS.md`.
 
-## D16. Additions to the D6 field lists, proposed in the Phase 3 specs — PROPOSED
-
-The submission specs add these details to the D6 field lists. They contain no personal data beyond what D6 already collects.
-
-| Addition | Applies to | Why |
-|---|---|---|
-| "Outside Ekiti State" as an LGA option | Both forms | Ekiti diaspora contributors |
-| Contact method (email, phone or WhatsApp) | Both forms | Reach the contributor the way they prefer |
-| `vision_headline`: "Vision in one line" | Ekiti 2056 | A heading for the public page, so editors do not invent one |
-| `media_caption`, `media_credit`, `media_people_ok` | Both forms, if media | Every image is described and credited, and people in photos have agreed |
-| `promote_on_social`: separate optional permission | Both forms | Publishing on the platform and sharing on social media are separate consents |
-| `privacy_ack`: privacy notice acknowledged | Both forms | Data minimisation and transparency (D14) |
-| Location metadata stripped from images | Both forms | Photos must not reveal where someone lives (D14) |
-
-Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EKITI_2056_SPEC.md` (in `12_Ekiti_2056/`). Credit rules: `CREDIT_AND_ANONYMITY.md`. Corrections: `CORRECTIONS_AND_CLARIFICATIONS.md`.
-
 ## Confirmation needed
 
 | Decision | Who confirms |
@@ -293,7 +277,6 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 | D9: conditions for lifting 18+ only (future, not for launch) | Member 1, later |
 | D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
 | D11 (routing) | Members 4, 5, 7 |
-| D16 (additions to the D6 fields; LGA list source) | Member 2 (Engineering), Member 5 (LGA list) |
 | D16 (additions to the D6 fields; LGA list source) | Member 2 (Engineering), Member 5 (LGA list) |
 
 ## Confirmation record
