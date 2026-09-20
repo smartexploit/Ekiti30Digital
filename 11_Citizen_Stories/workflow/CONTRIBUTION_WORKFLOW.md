@@ -76,7 +76,7 @@ A vision can rest on a factual premise (for example, a statement about how thing
 
 **Editing rule.** Light edits (spelling, grammar, formatting) may be made without asking. Anything that changes meaning, removes a claim or removes an identifying detail goes back to the contributor first. Editors never silently change a contributor's meaning.
 
-**Language handling (D13).** Submissions may be in English or Yoruba. Both follow the same stages, checks and statuses, with no shortcuts. A Yoruba submission is moderated and edited with a reviewer who reads Yoruba, while Member 8 keeps coordinating. Verification requests carry the original wording and a clearly marked working translation. Editors respect Yoruba spelling and tone marks and never change meaning. Machine translation is a working aid only, never the sole basis for a decision. `[OPEN-M1]` Named Yoruba reviewers, with a backup, are still to be designated.
+**Language handling (D13).** Submissions may be in English or Yoruba. Both follow the same stages, checks and statuses, with no shortcuts. Member 8 coordinates the review, and a Yoruba-capable reviewer is involved where language-specific review is required, for example moderation and editing of a Yoruba submission. Verification requests carry the original wording and a clearly marked working translation. Editors respect Yoruba spelling and tone marks and never change meaning. Machine translation is a working aid only, never the sole basis for a decision. The Yoruba-capable reviewer is an assignable role, not a named person, and is filled once Member 1 and Member 8 confirm who takes it.
 
 **Overview**
 
@@ -160,7 +160,7 @@ A submission can move to `APPROVED` only when **all** of these are true:
 4. The editorial checklist is complete and no edit changed the contributor's meaning.
 5. Permission to publish and the 18+ confirmation are on record, and the contributor's credit choice is applied.
 6. Any attached media has confirmed rights, and any identifiable child in a photo has parent or guardian permission.
-7. If `sensitive = true`, sign-off by Member 1 or a designated senior reviewer is recorded. `[OPEN-M1]` The designated senior reviewer is still to be named. Until then, Member 1 signs off.
+7. If `sensitive = true`, sign-off by the designated senior reviewer is recorded. For the initial launch, Member 1 is the designated senior reviewer, unless Member 1 explicitly designates another (D10).
 
 **Approval paths (from D10)**
 
@@ -175,7 +175,7 @@ A submission can move to `APPROVED` only when **all** of these are true:
 | Claim outcome | What it allows |
 |---|---|
 | `VERIFIED` | May be stated as fact, with the source shown. |
-| `ATTRIBUTED` `[OPEN-M1]` | Published only as the contributor's account ("The contributor recalls…"), never as fact. Never allowed for sensitive claims. Whether this outcome exists at all depends on Member 1's answer on unverifiable claims (`DECISIONS.md` D10). |
+| `ATTRIBUTED` | Where the lead cannot verify a claim and it is appropriate to keep it, it may stay as part of the contributor's clearly labelled citizen account ("The contributor recalls..."), never presented as verified fact and never placed in the Verified facts box. Not allowed for claims that are harmful, defamatory, seriously accusatory or otherwise unsuitable for publication: those are removed or sent back for revision. Also not allowed for sensitive claims (a stricter application of D10, which Member 1 may relax). |
 | `OPINION_VISION` | Published and labelled as opinion or vision. |
 | `NEEDS_EVIDENCE` | Blocks approval. The contributor is asked for a source or clarification (T9). If none arrives, the reviewer decides: mark it `ATTRIBUTED` (only if low-harm and not sensitive), remove the claim with the contributor's agreement, or reject. |
 | `UNSUPPORTED_FALSE` | Not published as stated. The contributor may revise or remove the claim. It may be rewritten as a clearly attributed recollection only with the contributor's agreement and only if that is not misleading. Otherwise reject. |

@@ -148,26 +148,34 @@ The contributor chooses one option at submission, stored on the record:
 
 **Before the 18+ restriction is lifted (future work, not part of the launch scope):** a separate decision from Member 1 on the guardian/consent workflow, safeguards, minimum age, and what data may be collected from minors.
 
-## D10. Final publication authority — CONFIRMED (principle), details PROPOSED
+## D10. Final publication authority and unverified claims — CONFIRMED
 
 **Direction from Member 1 (confirmed):**
 - Member 8 coordinates moderation and editorial review.
 - Publication of submissions containing factual claims requires the relevant lead's verification before publication.
-- Sensitive allegations require Member 1 or a designated senior reviewer.
+- Sensitive allegations require Member 1 or a designated senior reviewer. **For the initial launch, Member 1 is the designated senior reviewer**, unless Member 1 explicitly designates another.
+- If a lead cannot verify a factual claim, it does not automatically have to be removed. Where appropriate, it may remain as part of the contributor's clearly labelled citizen or personal account, but it must never be presented as verified fact. If the claim is harmful, defamatory, seriously accusatory or otherwise unsuitable for publication, it is removed or sent back for revision.
 
-**How this applies (proposed):**
+**How this applies:**
 
 | Submission | Approval path |
 |---|---|
-| Personal account, opinion or vision, with no checkable claims | Member 8 approves after moderation and editorial review |
-| Contains factual claims | The relevant lead verifies every claim (D11). Then Member 8 approves. |
-| Sensitive allegation (`sensitive = true`) | Member 1 or a designated senior reviewer must also sign off before publication |
+| No checkable claims | Member 8 approves after moderation and editorial review |
+| Contains factual claims | The relevant lead records a finding for every claim. Then Member 8 approves. |
+| Sensitive allegation (`sensitive = true`) | The designated senior reviewer (Member 1 at launch) also signs off |
 
 Member 8 publishes approved items.
 
-**Open for Member 1:**
-1. **A claim the lead cannot establish.** Proposed reading: verification must be completed before publication, with the lead's finding recorded for every claim. A `VERIFIED` claim is stated as fact with its source. A claim that cannot be established is either removed, or published only as the contributor's own account, clearly labelled and never as verified (`ATTRIBUTED`, never for sensitive claims). Stricter alternative: unverifiable claims are always removed, and `ATTRIBUTED` is dropped from the workflow.
-2. **Designated senior reviewer.** Name a deputy for Member 1, so sensitive items do not wait.
+**A claim the lead cannot establish.** After the contributor has been asked for a source or clarification, the reviewer chooses one of:
+1. **Keep it as `ATTRIBUTED`.** It stays in the contributor's clearly labelled citizen account, worded as the contributor's own account, never in the Verified facts box, never shown as verified. Allowed only when it is not harmful, defamatory, seriously accusatory or otherwise unsuitable, and is not a sensitive claim.
+2. **Send the submission back for revision** (reword, narrow the claim, or add a source).
+3. **Remove the claim,** with the contributor's agreement. If the claim is the core of the submission, reject it.
+
+A claim that is harmful, defamatory, seriously accusatory or otherwise unsuitable is never `ATTRIBUTED`. It is removed or the submission goes back for revision.
+
+**Stricter application, PROPOSED (Member 1 may relax it):** sensitive claims are never published as attributed-only. They are either `VERIFIED` or removed.
+
+**Open:** whether Member 1 designates another senior reviewer later. Until then it is Member 1.
 
 ## D11. Escalation routing — PROPOSED, needs confirmation from Members 4 and 7
 
@@ -204,7 +212,7 @@ The v1.0 draft named an "Education" lead. There is none in the current 8-member 
 7. Machine or AI translation is a working aid only. It is never the sole basis for moderation, verification or publication (consistent with CONTRIBUTING.md section 6).
 8. For engineering (Phase 5): Yoruba characters and tone marks must be stored, displayed and searched correctly (UTF-8).
 
-**Open:** who the designated Yoruba reviewers are, including a backup.
+**Open:** who takes the Yoruba-capable reviewer role. Member 1 confirmed that no specific reviewer is hard-coded until this is agreed. In the workflow and in engineering it is an assignable role (`reviewer_role = YORUBA_REVIEWER`) filled from a configurable list. To be confirmed by Member 1 and Member 8.
 
 ## D14. Privacy, data minimisation and retention — CONFIRMED (principles), retention period OPEN
 
@@ -279,9 +287,9 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 
 | Decision | Who confirms |
 |---|---|
-| D10: how "verification before publication" applies to a claim the lead cannot establish; naming the designated senior reviewer | Member 1 |
+| D10: whether Member 1 designates another senior reviewer later (Member 1 is the senior reviewer for the initial launch) | Member 1 |
 | D14: privacy notice and retention policy (period left open); who drafts | Member 1 |
-| D13: designated Yoruba reviewers | Member 1 + Member 8 |
+| D13: who takes the Yoruba-capable reviewer role (assignable role, not hard-coded) | Member 1 + Member 8 |
 | D9: conditions for lifting 18+ only (future, not for launch) | Member 1, later |
 | D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
 | D11 (routing) | Members 4, 5, 7 |
@@ -293,3 +301,4 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 | Date | From | Decisions | Summary |
 |---|---|---|---|
 | 2026-09-20 | Member 1 | D9, D10, D13, D14 | D9: 18+ only for the initial launch, not permanently. Minors later, once a guardian/consent workflow and safeguards exist. D10: Member 8 coordinates moderation and editorial review. Factual claims need the relevant lead's verification before publication. Sensitive allegations need Member 1 or a designated senior reviewer. D13: English and Yoruba accepted, same moderation and verification, with a language-specific reviewer where required. D14: data minimisation, contact details never public by default, restricted access to identity and contacts, media needs permission, retention period left open until the privacy notice and retention policy exist. |
+| 2026-09-20 | Member 1 | D10, D13 | Follow-up. D10: an unverified claim may stay as part of the contributor's clearly labelled citizen account, never as verified fact. Harmful, defamatory, seriously accusatory or otherwise unsuitable claims are removed or sent back for revision. Member 1 is the designated senior reviewer for sensitive submissions at initial launch, unless he designates another. D13: Yoruba submissions follow the same moderation, verification and editorial process, with a Yoruba-capable reviewer where language-specific review is required. No specific reviewer is hard-coded until the role is confirmed. |

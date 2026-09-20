@@ -74,7 +74,7 @@ Steps:
 1. Flag the specific claim. Do not treat the whole submission as bad.
 2. Ask the contributor for clarification, a source or additional context. Use neutral wording and do not accuse anyone of lying. People misremember and repeat what they were told.
 3. If the contributor clarifies or provides support, route the claim for verification as normal.
-4. If the claim stays unsupported, apply the approval rules: remove it with the contributor's agreement, publish it only as a clearly attributed account (never for sensitive claims), or reject.
+4. If the claim stays unsupported, apply the approval rules. If it is harmful, defamatory, seriously accusatory or otherwise unsuitable, remove it or send the submission back for revision. Otherwise, where appropriate, it may stay as part of the contributor's clearly labelled account and never be shown as verified fact (never for sensitive claims), or it is removed with the contributor's agreement, or the submission is rejected.
 5. A misleading claim is never published as verified.
 
 Repeat problems: if a contributor repeatedly submits spam, abuse or invented material, record an internal flag. The decision to stop accepting their submissions is made by Member 8, with Member 1 informed.
@@ -104,7 +104,7 @@ Repeat problems: if a contributor repeatedly submits spam, abuse or invented mat
 - Never reject or mark down a submission for dialect, spelling, missing tone marks, or a mix of Yoruba and English.
 - Do not rely on machine translation alone to judge whether content is abusive, threatening or misleading. Tone and idiom can be lost. If unsure, ask a Yoruba reader.
 - Other languages: request revision and ask for English or Yoruba (`INSUFFICIENT_INFORMATION`). PROPOSED.
-- `[OPEN-M1]` Named Yoruba reviewers, with a backup, are still to be designated.
+- A Yoruba-capable reviewer takes part where language-specific review is required. The role is not hard-coded to a named person, and is assigned once Member 1 and Member 8 confirm who takes it (D13).
 
 ## 9. Ekiti 2056 specifics
 
@@ -119,5 +119,5 @@ Repeat problems: if a contributor repeatedly submits spam, abuse or invented mat
 |---|---|
 | Campaign-material rule (check 13) | Member 1 |
 | Who besides Member 8 acts as a moderator | Member 1 |
-| Designated senior reviewer for sensitive items | Member 1 |
-| Named Yoruba reviewers, with a backup | Member 1 + Member 8 |
+| Whether Member 1 designates another senior reviewer (Member 1 is the senior reviewer for the initial launch) | Member 1 |
+| Who takes the Yoruba-capable reviewer role (not hard-coded until confirmed) | Member 1 + Member 8 |

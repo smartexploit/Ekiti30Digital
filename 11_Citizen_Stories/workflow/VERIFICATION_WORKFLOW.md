@@ -77,7 +77,7 @@ Leads report one of three findings. Member 8 turns it into the recorded outcome.
 | Not established either way | `NEEDS_EVIDENCE` | Potentially publishable, but supporting information is needed |
 
 Two further outcomes are set by Member 8 rather than reported by leads:
-- `ATTRIBUTED` `[OPEN-M1]`: the claim is published as the contributor's own account, independent verification not established (only under the approval rules in `CONTRIBUTION_WORKFLOW.md` section 8, and never for sensitive claims). Whether this outcome exists depends on Member 1's answer on unverifiable claims (`DECISIONS.md` D10).
+- `ATTRIBUTED`: the claim stays in the submission as part of the contributor's clearly labelled citizen account, verification not established, and is never presented as verified fact. Allowed only under the approval rules in `CONTRIBUTION_WORKFLOW.md` section 8: not for claims that are harmful, defamatory, seriously accusatory or otherwise unsuitable for publication, and not for sensitive claims (`DECISIONS.md` D10).
 - `OPINION_VISION`: not a factual claim.
 
 What each outcome allows in publication is in `CONTRIBUTION_WORKFLOW.md` section 8.
