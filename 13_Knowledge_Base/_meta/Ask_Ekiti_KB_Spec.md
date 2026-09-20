@@ -1,212 +1,318 @@
-# Ask Ekiti — Knowledge Base Design (v0.1)
+# Ask Ekiti — Knowledge Base Design (v0.2)
 
 **Owner:** Member 3, AI & Data Lead
-**Status:** Draft for founding-team review
-**Companion file:** `Ask_Ekiti_Source_Inventory.xlsx` (source inventory, first documents, evaluation starter set)
+**Related issue:** #3
+**Status:** Revised draft, updated after review. Not approved. Nothing here is merged to `main`.
+**Companion file:** `Ask_Ekiti_Source_Inventory.xlsx`
+
+**How this document is organised**
+
+- **Part A** is the knowledge base itself: content rules, sources, verification and how Ask Ekiti may answer. It is independent of any technology.
+- **Part B** is a *non-binding* implementation proposal. Member 2 keeps the freedom to decide the final backend.
+- **Part C** lists decisions the team needs to confirm.
+
+## Changes from v0.1
+
+| Review point | Where addressed |
+|---|---|
+| 1. Define "verified"; official sources first; conflicts flagged, not overridden | A5, A6 |
+| 2. Tier C: multiple sources by default, documented exceptions allowed | A7 |
+| 3. Future-dated example verification date | A3 (placeholder, plus a validation rule) |
+| 4. Separate KB structure from implementation | Part A vs Part B |
+| 5. Connect KB to folders `01_History` to `14_Source_Documents`, avoid duplicates | A2 |
+| 6. Verification authority model | A8 |
+| 7. Traceable source inventory, primary vs secondary | A4 and the spreadsheet |
+| 8. No unsupported model-generated facts; say when knowledge is insufficient | A1, A9 |
 
 ---
 
-## 1. Principles
+# PART A — The Knowledge Base
 
-1. **No source, no fact.** Every factual statement in the knowledge base (KB) traces to a named, checkable source.
-2. **Verified only.** Ask Ekiti retrieves from documents with `status: verified`. Drafts never reach the assistant.
-3. **Refuse rather than guess.** If nothing verified supports an answer, Ask Ekiti says so. It never falls back on the LLM's general memory.
-4. **Small and right beats big and wrong.** Launch with a small verified set and grow it.
-5. **Separate facts from opinion.** Citizen stories and Ekiti 2056 visions are not facts and are not in the KB index at launch.
+## A1. Principles
+
+1. **No source, no fact.** Every factual statement traces to a registered source that another person can find and check.
+2. **Verified only.** Ask Ekiti uses only documents whose status is `verified`.
+3. **No unsupported model output.** Ask Ekiti must never present model-generated or unsupported information as fact. The language model's general knowledge is not a source.
+4. **Say when knowledge is insufficient.** If the verified KB cannot adequately support an answer, the assistant says so. It does not guess or fill gaps.
+5. **Official sources first, but not blindly.** Official and primary sources have priority, yet a documented conflict always goes to review (A6).
+6. **Small and right beats big and wrong.** Launch with a small verified set and grow it.
+7. **Facts and opinion stay separate.** Citizen stories and Ekiti 2056 visions are not facts and are not used for factual answers.
 
 ---
 
-## 2. Directory structure
+## A2. How research enters the KB (no duplicate copies)
+
+**Rule: write once, reference everywhere.** A source or a fact lives in one place. Everything else links to it by ID.
+
+**Proposed flow**
 
 ```
-knowledge/
-├── _meta/
-│   ├── KB_SPEC.md              (this document)
-│   ├── document_template.md
-│   └── source_inventory.csv    (exported from the spreadsheet)
-├── history/        state creation, era summaries, milestones, pre-1996 background
-├── government/     governors/administrators, MDAs, laws, budgets
-├── lgas/           one file per LGA (16 files)
-├── tourism/        one file per site or cluster
-├── culture/        festivals, traditional councils, languages, food, arts
-├── education/      institutions, statistics
-├── agriculture/    crops, programmes, statistics
-├── health/         facilities, programmes, statistics
-└── statistics/     population, economy, poverty, other datasets
+Original source
+   → 14_Source_Documents   (stored once; given a Source ID, e.g. SRC-004; listed in the Source Inventory)
+   → 15_Research_Notes     (optional working notes; never used by Ask Ekiti)
+   → topic file in 01–09   (the canonical content; cites Source IDs; standard front matter)
+   → review (A8)           (status becomes verified only after review)
+   → KB manifest in 13     (list of verified files that Ask Ekiti may use)
+   → Ask Ekiti
 ```
 
-**Naming:** `category/slug.md`, lowercase, hyphenated. Examples: `history/state-creation-1996.md`, `lgas/ado-ekiti.md`.
+**Proposed role of each folder** (to be confirmed)
 
-**One file, one topic.** A file covers one entity, event or dataset so it can be cited precisely and re-verified independently.
-
----
-
-## 3. Document format
-
-Markdown with YAML front matter.
-
-```markdown
----
-id: lga-ado-ekiti
-title: Ado-Ekiti Local Government Area
-category: lgas
-doc_type: entity            # entity | event | dataset | background
-source_name: Constitution of the Federal Republic of Nigeria, First Schedule
-source_url: https://...
-archive_url: https://web.archive.org/...   # snapshot, so citations survive link rot
-source_tier: A              # A | B | C | D  (see section 4)
-publication_date: 1999-05-29
-last_verified: 2026-09-21
-verified_by: <name or handle>
-status: draft               # draft | needs_review | verified | retired
-period_covered: 1996-2026
-lgas: [ado-ekiti]
-tags: [lga, headquarters]
----
-
-## Summary
-Two to three sentences, self-contained.
-
-## Facts
-- Each fact as its own line, with an inline source key if it differs from the file-level source. [S1]
-
-## Sources
-- [S1] Full citation, URL, access date.
-```
-
-Required by the master overview: title, content, source, source URL, publication date, last-verified date, category. This design adds `id`, `doc_type`, `source_tier`, `status`, `verified_by`, `archive_url`, `period_covered`, `lgas` and `tags` for filtering and audit.
-
-**Copyright:** store summaries and structured facts with links. Do not paste full articles.
-
----
-
-## 4. Source tiers
-
-| Tier | Meaning | Examples | Rule |
-|---|---|---|---|
-| **A** | Official or primary | Constitution, gazettes, state government, INEC, NBS, NPC | One source suffices |
-| **B** | Academic or institutional | Universities, NUC, research institutes, agency reports | One source suffices if the author or institution is named |
-| **C** | Reputable news or secondary | National newspapers, established outlets | Two independent agreeing sources |
-| **D** | Oral or community knowledge | Elders, palace records, local historians | Verification-team sign-off plus a written corroboration where possible; always labelled as such in answers |
-
-Ask Ekiti shows the tier with the citation so users can judge reliability.
-
----
-
-## 5. Lifecycle
-
-`draft` → `needs_review` → `verified` → (indexed for Ask Ekiti)
-
-- **Contributor** writes the file and opens a pull request.
-- **Verification team** checks each fact against its source and sets `verified_by` and `last_verified`.
-- **AI & Data** ingests only `verified` files.
-- **Re-verification:** volatile facts (office holders, statistics) get re-checked on a schedule. Files not verified in 12 months are flagged.
-- **Retired:** superseded or disproven documents are kept for audit but excluded from retrieval.
-
-The founding meeting must decide who has authority to mark a document `verified` (agenda item 10 in the master overview).
-
----
-
-## 6. Structured data vs narrative text
-
-| Question type | Handled by | Example |
+| Folder | Role | Used by Ask Ekiti? |
 |---|---|---|
-| Entity facts | SQL lookup on `lgas`, `places`, `timeline_events` | "What is the headquarters of X LGA?" |
-| Narrative or explanatory | Retrieval over KB chunks | "Tell me about the Ikogosi Warm Springs" |
-| Mixed | Structured facts plus retrieved context | "Which LGAs have universities?" |
+| `01_History` | Topic files: history, state creation, background (see note on government below) | Yes, once verified |
+| `02_LGAs` | One file per LGA | Yes, once verified |
+| `03_Timeline` | One file per timeline event | Yes, once verified |
+| `04_Tourism` | Sites and attractions | Yes, once verified |
+| `05_Culture` | Festivals, traditions, languages | Yes, once verified |
+| `06_Education` | Institutions and education facts | Yes, once verified |
+| `07_Health` | Facilities and health facts | Yes, once verified |
+| `08_Agriculture` | Crops, programmes, facts | Yes, once verified |
+| `09_Statistics` | Datasets and statistical summaries | Yes, once verified |
+| `10_Photographs` | Images. Captions may cite sources | No (media, not facts) |
+| `11_Citizen_Stories` | Unverified submissions | No |
+| `12_Ekiti_2056` | Citizen visions | No |
+| `13_Knowledge_Base` | This spec, the file template, the manifest and the source-registry export. **Holds no copies of content.** | n/a |
+| `14_Source_Documents` | Original sources (PDFs, scans, datasets) stored once, each with a Source ID | Referenced, never copied |
+| `15_Research_Notes` | Working notes. Facts are promoted into a topic file only after sources are registered | No |
+| `16_Media`, `17_Design`, `18_Project_Documentation` | Not KB content | No |
 
-Structured tables and the KB share one `sources` record so a fact is never cited two different ways.
+**Rules to prevent duplication**
+
+1. **Sources:** store each original once in `14_Source_Documents` (or link to the URL if we do not keep a copy). One row per source in the Source Inventory. Topic files refer to it by `SRC-###`, and never paste its full text.
+2. **Content:** the topic file in `01`–`09` *is* the KB document. There is no second copy in `13`.
+3. **Manifest:** `13_Knowledge_Base/kb_manifest.csv` lists each KB document (id, path, status, verification date). It is generated from the files' front matter by a script, so nobody maintains it by hand. Ask Ekiti uses only rows with status `verified`.
+4. **Timeline events:** the file in `03_Timeline` is the canonical record. The website's timeline data is generated from it and is not typed a second time.
+5. **Check before you create:** before starting a new source record or topic file, search the Source Inventory and manifest. The pull-request checklist includes "no duplicate source or document".
+6. **Gap to confirm:** government content (governors, administrators, MDAs) has no folder. Proposal: `01_History/government/`, unless the team prefers a new folder.
 
 ---
 
-## 7. Retrieval and answering
+## A3. Document format
 
-**Pipeline** (from the master overview, refined): Question → FastAPI → query router → retriever → verified chunks → LLM → answer + sources → citation check.
+Each KB document is a Markdown file with YAML front matter. Fields marked required must be present.
 
-1. **Router** decides structured lookup, narrative retrieval, or both.
-2. **Retriever** uses hybrid search: Postgres full-text plus pgvector similarity, filtered to `status = verified`.
-3. **Threshold:** if the best score is below a set value, return the refusal answer.
-4. **Prompt rules:** answer only from the supplied documents; cite by document id; do not add outside facts; state uncertainty where sources disagree.
-5. **Citation check (post-processing):** every cited id must be in the retrieved set. Otherwise the answer is discarded and regenerated or refused.
+```yaml
+---
+id: lga-example                 # required, unique
+title: Example title            # required
+category: lgas                  # required: history | government | lgas | tourism | culture | education | agriculture | health | statistics
+doc_type: entity                # entity | event | dataset | background
+source_ids: [SRC-000]           # required; every ID must exist in the Source Inventory
+source_name: <from registry>    # required for display; must match the registry
+source_url: <from registry>     # required for display; must match the registry
+publication_date: YYYY-MM-DD    # date the source was published
+source_tier: A                  # A | B | C | D (see A4)
+status: draft                   # draft | needs_review | conflict | verified | retired
+verified_by:                    # blank until verified; never the author
+last_verified: YYYY-MM-DD       # PLACEHOLDER. Set only when a real verification is finished
+verification_note:              # required for Tier C exceptions, Tier D, and resolved conflicts
+tier_c_exception: false         # true only with a recorded reason (A7)
+period_covered: 1996-2026
+lgas: []
+tags: []
+---
+```
+
+**Date rule:** `last_verified` is the actual date the verification was completed. It is filled in by the reviewer, never by the author, and never with a future date. A document cannot be marked `verified` while the field still holds the placeholder or a date after today. The validation script rejects both.
+
+**Body:** a short summary, the facts (each traceable to a Source ID), and a source list. The Source Inventory is the single source of truth for source details, so the front-matter copies must match it.
+
+**Copyright:** store short summaries and structured facts with links. Do not paste full articles.
+
+---
+
+## A4. Sources: class and tier
+
+Every source is recorded as **primary/official**, **secondary**, or **oral/community**, and given a reliability tier.
+
+| Tier | Class | Meaning | Examples |
+|---|---|---|---|
+| **A** | Primary / official | Issued by the body responsible for the record | Constitution, gazettes, census tables from the National Population Commission, state government statements, INEC declarations, regulator lists |
+| **B** | Secondary | Academic or institutional analysis | University publications, peer-reviewed work, agency reports, published histories |
+| **C** | Secondary | News and general secondary reporting | National newspapers, established outlets |
+| **D** | Oral / community | Elders, palace records, local knowledge | Interviews, community accounts |
+
+**Not accepted as KB sources:** Wikipedia and other wikis or tertiary summaries, AI-generated text, and unsourced social media posts. They may be used to find leads, but the lead must be traced to a real source before use.
+
+**Cautions**
+
+- **Official website does not mean every page is official.** A reader's letter or comment hosted on a government site is not an official statement. Record the type of page.
+- **A copy is not the original.** If an official document is found on another site, record both the original publisher and where the copy is hosted. Check that the copy is the current version (for example, the Constitution has been amended).
+- **Provisional vs final.** Statistics and results may exist in provisional and final versions. Record which one was used.
+
+**What every source record must let a colleague trace** (Source Inventory columns): source ID, title, source type, primary/secondary/oral, publisher or owner, URL or document location, topic/category, verification status, verification date, verifier, and notes or conflicts.
+
+---
+
+## A5. What "verified" means
+
+A document may be marked `verified` only when **all** of these are true:
+
+1. **Sources registered.** Every source has a Source Inventory record with title, type, class, publisher, and URL or location.
+2. **Claims traced.** A reviewer opened each source and checked the document's names, dates, numbers and wording against it (not a summary, and not another AI's output).
+3. **Tier rule met.** Tier A and B: one qualifying source. Tier C: two independent sources, or a documented exception (A7). Tier D: Verification Lead sign-off.
+4. **Conflict check done.** The reviewer searched for conflicting sources and recorded the result ("none found" or the conflict).
+5. **No open conflict.** Any conflict is resolved and recorded (A6), or the document is handled as disputed.
+6. **Independent reviewer.** The reviewer is not the author.
+7. **Decision recorded.** `verified_by`, a real `last_verified` date, and (where required) a `verification_note` giving the reasoning.
+8. **Front matter valid.** The validation script passes.
+
+AI tools may help draft, but AI output is never a source, and anything an AI drafted is checked against the sources like any other text.
+
+**Priority of official sources.** Where an official primary source exists for a type of fact, it is the preferred basis. Examples: constitutional and legal text, election outcomes (INEC declarations, and court judgments where a court changed the outcome), census figures (National Population Commission and its gazettes), and government office holders and dates (state government and gazette records). **A single official source does not automatically settle a question when a documented conflict exists.**
+
+---
+
+## A6. Conflicts
+
+**What counts:** two or more credible sources disagree on a material fact (a date, name, number, or a spelling that changes meaning). This includes two official sources disagreeing with each other.
+
+**Process**
+
+1. **Flag it.** Set the record and document to `conflict`, and describe the disagreement in the Source Inventory notes.
+2. **Investigate the cause.** Typical causes: provisional versus final data, different definitions, transcription errors, outdated pages.
+3. **Decide.** The Verification Lead decides, and the reasoning is recorded in `verification_note`:
+   - **Resolved:** one source prevails, with the reason stated (for example, final results supersede provisional results). The document may then be verified.
+   - **Unresolved:** either publish a "sources differ" document that states each position with its citation, or keep the item out of Ask Ekiti.
+4. **Ask Ekiti never picks silently.** For a disputed item it presents each position with its source.
+
+**Worked example found while building the inventory:** the 2006 population of Ekiti State is given differently by different sources. The State Government's "About Ekiti" page, a secondary compilation of National Population Commission data, and Wikipedia do not all agree. The primary candidates for settling it are the National Population Commission's 2006 Priority Tables and the Federal Government gazette that published the final census results. The item is marked `Conflict` in the inventory until a reviewer checks them. No figure should be used before then.
+
+---
+
+## A7. Tier C rule
+
+**Default:** Tier C material needs **two or more independent sources**. "Independent" means different publishers doing their own reporting. Two outlets republishing the same press release or wire story count as one.
+
+**Documented exceptions:** one authoritative source may suffice when it is clearly authoritative for that fact (for example, a specialist institutional publication, or a named official statement carried by a reputable outlet when the original is unavailable).
+
+**An exception is valid only if:**
+
+1. the reviewer writes the reasoning in `verification_note`;
+2. the Verification Lead approves it;
+3. the document is marked `tier_c_exception: true`, so exceptions can be counted and audited; and
+4. no conflict exists for that fact.
+
+What matters is that the decision and its reasoning are recorded.
+
+---
+
+## A8. Verification authority (proposal for the team to confirm)
+
+| Role | Who | What they may do |
+|---|---|---|
+| **Contributor / author** | Anyone on the team | Write drafts and open pull requests. May set `draft` or `needs_review`. Cannot verify their own work. |
+| **Reviewer** | Members of the Verification & Editorial team (domain owners may review other teams' documents, not their own) | Check claims against sources. May mark Tier A and B documents `verified` when there is no conflict. |
+| **Verification Lead** | One named person (proposed: lead of Verification & Editorial) | Approves Tier C exceptions, Tier D material, conflict resolutions and "sources differ" documents. Final say on `verified` status. |
+| **Domain owners** | Research & History, Geospatial, Culture & Tourism, etc. | Advise on accuracy in their area. Not the verifier for their own team's documents. |
+| **AI & Data (Member 3)** | | Validate front matter, generate the manifest, ingest only verified documents. Cannot mark anything `verified`. May pull a document from Ask Ekiti if it fails checks or produces unsafe answers. |
+| **Project Lead / Technical Lead** | | Maintains the repository. Merges to `main` only after the required verification approval. Settles policy disputes. |
+
+**Rules**
+
+1. **Two-person rule:** author and verifier are always different people.
+2. **The approval is the pull-request review** by a Verification-team member, plus the front-matter fields (`verified_by`, `last_verified`, `verification_note`).
+3. **Enforcement in GitHub (suggestion):** a `CODEOWNERS` file requiring Verification-team review for `01`–`09` and `13`, and labels such as `needs-verification` and `verified`.
+4. **Until the team has at least two verifiers**, a reviewer from another team acts as second reviewer for Tier A and B, and the Verification Lead handles everything else.
+5. **Nothing is merged to `main` until this model is confirmed.**
+
+---
+
+## A9. Answer rules for Ask Ekiti (the content contract)
+
+These rules apply to any implementation.
+
+1. **Only verified content.** Answers come only from verified KB documents and structured data derived from them.
+2. **No unsupported facts.** The assistant must not present model-generated or unsupported information as fact.
+3. **Cite every factual claim.** Show the source, its class and tier, and the last-verified date.
+4. **Insufficient knowledge.** If the verified KB cannot adequately support an answer, the assistant says that the available verified knowledge is insufficient. It does not invent or approximate an answer. Suggested wording: *"The available verified knowledge isn't enough to answer that yet."* It may invite the user to contribute information.
+5. **Partial support.** Answer the supported part and say plainly that the rest is not covered.
+6. **Conflicts.** Present each position with its source and state that sources differ.
+7. **Time.** State the date the information was last verified and flag older items.
+8. **Exclusions.** Citizen stories and Ekiti 2056 submissions are not used for factual answers.
 
 **Answer format**
 
-> Ekiti State was created on 1 October 1996.
-> **Source:** *[source name]*, [URL] — Tier A, last verified [date].
-
-**Refusal format**
-
-> I don't have a verified source for that yet. You can help by contributing information at [contribution link].
-
-**Chunking:** split by heading or fact group (roughly 200–400 tokens). Each chunk inherits the parent's metadata (`id`, `source_name`, `source_url`, `source_tier`, `last_verified`).
+> [Answer in plain language.]
+> **Source:** [title], [publisher], [URL] — [primary/secondary], Tier [X], last verified [date].
 
 ---
 
-## 8. Database mapping
+## A10. First documents
 
-`knowledge_documents` (as planned) holds one row per file:
-`id, slug, title, category, doc_type, content, source_name, source_url, archive_url, source_tier, publication_date, last_verified, verified_by, status, period_start, period_end, lgas[], tags[], file_hash, updated_at`
-
-Add `knowledge_chunks`: `id, document_id, chunk_index, text, embedding (pgvector)`.
-
-Ingestion script: read files, validate front matter (reject if a required field is missing), hash the file, upsert changed documents, re-embed changed chunks only.
-
----
-
-## 9. First documents
-
-Full list with candidate sources, tiers and owners is in the spreadsheet (sheet **Source Inventory**). Launch set, in priority order:
+The launch set, with candidate sources and traceable source records, is in the spreadsheet (sheets **Source Inventory** and **First Documents**). In priority order:
 
 1. State creation, 1 October 1996
 2. The 16 LGAs (names, headquarters, coordinates)
 3. Governors and administrators, 1996–2026
-4. Population (2006 census; projections labelled as projections)
+4. Population (blocked until the 2006 conflict in A6 is resolved)
 5. Tourism sites
 6. Universities and other tertiary institutions
 7. Hospitals and health facilities
-8. Education, agriculture and economy statistics
-9. 30–50 timeline milestones
-10. Cultural festivals and traditional councils
-11. Pre-1996 background (small set)
+8. 30–50 timeline milestones
+9. Education, economy and agriculture statistics
+10. Pre-1996 background (small set)
+11. Cultural festivals and traditional councils
 
-Target for launch: 16 LGA files, 30–50 event files, 20–30 place files, 15–25 general documents.
-
----
-
-## 10. Evaluation
-
-Build a **golden set of about 50 questions** before launch. Categories:
-
-- **Answerable:** the KB contains a verified answer.
-- **Unanswerable:** should be refused (for example, forecasts, unverified rumours).
-- **False premise:** the question contains an error the assistant should correct.
-- **Out of scope:** not about Ekiti; polite redirect.
-- **Conflicting sources:** assistant should present the disagreement.
-
-**Metrics:** citation correctness, groundedness (claims supported by retrieved text), correct-refusal rate, answer accuracy, and retrieval hit rate (right document in top 5).
-
-Run the set on every KB or prompt change. Starter questions are in the spreadsheet (sheet **Eval Starter Set**).
+Launch target: 16 LGA files, 30–50 event files, 20–30 place files, and 15–25 other documents.
 
 ---
 
-## 11. Open decisions for the founding team
+## A11. Evaluation
 
-1. Who can mark a document `verified`?
-2. Do we include a small pre-1996 background set at launch? (Recommended: yes.)
-3. Language support at launch: English only, or also Yoruba?
-4. Do we allow Tier D (oral) sources at launch, or only from week two?
-5. Where is the source inventory kept so all teams can update it (this spreadsheet, or a GitHub CSV)?
+Build a **golden set of about 50 questions** before launch: answerable, unanswerable, false-premise, out-of-scope, conflicting-source and prompt-injection questions. A starter set is in the sheet **Eval Starter Set**.
+
+**Measures:** citation correctness, groundedness (every claim supported by retrieved text), correct handling of "insufficient knowledge", correct handling of conflicts, and answer accuracy. Run the set after any change to the KB or the assistant's prompt or configuration.
 
 ---
 
-## 12. Suggested sprint sequence
+# PART B — Implementation proposal (non-binding)
+
+**Status:** This part is a suggestion only. **Member 2 has freedom to decide the final backend.** Part A does not depend on anything in Part B, and any implementation that meets the contract below is acceptable.
+
+## B1. What any implementation must satisfy
+
+1. Use only documents listed in the manifest with status `verified`.
+2. Keep each retrievable passage linked to its document ID and source metadata.
+3. Return citations with every factual answer (A9).
+4. Return the "insufficient knowledge" response when support is inadequate.
+5. Present both positions for conflicting or disputed items.
+6. Re-ingest changed documents, and drop retired ones.
+7. Keep an audit trail (which document versions an answer used).
+
+## B2. Suggested approach (one option)
+
+- **Storage:** PostgreSQL with the planned `knowledge_documents` table, plus a `knowledge_chunks` table (document ID, chunk index, text, embedding).
+- **Retrieval:** hybrid search (Postgres full-text plus vector similarity, for example with pgvector), filtered to `status = verified`.
+- **Structured facts** (LGAs, office holders, dates) answered by direct table lookup rather than similarity search.
+- **Chunking:** split by heading or fact group; each chunk inherits its document's metadata.
+- **Guardrails:** a minimum-relevance threshold that triggers the insufficient-knowledge response; a prompt that restricts the model to retrieved passages; a post-check that every citation refers to a retrieved document.
+- **Ingestion script:** validate front matter, reject missing required fields, placeholder or future dates on verified documents, and Source IDs not in the registry; generate the manifest; re-embed only changed files.
+
+## B3. Acceptable alternatives
+
+Any comparable design is fine, for example a different vector store, a managed search service, or a simpler keyword-only start for the MVP, as long as B1 is met.
+
+---
+
+# PART C — For the team to confirm
+
+1. **Verification authority model (A8):** approve or amend, and name the Verification Lead.
+2. **Folder roles (A2):** confirm the folder-to-KB mapping and where government content lives.
+3. **Pre-1996 background:** include a small verified set at launch? (Recommended: yes.)
+4. **Language:** English only at launch, or also Yoruba?
+5. **Tier D (oral) sources:** allowed at launch, or from week two?
+6. **Backend:** Member 2 to confirm the implementation (Part B is only a proposal).
+
+## Suggested sequence for the launch sprint
 
 | Days | Work |
 |---|---|
-| 1–2 | Finalise template and tiers; team fills the source inventory; agree verification authority |
-| 2–4 | Collect and verify launch documents (LGAs, creation, governors first) |
-| 3–5 | Build ingestion script, `knowledge_chunks`, and retriever on the verified set |
-| 5–6 | Wire Ask Ekiti with citations and refusal; run the golden set |
-| 7 | Fix failures, freeze the launch KB, document how to contribute |
+| 1–2 | Confirm A2 and A8. Team completes the Source Inventory. Resolve the priority conflicts (A6). |
+| 2–4 | Collect and verify the launch documents (LGAs, state creation, governors first). |
+| 3–5 | Validation script and manifest. Backend integration per Member 2's design. |
+| 5–6 | Connect Ask Ekiti with citations and the insufficient-knowledge response. Run the golden set. |
+| 7 | Fix failures, freeze the launch KB, document how to contribute. |
 
-Per the master overview, the source inventory comes before any backend code.
+The source inventory comes before any backend code, as the master overview requires.
