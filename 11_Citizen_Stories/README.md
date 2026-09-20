@@ -29,5 +29,7 @@ This folder holds the My Ekiti Story specification and the workflow documents sh
 | `workflow/VERIFICATION_WORKFLOW.md` | Claim records, source hierarchy, routing to leads | Draft |
 | `workflow/CREDIT_AND_ANONYMITY.md` | Contributor credit, anonymous submissions, protecting anonymity | Draft |
 | `workflow/CORRECTIONS_AND_CLARIFICATIONS.md` | Clarification requests, corrections, removal requests | Draft |
+| `workflow/COMMUNITY_ENGAGEMENT_PLAN.md` | Audiences, phases, channels, ambassadors, risks, metrics | Draft |
+| `workflow/MESSAGE_TEMPLATES.md` | Contributor messages: received, clarification, approved, published, not published, corrections | Draft |
 
 Further documents are added as each phase of Issue #8 is completed.
