@@ -22,6 +22,9 @@ This folder holds the workflow documents shared by My Ekiti Story and Ekiti 2056
 
 | Path | Description | Status |
 |---|---|---|
-| `workflow/DECISIONS.md` | Decisions log: proposals awaiting confirmation | Draft |
+| `workflow/DECISIONS.md` | Decisions log: confirmed decisions and proposals awaiting confirmation | Draft |
+| `workflow/CONTRIBUTION_WORKFLOW.md` | Stages, classification, state transitions, approval rules | Draft |
+| `workflow/MODERATION_GUIDE.md` | Moderation checklist, reason codes, misleading content, language | Draft |
+| `workflow/VERIFICATION_WORKFLOW.md` | Claim records, source hierarchy, routing to leads | Draft |
 
 Further documents are added as each phase of Issue #8 is completed.
