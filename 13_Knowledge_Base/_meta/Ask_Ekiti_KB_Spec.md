@@ -225,7 +225,7 @@ What matters is that the decision and its reasoning are recorded.
 | **Domain owners** | Research & History, Geospatial, Culture & Tourism, etc. | Advise on accuracy in their area. Not the verifier for their own team's documents. |
 | **AI & Data Lead** | **Member 3, Oluwadare Tobi Jayeola** | Validate front matter, generate the manifest, ingest only verified documents. Cannot mark anything `verified`. May pull a document from Ask Ekiti if it fails checks or produces unsafe answers. |
 | **Technical Lead / senior reviewer** | **Member 1, Faith Ogunlade** | Senior reviewer for sensitive matters. Maintains the repository. Merges to `main` only after the required verification approval. Settles policy disputes. |
-| **Yoruba reviewer** | Configurable role; holder not yet assigned | Reviews Yoruba wording and translations for accuracy. Does not verify facts: facts are verified against sources under A5. |
+| **Yoruba reviewer** | Configurable role; Member1, Faith Ogunlade | Reviews Yoruba wording and translations for accuracy. Does not verify facts: facts are verified against sources under A5. |
 
 **Rules**
 
