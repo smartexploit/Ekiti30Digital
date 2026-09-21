@@ -1,6 +1,6 @@
 # Ekiti 2056 — Submission Specification
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 3)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `11_Citizen_Stories/workflow/DECISIONS.md` (D6–D9, D13, D14, D16) and `11_Citizen_Stories/workflow/CONTRIBUTION_WORKFLOW.md`. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and scope
@@ -49,6 +49,8 @@ Contributors see the same plain-language statuses as My Ekiti Story (`MY_EKITI_S
 | I have read the privacy notice | `privacy_ack` | Checkbox | Yes | Same notice as My Ekiti Story | No |
 
 **System fields** are the same as in My Ekiti Story, with `submission_type = EKITI_2056` and `classification` defaulting to `VISION_PROPOSAL`.
+
+**Review Status.** The Issue's "Review Status" field is the system field `status`, together with `verification_status` and `editorial_status`. Reviewers set it and the contributor never does. Contributors see the plain-language version (`MY_EKITI_STORY_SPEC.md` section 8).
 
 **Not collected:** age range, date of birth, home address, ID numbers, precise location. The optional age range in the v1.0 draft is removed (D6).
 
