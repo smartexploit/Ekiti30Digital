@@ -17,11 +17,16 @@
       "Afe Babalola University",
       "Federal Polytechnic Ado-Ekiti"
     ],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.latlong.net/place/ado-ekiti-nigeria-24847.html"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.latlong.net/place/ado-ekiti-nigeria-24847.html"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -41,12 +46,19 @@
     "notable_places": [
       "Efon hills"
     ],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geodatos.net/en/coordinates/nigeria/efon-alaaye"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geodatos.net/en/coordinates/nigeria/efon-alaaye"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -65,13 +77,22 @@
       "Isinbode-Ekiti",
       "Ilasa-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.mindat.org/feature-2325727.html"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.mindat.org/feature-2325727.html"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -91,17 +112,24 @@
     "notable_places": [
       "Alawe of Ilawe's Palace"
     ],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://en.wikipedia.org/wiki/Ilawe_Ekiti"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ilawe-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
     "verification_status": "Pending",
-    "limitations": "Landmark and coordinates require independent verification",
+    "limitations": "Headquarters information is supported by the official Ekiti State directory. Coordinates and landmark details remain pending.",
     "owner": "Akintade Daniel Emmanuel"
   },
   {
@@ -120,12 +148,19 @@
       "Ikogosi Warm Springs",
       "Arinta Waterfall"
     ],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Aramoko-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Aramoko-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -145,12 +180,19 @@
     "notable_places": [
       "Elemure of Emure's Palace"
     ],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Emure-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Emure-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -159,7 +201,7 @@
     "owner": "Akintade Daniel Emmanuel"
   },
   {
-    "lga_name": "Aiyekire (Gbonyin)",
+    "lga_name": "Aiyekire",
     "headquarters": "Ode-Ekiti",
     "latitude": 7.789,
     "longitude": 5.711,
@@ -170,18 +212,27 @@
       "Agbado-Ekiti",
       "Iluomoba-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ode-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government/aiyekire | https://www.geonames.org/search.html?q=Ode-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
     "verification_status": "Pending",
-    "limitations": "Official preferred LGA name, communities and coordinates require confirmation",
+    "limitations": "Ekiti State Government uses Aiyekire as the official LGA name. Gbonyin is also used in some government and public records. Coordinates remain approximate and pending review.",
     "owner": "Akintade Daniel Emmanuel"
   },
   {
@@ -196,15 +247,22 @@
       "Usi-Ekiti",
       "Ayetoro-Ekiti"
     ],
-    "notable_places": [],
+    "notable_places": [
+      "To be researched"
+    ],
     "important_institutions": [
       "Federal Teaching Hospital Ido-Ekiti"
     ],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ido-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ido-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -221,15 +279,22 @@
     "major_towns_communities": [
       "Ijero-Ekiti"
     ],
-    "notable_places": [],
+    "notable_places": [
+      "To be researched"
+    ],
     "important_institutions": [
       "Ekiti State College of Health Sciences and Technology, Ijero-Ekiti"
     ],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ijero-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ijero-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -253,11 +318,16 @@
     "important_institutions": [
       "Bamidele Olumilua University of Education, Science and Technology"
     ],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ikere-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ikere-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -275,13 +345,22 @@
       "Ikole-Ekiti",
       "Odo-Ayedun-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ikole-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ikole-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -298,13 +377,22 @@
     "major_towns_communities": [
       "Eda-Oniyo-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Eda-Oniyo-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Eda-Oniyo-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -323,18 +411,29 @@
       "Iyin-Ekiti",
       "Iworoko-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "Federal University of Technology and Environmental Sciences (FUTES), Iyin-Ekiti"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference",
+      "Federal University of Technology Akure"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database",
+      "Official university source"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Igede-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Igede-Ekiti&country=NG | https://www.futa.edu.ng/"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
     "verification_status": "Pending",
-    "limitations": "Communities and coordinates require independent verification",
+    "limitations": "FUTES in Iyin-Ekiti is supported by an official FUTA publication. Its operational details and exact campus coordinates still require independent verification.",
     "owner": "Akintade Daniel Emmanuel"
   },
   {
@@ -347,13 +446,22 @@
       "Ise-Ekiti",
       "Orun-Ekiti"
     ],
-    "notable_places": [],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Ise-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Ise-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -375,12 +483,19 @@
     "notable_places": [
       "Ikun Dairy Farm"
     ],
-    "important_institutions": [],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "important_institutions": [
+      "To be researched"
+    ],
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Otun-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Otun-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
@@ -400,15 +515,22 @@
       "Itapa-Ekiti",
       "Ilupeju-Ekiti"
     ],
-    "notable_places": [],
+    "notable_places": [
+      "To be researched"
+    ],
     "important_institutions": [
       "Federal University Oye-Ekiti"
     ],
-    "source_name": "Ekiti State Government and geographic coordinate reference",
-    "source_type": "Government website and geographic database",
+    "source_name": [
+      "Ekiti State Government Local Government and LCDAs directory",
+      "secondary geographic coordinate reference"
+    ],
+    "source_type": [
+      "Official government source",
+      "secondary geographic database"
+    ],
     "source_link": [
-      "https://www.ekitistate.gov.ng/",
-      "https://www.geonames.org/search.html?q=Oye-Ekiti&country=NG"
+      "https://www.ekitistate.gov.ng/about-ekiti/local-government | https://www.geonames.org/search.html?q=Oye-Ekiti&country=NG"
     ],
     "source_date": "Not specified",
     "last_checked": "2026-09-21",
