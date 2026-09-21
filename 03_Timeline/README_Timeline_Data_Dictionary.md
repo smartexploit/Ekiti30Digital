@@ -15,7 +15,7 @@ IDs (`EK-001` to `EK-050`) are stable. New rows get the next number; rows are so
 | `date_start` | ISO 8601: `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Use for sorting and filtering. |
 | `date_end` | Same format, for ranges (tenures, two-day elections). `none` for a single date. |
 | `date_precision` | `day`, `month`, `year`, `range` or `approximate`. Says how exact `date_start` is. |
-| `date_basis` | `confirmed`, `stated_by_source`, `inferred`, `approximate` or `disputed`. Inferred and disputed dates are never recorded at a finer precision than the evidence allows. |
+| `date_basis` | `confirmed`, `stated_by_source`, `inferred` (worked out from context, for example a weekday), `derived` (calculated from relative wording such as "last year"), `approximate` or `disputed`. May carry a short qualification in brackets, for example where sources give different days. Inferred, derived and disputed dates are never recorded at a finer precision than the evidence allows. |
 | `event_title` | Short title. |
 | `description` | The claim being made. Only details that the cited source supports are included. |
 | `category` | Government, Education, Health, Infrastructure, Tourism, Technology, Agriculture, Sports, Culture or Other. |
@@ -33,7 +33,7 @@ IDs (`EK-001` to `EK-050`) are stable. New rows get the next number; rows are so
 | Status | Rule |
 |---|---|
 | **Verified** | Every element of `description` is supported by at least one official or institutional source, or by at least one credible news source cited in `claim_source_map`. Election results and laws need an official source (INEC record, gazette, official text) to be Verified. |
-| **Single source** | One credible source supports the claim as written and no second source or primary record has been found. Publish only as "according to <source>". |
+| **Single source** | One credible source supports the claim as written and no second source or primary record has been found. **Treated as not yet verified: publish only as reported, attributed to the source** ("according to ..."). |
 | **Needs primary source** | The claim rests on Wikipedia, a derivative or interested-party source, news reports of a result that has an official record, or a statistic whose report has not been read. A primary record is known to exist or should exist. |
 | **Conflicting sources** | Credible sources disagree. No value is selected; the basis for each is documented and the date precision is reduced. |
 
