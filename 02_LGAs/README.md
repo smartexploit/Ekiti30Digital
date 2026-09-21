@@ -12,7 +12,7 @@ The dataset supports the Explore Ekiti map and other geographic features of EKIT
 - `ekiti_lgas.json` — structured application data
 - `ekiti_lgas.geojson` — map-ready point features
 
-All three formats should contain the same 16 LGA records and remain synchronized after every correction.
+All three formats must contain the same 16 LGA records and remain synchronized after every correction.
 
 ## Data Included
 
@@ -38,19 +38,55 @@ The coordinates are approximate town-centre reference points for the respective 
 
 The point coordinates are suitable for the initial Explore Ekiti map, but they must remain marked as approximate until independently checked against reliable geographic or official records.
 
+## Source Structure
+
+Each source is connected directly to its corresponding source type and URL.
+
+In the CSV file, sources use numbered fields:
+
+- `source_1_name`, `source_1_type`, `source_1_link`
+- `source_2_name`, `source_2_type`, `source_2_link`
+- `source_3_name`, `source_3_type`, `source_3_link`
+
+The same number identifies one complete source record. For example, `source_1_name` corresponds directly to `source_1_type` and `source_1_link`.
+
+In the JSON and GeoJSON files, source information is stored as a `sources` array. Each source object contains:
+
+- `name`
+- `type`
+- `link`
+
+This structure prevents ambiguity between a source and the URL supporting it.
+
 ## Source Policy
 
 Government publications and official institutional websites are preferred for LGA names, headquarters, institutions, and administrative information.
 
-Secondary geographic databases may support coordinate research, but they should not be treated as the sole authoritative source for administrative facts.
+Secondary geographic databases may support coordinate research, but they must not be treated as the sole authoritative source for administrative facts.
 
-Wikipedia or another general reference may only be recorded as a secondary supporting source. It must not serve as the sole basis for marking a record as verified.
+A general reference may only be recorded as a secondary supporting source. It must not serve as the sole basis for marking a record as verified.
 
 Conflicting information must be documented in the `limitations` field instead of being silently resolved.
 
-## Naming Note
+## Canonical LGA Naming
 
-The dataset uses `Aiyekire` as the official LGA name. `Gbonyin` may appear in older or alternative references, so this naming difference is documented in the dataset limitations and source information.
+The dataset uses the current Ekiti State Government naming consistently.
+
+- `Aiyekire` is used as the canonical LGA name. `Gbonyin` may appear in older or alternative references.
+- `Ido/Osi` is used consistently instead of the `Ido-Osi` variation.
+
+Alternative names should be documented as context and must not be mixed with the canonical names across the data formats.
+
+## Institutional Entries
+
+Important institutions are recorded under the LGA where their host community is located.
+
+Current institutional additions include:
+
+- Federal University of Technology and Environmental Sciences (FUTES), Iyin-Ekiti, under Irepodun/Ifelodun LGA
+- Ekiti State Polytechnic, Isan-Ekiti, under Oye LGA
+
+The inclusion of an institution does not mean its precise campus coordinates or full operational details have been independently verified.
 
 ## Verification Status
 
@@ -64,13 +100,11 @@ A record must not move directly from `Pending` to `Verified` without the require
 
 Fields marked `To be researched` are intentionally unresolved. They must remain that way until reliable supporting information is found.
 
-Contributors should not fill unresolved fields using assumptions or unsupported claims.
+Contributors must not fill unresolved fields using assumptions or unsupported claims.
 
 ## Limitations
 
 Some coordinates, communities, institutions, landmarks, and administrative details remain provisional.
-
-The inclusion of an institution or place does not mean that its exact coordinates or current operational status have been independently verified.
 
 All records currently marked `Pending` require further review before publication as verified information.
 
