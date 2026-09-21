@@ -1,15 +1,15 @@
-# Ask Ekiti — Knowledge Base Design (v0.2)
+# Ask Ekiti — Knowledge Base Design (v0.3)
 
 **Owner:** Member 3, AI & Data Lead
-**Related issue:** #3
-**Status:** Revised draft, updated after review. Not approved. Nothing here is merged to `main`.
+**Related issue:** #3  |  **Pull request:** #11
+**Status:** Revised draft, updated after review. Not approved. Nothing here is merged to `main`. PR #11 stays open until the final approval review.
 **Companion file:** `Ask_Ekiti_Source_Inventory.xlsx`
 
 **How this document is organised**
 
 - **Part A** is the knowledge base itself: content rules, sources, verification and how Ask Ekiti may answer. It is independent of any technology.
 - **Part B** is a *non-binding* implementation proposal. Member 2 keeps the freedom to decide the final backend.
-- **Part C** lists decisions the team needs to confirm.
+- **Part C** is the decision record: what the team has confirmed and what is still open.
 
 ## Changes from v0.1
 
@@ -23,6 +23,17 @@
 | 6. Verification authority model | A8 |
 | 7. Traceable source inventory, primary vs secondary | A4 and the spreadsheet |
 | 8. No unsupported model-generated facts; say when knowledge is insufficient | A1, A9 |
+
+## Changes in v0.3 (team decisions and workbook alignment)
+
+| Change | Where |
+|---|---|
+| Verification Lead named (Member 8, Victor Ogunyemi); senior reviewer named (Member 1, Faith Ogunlade); Yoruba reviewer role added | A8 |
+| Government content confirmed under `01_History/government/`; pre-1996 background included at launch and kept separate from the timeline | A2, A10 |
+| English and Yoruba supported; new answer rule and front-matter fields | A3, A9 (rule 9), A11, B1 |
+| Tier D (oral/community) not used at launch | A4, A5 |
+| Source-record fields and status meanings aligned with the workbook | A4 |
+| Part C converted into a decision record | Part C |
 
 ---
 
@@ -44,7 +55,7 @@
 
 **Rule: write once, reference everywhere.** A source or a fact lives in one place. Everything else links to it by ID.
 
-**Proposed flow**
+**Flow**
 
 ```
 Original source
@@ -56,13 +67,13 @@ Original source
    → Ask Ekiti
 ```
 
-**Proposed role of each folder** (to be confirmed)
+**Role of each folder** (confirmed by the team)
 
 | Folder | Role | Used by Ask Ekiti? |
 |---|---|---|
-| `01_History` | Topic files: history, state creation, background (see note on government below) | Yes, once verified |
+| `01_History` | Topic files: history and state creation; government content in `01_History/government/`; pre-1996 background in `01_History/pre-1996/` | Yes, once verified |
 | `02_LGAs` | One file per LGA | Yes, once verified |
-| `03_Timeline` | One file per timeline event | Yes, once verified |
+| `03_Timeline` | One file per timeline event, 1996–2026 only | Yes, once verified |
 | `04_Tourism` | Sites and attractions | Yes, once verified |
 | `05_Culture` | Festivals, traditions, languages | Yes, once verified |
 | `06_Education` | Institutions and education facts | Yes, once verified |
@@ -84,7 +95,8 @@ Original source
 3. **Manifest:** `13_Knowledge_Base/kb_manifest.csv` lists each KB document (id, path, status, verification date). It is generated from the files' front matter by a script, so nobody maintains it by hand. Ask Ekiti uses only rows with status `verified`.
 4. **Timeline events:** the file in `03_Timeline` is the canonical record. The website's timeline data is generated from it and is not typed a second time.
 5. **Check before you create:** before starting a new source record or topic file, search the Source Inventory and manifest. The pull-request checklist includes "no duplicate source or document".
-6. **Gap to confirm:** government content (governors, administrators, MDAs) has no folder. Proposal: `01_History/government/`, unless the team prefers a new folder.
+6. **Government content** (governors, administrators, ministries, laws, institutions) lives in `01_History/government/` (confirmed by the team).
+7. **Pre-1996 background** lives in `01_History/pre-1996/`, is marked `period_covered: pre-1996` and `doc_type: background`, and is kept out of the 1996–2026 timeline: no files in `03_Timeline` and no timeline-event records.
 
 ---
 
@@ -108,7 +120,10 @@ verified_by:                    # blank until verified; never the author
 last_verified: YYYY-MM-DD       # PLACEHOLDER. Set only when a real verification is finished
 verification_note:              # required for Tier C exceptions, Tier D, and resolved conflicts
 tier_c_exception: false         # true only with a recorded reason (A7)
-period_covered: 1996-2026
+period_covered: 1996-2026       # use pre-1996 for pre-1996 background documents
+language: en                    # en | yo (language of the body text)
+translation_of:                 # for a Yoruba translation: id of the English original
+translation_reviewed_by:        # Yoruba reviewer (see A8); blank until reviewed
 lgas: []
 tags: []
 ---
@@ -131,7 +146,7 @@ Every source is recorded as **primary/official**, **secondary**, or **oral/commu
 | **A** | Primary / official | Issued by the body responsible for the record | Constitution, gazettes, census tables from the National Population Commission, state government statements, INEC declarations, regulator lists |
 | **B** | Secondary | Academic or institutional analysis | University publications, peer-reviewed work, agency reports, published histories |
 | **C** | Secondary | News and general secondary reporting | National newspapers, established outlets |
-| **D** | Oral / community | Elders, palace records, local knowledge | Interviews, community accounts |
+| **D** | Oral / community | Elders, palace records, local knowledge | Interviews, community accounts. **Not used at launch** (team decision); to be introduced in a later phase once the verification and attribution workflow is mature |
 
 **Not accepted as KB sources:** Wikipedia and other wikis or tertiary summaries, AI-generated text, and unsourced social media posts. They may be used to find leads, but the lead must be traced to a real source before use.
 
@@ -141,7 +156,9 @@ Every source is recorded as **primary/official**, **secondary**, or **oral/commu
 - **A copy is not the original.** If an official document is found on another site, record both the original publisher and where the copy is hosted. Check that the copy is the current version (for example, the Constitution has been amended).
 - **Provisional vs final.** Statistics and results may exist in provisional and final versions. Record which one was used.
 
-**What every source record must let a colleague trace** (Source Inventory columns): source ID, title, source type, primary/secondary/oral, publisher or owner, URL or document location, topic/category, verification status, verification date, verifier, and notes or conflicts.
+**What every source record must let a colleague trace** (Source Inventory columns): source ID, record stage (identified or source needed), title, source type, primary/secondary/oral, publisher or owner, URL or document location, whether that location is the original or a hosted copy (and the host), tier, topic/category, status, verification date, verifier, corroboration (Tier C), verification note, and conflicts or notes.
+
+For a *source record*, "Verified" means a reviewer opened the source and confirmed its title, publisher, location, class and tier, and that it is the authentic, current version. Verification of a *document's claims* (A5) is recorded in the document's front matter. Tier D sources must not appear in the launch inventory as anything other than deferred (priority P3).
 
 ---
 
@@ -151,7 +168,7 @@ A document may be marked `verified` only when **all** of these are true:
 
 1. **Sources registered.** Every source has a Source Inventory record with title, type, class, publisher, and URL or location.
 2. **Claims traced.** A reviewer opened each source and checked the document's names, dates, numbers and wording against it (not a summary, and not another AI's output).
-3. **Tier rule met.** Tier A and B: one qualifying source. Tier C: two independent sources, or a documented exception (A7). Tier D: Verification Lead sign-off.
+3. **Tier rule met.** Tier A and B: one qualifying source. Tier C: two independent sources, or a documented exception (A7). Tier D: Verification Lead sign-off (applies only once Tier D is introduced; not used at launch).
 4. **Conflict check done.** The reviewer searched for conflicting sources and recorded the result ("none found" or the conflict).
 5. **No open conflict.** Any conflict is resolved and recorded (A6), or the document is handled as disputed.
 6. **Independent reviewer.** The reviewer is not the author.
@@ -177,7 +194,7 @@ AI tools may help draft, but AI output is never a source, and anything an AI dra
    - **Unresolved:** either publish a "sources differ" document that states each position with its citation, or keep the item out of Ask Ekiti.
 4. **Ask Ekiti never picks silently.** For a disputed item it presents each position with its source.
 
-**Worked example found while building the inventory:** the 2006 population of Ekiti State is given differently by different sources. The State Government's "About Ekiti" page, a secondary compilation of National Population Commission data, and Wikipedia do not all agree. The primary candidates for settling it are the National Population Commission's 2006 Priority Tables and the Federal Government gazette that published the final census results. The item is marked `Conflict` in the inventory until a reviewer checks them. No figure should be used before then.
+**Worked example found while building the inventory:** the 2006 population of Ekiti State is given differently by different sources. The State Government's "About Ekiti" page, a secondary compilation of National Population Commission data, and Wikipedia do not all agree. The primary candidates for settling it are the National Population Commission's 2006 Priority Tables and the Federal Government gazette that published the final census results. The item is marked `Conflict` in the inventory until a reviewer checks them. No figure should be used before then. A second open conflict concerns the names of the early administrators, which differ between the state's own pages and other sources (SRC-010).
 
 ---
 
@@ -198,16 +215,17 @@ What matters is that the decision and its reasoning are recorded.
 
 ---
 
-## A8. Verification authority (proposal for the team to confirm)
+## A8. Verification authority (confirmed by the team)
 
 | Role | Who | What they may do |
 |---|---|---|
 | **Contributor / author** | Anyone on the team | Write drafts and open pull requests. May set `draft` or `needs_review`. Cannot verify their own work. |
 | **Reviewer** | Members of the Verification & Editorial team (domain owners may review other teams' documents, not their own) | Check claims against sources. May mark Tier A and B documents `verified` when there is no conflict. |
-| **Verification Lead** | One named person (proposed: lead of Verification & Editorial) | Approves Tier C exceptions, Tier D material, conflict resolutions and "sources differ" documents. Final say on `verified` status. |
+| **Verification Lead** | **Member 8, Victor Ogunyemi** (agreed by the team for launch) | Decides conflicts, approves Tier C exceptions, and makes source-verification decisions, including "sources differ" documents. Final say on `verified` status. Tier D approvals apply only once Tier D is introduced. |
 | **Domain owners** | Research & History, Geospatial, Culture & Tourism, etc. | Advise on accuracy in their area. Not the verifier for their own team's documents. |
-| **AI & Data (Member 3)** | | Validate front matter, generate the manifest, ingest only verified documents. Cannot mark anything `verified`. May pull a document from Ask Ekiti if it fails checks or produces unsafe answers. |
-| **Project Lead / Technical Lead** | | Maintains the repository. Merges to `main` only after the required verification approval. Settles policy disputes. |
+| **AI & Data Lead** | **Member 3, Oluwadare Tobi Jayeola** | Validate front matter, generate the manifest, ingest only verified documents. Cannot mark anything `verified`. May pull a document from Ask Ekiti if it fails checks or produces unsafe answers. |
+| **Technical Lead / senior reviewer** | **Member 1, Faith Ogunlade** | Senior reviewer for sensitive matters. Maintains the repository. Merges to `main` only after the required verification approval. Settles policy disputes. |
+| **Yoruba reviewer** | Configurable role; holder not yet assigned | Reviews Yoruba wording and translations for accuracy. Does not verify facts: facts are verified against sources under A5. |
 
 **Rules**
 
@@ -215,7 +233,8 @@ What matters is that the decision and its reasoning are recorded.
 2. **The approval is the pull-request review** by a Verification-team member, plus the front-matter fields (`verified_by`, `last_verified`, `verification_note`).
 3. **Enforcement in GitHub (suggestion):** a `CODEOWNERS` file requiring Verification-team review for `01`–`09` and `13`, and labels such as `needs-verification` and `verified`.
 4. **Until the team has at least two verifiers**, a reviewer from another team acts as second reviewer for Tier A and B, and the Verification Lead handles everything else.
-5. **Nothing is merged to `main` until this model is confirmed.**
+5. **Sensitive matters** are referred by the Verification Lead to the senior reviewer before a document is marked `verified`.
+6. **Nothing is merged to `main` until the final approval review is complete.** PR #11 stays open.
 
 ---
 
@@ -231,6 +250,7 @@ These rules apply to any implementation.
 6. **Conflicts.** Present each position with its source and state that sources differ.
 7. **Time.** State the date the information was last verified and flag older items.
 8. **Exclusions.** Citizen stories and Ekiti 2056 submissions are not used for factual answers.
+9. **Language.** Ask Ekiti answers in English or Yoruba. A Yoruba answer must be based only on verified content, keep the same citations (source titles are not translated or altered) and the same insufficient-knowledge behaviour, and must not add facts or change any name, date or figure. Yoruba wording is treated as not yet human-reviewed until a Yoruba reviewer is assigned (A8).
 
 **Answer format**
 
@@ -252,7 +272,7 @@ The launch set, with candidate sources and traceable source records, is in the s
 7. Hospitals and health facilities
 8. 30–50 timeline milestones
 9. Education, economy and agriculture statistics
-10. Pre-1996 background (small set)
+10. Pre-1996 background (small set, kept separate from the 1996–2026 timeline)
 11. Cultural festivals and traditional councils
 
 Launch target: 16 LGA files, 30–50 event files, 20–30 place files, and 15–25 other documents.
@@ -261,7 +281,7 @@ Launch target: 16 LGA files, 30–50 event files, 20–30 place files, and 15–
 
 ## A11. Evaluation
 
-Build a **golden set of about 50 questions** before launch: answerable, unanswerable, false-premise, out-of-scope, conflicting-source and prompt-injection questions. A starter set is in the sheet **Eval Starter Set**.
+Build a **golden set of about 50 questions** before launch, in both English and Yoruba: answerable, unanswerable, false-premise, out-of-scope, conflicting-source and prompt-injection questions. A starter set, including Yoruba tests, is in the sheet **Eval Starter Set**.
 
 **Measures:** citation correctness, groundedness (every claim supported by retrieved text), correct handling of "insufficient knowledge", correct handling of conflicts, and answer accuracy. Run the set after any change to the KB or the assistant's prompt or configuration.
 
@@ -280,6 +300,7 @@ Build a **golden set of about 50 questions** before launch: answerable, unanswer
 5. Present both positions for conflicting or disputed items.
 6. Re-ingest changed documents, and drop retired ones.
 7. Keep an audit trail (which document versions an answer used).
+8. Support English and Yoruba questions and answers under rule A9.9.
 
 ## B2. Suggested approach (one option)
 
@@ -296,20 +317,30 @@ Any comparable design is fine, for example a different vector store, a managed s
 
 ---
 
-# PART C — For the team to confirm
+# PART C — Decision record
 
-1. **Verification authority model (A8):** approve or amend, and name the Verification Lead.
-2. **Folder roles (A2):** confirm the folder-to-KB mapping and where government content lives.
-3. **Pre-1996 background:** include a small verified set at launch? (Recommended: yes.)
-4. **Language:** English only at launch, or also Yoruba?
-5. **Tier D (oral) sources:** allowed at launch, or from week two?
-6. **Backend:** Member 2 to confirm the implementation (Part B is only a proposal).
+Decisions confirmed by the team and relayed by Member 3. They are reflected in the sections shown.
+
+| # | Decision | Outcome | Where reflected |
+|---|---|---|---|
+| 1 | Verification authority | **Confirmed.** Verification Lead: Member 8, Victor Ogunyemi (conflict decisions, Tier C exceptions, source-verification decisions). Senior reviewer for sensitive matters: Member 1, Faith Ogunlade (Technical Lead). | A8 |
+| 2 | Folder mapping and government content | **Confirmed.** Government-related historical and reference content (governors, ministries, laws, institutions) lives in `01_History/government/`. | A2 |
+| 3 | Pre-1996 background at launch | **Yes.** A small verified set is included at launch, kept clearly separate from the 1996–2026 timeline (`01_History/pre-1996/`, not in `03_Timeline`). | A2, A10 |
+| 4 | Launch language | **English and Yoruba.** The Yoruba review role stays configurable until a specific reviewer is formally assigned. | A3, A8, A9 (rule 9), A11 |
+| 5 | Tier D (oral/community) sources | **Not at launch.** No Tier D material in the initial verified KB. To be introduced in a later phase once the verification and attribution workflow is mature. | A4, A5 |
+| 6 | Backend implementation | **Member 2's engineering decision.** Part B remains a non-binding proposal. | Part B |
+
+**Still open**
+
+- Formal assignment of the Yoruba reviewer.
+- Member 2's backend decision.
+- Final approval review of this specification and the source-inventory workbook. PR #11 stays open, and nothing is merged to `main` until then.
 
 ## Suggested sequence for the launch sprint
 
 | Days | Work |
 |---|---|
-| 1–2 | Confirm A2 and A8. Team completes the Source Inventory. Resolve the priority conflicts (A6). |
+| 1–2 | Team completes the Source Inventory (P1 blockers first). Verification Lead resolves the two open conflicts (A6). |
 | 2–4 | Collect and verify the launch documents (LGAs, state creation, governors first). |
 | 3–5 | Validation script and manifest. Backend integration per Member 2's design. |
 | 5–6 | Connect Ask Ekiti with citations and the insufficient-knowledge response. Run the golden set. |
