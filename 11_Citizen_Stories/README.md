@@ -31,5 +31,7 @@ This folder holds the My Ekiti Story specification and the workflow documents sh
 | `workflow/CORRECTIONS_AND_CLARIFICATIONS.md` | Clarification requests, corrections, removal requests | Draft |
 | `workflow/COMMUNITY_ENGAGEMENT_PLAN.md` | Audiences, phases, channels, ambassadors, risks, metrics | Draft |
 | `workflow/MESSAGE_TEMPLATES.md` | Contributor messages: received, clarification, approved, published, not published, corrections | Draft |
+| `workflow/ENGINEERING_HANDOFF.md` | Build requirements for Engineering: roles, data model, transitions, public output, acceptance criteria | Draft |
+| `workflow/TEST_SUBMISSIONS.md` | 27 test scenarios with fictional sample content, and a results log | Draft |
 
 Further documents are added as each phase of Issue #8 is completed.
