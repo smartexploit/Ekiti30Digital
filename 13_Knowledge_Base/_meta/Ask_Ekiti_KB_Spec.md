@@ -156,7 +156,7 @@ Every source is recorded as **primary/official**, **secondary**, or **oral/commu
 - **A copy is not the original.** If an official document is found on another site, record both the original publisher and where the copy is hosted. Check that the copy is the current version (for example, the Constitution has been amended).
 - **Provisional vs final.** Statistics and results may exist in provisional and final versions. Record which one was used.
 
-**What every source record must let a colleague trace** (Source Inventory columns): source ID, record stage (identified or source needed), title, source type, primary/secondary/oral, publisher or owner, URL or document location, whether that location is the original or a hosted copy (and the host), tier, topic/category, status, verification date, verifier, corroboration (Tier C), verification note, and conflicts or notes.
+**What every source record must let a colleague trace** (Source Inventory columns): source ID, record stage (identified or source needed), title, source type, primary/secondary/oral, publisher or owner, URL or document location, whether that location is the original or a hosted copy (and the host), publication date of the source, tier, topic/category, status, verification date, verifier, corroboration (Tier C), verification note, and conflicts or notes.
 
 For a *source record*, "Verified" means a reviewer opened the source and confirmed its title, publisher, location, class and tier, and that it is the authentic, current version. Verification of a *document's claims* (A5) is recorded in the document's front matter. Tier D sources must not appear in the launch inventory as anything other than deferred (priority P3).
 
