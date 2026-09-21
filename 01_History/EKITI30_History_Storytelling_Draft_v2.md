@@ -10,7 +10,7 @@ Our Journey, Our Story
 
 EKITI@30 DIGITAL · Revised draft (v2), September 2026
 
-*Claims are tagged by evidence status; see the key on page 2.*
+*Claims are tagged by evidence status; see the evidence key at the start of the text.*
 
 > **About this draft and how to read it**
 >
@@ -36,21 +36,21 @@ Yusuf is credited with building the complex that houses the Ekiti State House of
 
 Between 1996 and 2026 the state passed through military administrators, elected governors, an emergency administrator and two acting governors: thirteen spells in office held by ten people.<sup>\[1\]</sup>
 
-| **Leader**               | **Period**                | **Party** | **Note**                                                                        |
-|--------------------------|---------------------------|-----------|---------------------------------------------------------------------------------|
-| Lt. Col. Mohammed Bawa   | 7 Oct 1996 – Aug 1998     | Military  | First administrator<sup>\[1\]</sup>                                             |
-| Navy Capt. Atanda Yusuf  | Aug 1998 – 29 May 1999    | Military  | Handed over to civilian rule<sup>\[1\]</sup>                                    |
-| Otunba Niyi Adebayo      | 29 May 1999 – 29 May 2003 | AD        | First elected civilian governor<sup>\[1\]</sup>                                 |
-| Ayo Fayose (1st term)    | 29 May 2003 – 19 Oct 2006 | PDP       | Impeached Oct 2006; day disputed**†**<sup>\[1\]\[7\]</sup>                      |
-| Tunji Olurin             | 19 Oct 2006 – 27 Apr 2007 | Appointed | Administrator after a state of emergency<sup>\[1\]</sup>                        |
-| Tope Ademiluyi           | 27 Apr – 29 May 2007      | PDP       | Acting governor<sup>\[1\]</sup>                                                 |
-| Segun Oni (1st stint)    | 29 May 2007 – 17 Feb 2009 | PDP       | Result voided in part by the Court of Appeal<sup>\[1\]</sup>                    |
-| Tunji Odeyemi            | 17 Feb – 6 May 2009       | PDP       | Acting governor (Speaker)<sup>\[1\]</sup>                                       |
-| Segun Oni (2nd stint)    | 6 May 2009 – 15 Oct 2010  | PDP       | Returned after the rerun; removed by the Court of Appeal<sup>\[42\]\[43\]</sup> |
-| Kayode Fayemi (1st term) | 16 Oct 2010 – 16 Oct 2014 | ACN       | Lost the June 2014 election<sup>\[7\]\[48\]</sup>                               |
-| Ayo Fayose (2nd term)    | 16 Oct 2014 – 16 Oct 2018 | PDP       | Declared elected in INEC's 2014 declaration<sup>\[48\]</sup>                    |
-| Kayode Fayemi (2nd term) | 16 Oct 2018 – 16 Oct 2022 | APC       | Second term<sup>\[1\]</sup>                                                     |
-| Biodun Oyebanji          | 16 Oct 2022 – present     | APC       | Re-election result awaiting INEC record**†**<sup>\[11\]</sup>                   |
+| **Leader**               | **Period**                | **Party**       | **Note**                                                                        |
+|--------------------------|---------------------------|-----------------|---------------------------------------------------------------------------------|
+| Lt. Col. Mohammed Bawa   | 7 Oct 1996 – Aug 1998     | Military        | First administrator<sup>\[1\]</sup>                                             |
+| Navy Capt. Atanda Yusuf  | Aug 1998 – 29 May 1999    | Military        | Handed over to civilian rule<sup>\[1\]</sup>                                    |
+| Otunba Niyi Adebayo      | 29 May 1999 – 29 May 2003 | AD              | First elected civilian governor<sup>\[1\]</sup>                                 |
+| Ayo Fayose (1st term)    | 29 May 2003 – 19 Oct 2006 | PDP             | Impeached Oct 2006; day disputed**†**<sup>\[1\]\[7\]</sup>                      |
+| Tunji Olurin             | 19 Oct 2006 – 27 Apr 2007 | Appointed       | Administrator after a state of emergency<sup>\[1\]</sup>                        |
+| Tope Ademiluyi           | 27 Apr – 29 May 2007      | PDP             | Acting governor<sup>\[1\]</sup>                                                 |
+| Segun Oni (1st stint)    | 29 May 2007 – 17 Feb 2009 | PDP             | Result voided in part by the Court of Appeal<sup>\[1\]</sup>                    |
+| Tunji Odeyemi            | 17 Feb – 6 May 2009       | PDP             | Acting governor (Speaker)<sup>\[1\]</sup>                                       |
+| Segun Oni (2nd stint)    | 6 May 2009 – 15 Oct 2010  | PDP             | Returned after the rerun; removed by the Court of Appeal<sup>\[42\]\[43\]</sup> |
+| Kayode Fayemi (1st term) | 16 Oct 2010 – 16 Oct 2014 | ACN (later APC) | Lost the June 2014 election<sup>\[7\]\[48\]</sup>                               |
+| Ayo Fayose (2nd term)    | 16 Oct 2014 – 16 Oct 2018 | PDP             | Declared elected in INEC's 2014 declaration<sup>\[48\]</sup>                    |
+| Kayode Fayemi (2nd term) | 16 Oct 2018 – 16 Oct 2022 | APC             | Second term<sup>\[1\]</sup>                                                     |
+| Biodun Oyebanji          | 16 Oct 2022 – present     | APC             | Re-election result awaiting INEC record**†**<sup>\[11\]</sup>                   |
 
 ## Democracy returns (1999–2003)
 
@@ -66,15 +66,15 @@ On 29 May 1999 **Otunba Niyi Adebayo** of the Alliance for Democracy became Ekit
 
 ## Fayemi, Fayose and Fayemi again (2010–2022)
 
-**Kayode Fayemi**, then of the Action Congress of Nigeria, governed from October 2010 to October 2014.<sup>\[1\]\[7\]</sup> In INEC's declaration for the 21 June 2014 election, **Ayo Fayose** (PDP) was declared elected with 203,090 votes to Fayemi's 120,433.<sup>\[48\]</sup> Opponents argued that his 2006 impeachment made him ineligible; a THISDAY analysis reports that in April 2015 the Supreme Court held impeachment is not a ground for disqualification.**†**<sup>\[7\]</sup> Fayose's second term ran from 16 October 2014 to 16 October 2018, when Fayemi, now in the APC, began a second term that ran to October 2022.<sup>\[1\]</sup>
+**Kayode Fayemi**, then of the Action Congress of Nigeria, governed from October 2010 to October 2014.<sup>\[1\]\[7\]</sup> In INEC's declaration for the 21 June 2014 election, **Ayo Fayose** (PDP) was declared elected with 203,090 votes to Fayemi's 120,433.<sup>\[48\]</sup> Opponents argued that his 2006 impeachment made him ineligible. On 14 April 2015 the Supreme Court dismissed the APC's appeal; reports say it held that impeachment is not a ground for disqualification and that the 2006 impeachment panel was illegally constituted, though the judgment itself has not been read.**†**<sup>\[65\]\[66\]\[7\]</sup> Fayose's second term ran from 16 October 2014 to 16 October 2018, when Fayemi, now in the APC, began a second term that ran to October 2022.<sup>\[1\]</sup>
 
 ## Oyebanji and a second mandate (2022–2026)
 
-**Biodun Oyebanji** of the APC was sworn in on 16 October 2022.<sup>\[55\]</sup> The election was held on 18 June 2022, and he was reported as declared winner with 187,057 votes; runner-up Segun Oni filed a petition challenging the result, whose outcome has not been checked.**†**<sup>\[56\]</sup>
+**Biodun Oyebanji** of the APC was sworn in on 16 October 2022.<sup>\[55\]</sup> In INEC's declaration for the 18 June 2022 election he was declared elected with 187,057 votes, ahead of Segun Oni (SDP) with 82,211 and Bisi Kolawole (PDP) with 67,457.<sup>\[71\]</sup> Oni filed a petition challenging the result; its outcome has not been checked.**‡**<sup>\[56\]</sup>
 
-Oyebanji faced voters again on 20 June 2026. On 21 June INEC's chief returning officer declared him winner with **319,224 votes**, against 40,543 for Wole Oluyede (PDP) and 12,872 for Dare Bejide (ADC), according to Channels TV and Pulse Nigeria; INEC's own declaration document has not yet been consulted.**†**<sup>\[11\]\[54\]</sup>
+Oyebanji faced voters again on 20 June 2026. At about 3:13 a.m. on Sunday 21 June, INEC's State Returning Officer, Prof. Adenike Oladiji, declared him winner with **319,224 votes**, against 40,543 for Wole Oluyede (PDP) and 12,872 for Dare Bejide (ADC), with 375,777 valid and 6,332 rejected votes, according to Channels TV, Vanguard and Daily Trust.<sup>\[11\]\[72\]\[67\]</sup> The party totals published by ThisDay's live updates add up to the valid-vote figure only if the PDP total is 40,543, so the 40,533 printed by a few outlets is almost certainly a typographical error.<sup>\[73\]</sup> INEC's own declaration document (Form EC8E) has not yet been consulted, so the result is still marked as awaiting a primary record.**†**<sup>\[70\]</sup>
 
-Reported claims and disputes are kept apart from the result. The ADC candidate alleged irregularities, which Oyebanji rejected,**‡**<sup>\[11\]</sup> and observers' concerns about vote-buying and intimidation were reported.**‡**<sup>\[36\]</sup> Media reports describe him as the first governor re-elected back to back since the state's creation,**‡**<sup>\[12\]</sup> and one outlet says no incumbent had won a second term since Adebayo.**‡**<sup>\[36\]</sup> This characterisation is not yet confirmed against INEC or other historical records. Oyebanji's current term runs to October 2026.
+Reported claims and disputes are kept apart from the result. The ADC candidate alleged irregularities, which Oyebanji rejected,**‡**<sup>\[11\]</sup> observers' concerns about vote-buying and intimidation were reported,**‡**<sup>\[36\]</sup> and Yiaga Africa's observation mission raised concerns about the consistency of the materials INEC deployed after late candidate-list changes.**‡**<sup>\[11\]</sup> Premium Times and allAfrica describe him as the first Ekiti governor to secure consecutive re-election, and Dataphyte notes that no incumbent had won a second consecutive term before.**‡**<sup>\[68\]\[12\]\[69\]</sup> Before the vote, Legit.ng and allAfrica noted that no incumbent had won re-election since the 1999 return to elected government, and that Adebayo, the first governor, served a single term.**‡**<sup>\[36\]</sup> These are media characterisations, not INEC statements, and they are not confirmed against INEC or other historical records. As of September 2026, Oyebanji's current term runs to October 2026.
 
 # 3. Building Ekiti: Landmarks and Infrastructure
 
@@ -154,7 +154,7 @@ A 2022 survey by the Nigerian government and UNICEF (MICS6) is reported to put E
 
 # Thirty Years, One Story
 
-Look at Ekiti in its thirtieth year and the threads of this story are visible at once. A House of Assembly complex inaugurated in 1999 marked the start of civilian government.**†**<sup>\[4\]</sup> The Ikogosi resort, under rehabilitation since 2011, has moved into private management.**†**<sup>\[40\]</sup> An airport that began under one governor now receives commercial flights,<sup>\[19\]</sup> and in June 2026 the sod was turned on the Ekiti Knowledge Zone.<sup>\[38\]</sup> According to tradition, Udiroko has been celebrated for some seven centuries,**◊**<sup>\[31\]</sup> and it was marked again in August 2026.**†**<sup>\[32\]</sup> In June 2026 voters returned Governor Oyebanji, which media reports describe as the first consecutive-term win in the state's history.**‡**<sup>\[12\]</sup>
+Look at Ekiti in its thirtieth year and the threads of this story are visible at once. A House of Assembly complex inaugurated in 1999 marked the start of civilian government.**†**<sup>\[4\]</sup> The Ikogosi resort, under rehabilitation since 2011, has moved into private management.**†**<sup>\[40\]</sup> An airport that began under one governor now receives commercial flights,<sup>\[19\]</sup> and in June 2026 the sod was turned on the Ekiti Knowledge Zone.<sup>\[38\]</sup> According to tradition, Udiroko has been celebrated for some seven centuries,**◊**<sup>\[31\]</sup> and it was marked again in August 2026.**†**<sup>\[32\]</sup> In June 2026 voters returned Governor Oyebanji, which media reports describe as the first consecutive re-election of a governor in the state.**‡**<sup>\[68\]\[12\]</sup>
 
 This document is a draft of that story. It is designed to be extended, event by event, into the verified timeline that powers the Ekiti@30 platform and the Ask Ekiti assistant.
 
@@ -186,10 +186,10 @@ All 50 events in the CSV, in date order, with the status recorded there. Detail,
 | EK-019 | Mar 2012 (day inferred)          | Social Security Scheme backed by law                                                           | Single source |
 | EK-020 | Oct 2012 (inferred)              | Redeveloped Ikogosi resort opened to the public                                                | Single source |
 | EK-021 | 12 Aug 2013 (stated by governor) | Ekiti Knowledge Zone conceived                                                                 | Single source |
-| EK-022 | 21 Jun 2014                      | Fayose declared winner of governorship election, defeating incumbent Fayemi                    | Verified      |
+| EK-022 | 21 Jun 2014                      | Fayose wins 2014 governorship election, defeating incumbent Fayemi                             | Verified      |
 | EK-047 | 15 Oct - 15 Nov 2014             | FMC Ido-Ekiti approved as teaching hospital for ABUAD students                                 | Single source |
 | EK-023 | 16 Oct 2014 - 16 Oct 2018        | Ayo Fayose's second term begins                                                                | Verified      |
-| EK-024 | Apr 2015 (day not confirmed)     | Supreme Court rules on Fayose's eligibility                                                    | Needs primary |
+| EK-024 | 14 Apr 2015                      | Supreme Court dismisses APC appeal, affirming Fayose's 2014 victory                            | Needs primary |
 | EK-025 | 2016                             | Ekiti State Health Insurance Scheme law signed                                                 | Single source |
 | EK-026 | 29 Aug 2016                      | Anti-open grazing law signed                                                                   | Needs primary |
 | EK-027 | Oct 2017                         | ABUAD Teaching Hospital (400 beds) inaugurated                                                 | Single source |
@@ -199,7 +199,7 @@ All 50 events in the CSV, in date order, with the status recorded there. Detail,
 | EK-031 | 2020                             | College of Education, Ikere-Ekiti upgraded to a university (now BOUESTI)                       | Verified      |
 | EK-036 | 2022 or 2023 (unresolved)        | Ikogosi Warm Springs Resort placed under private concession                                    | Conflicting   |
 | EK-037 | 2022-2023 (unresolved)           | Ido-Ekiti listed among four new federal teaching hospitals                                     | Needs primary |
-| EK-033 | 18-19 Jun 2022                   | Oyebanji declared winner of governorship election                                              | Needs primary |
+| EK-033 | 18-19 Jun 2022                   | Oyebanji declared winner of 2022 governorship election                                         | Verified      |
 | EK-032 | Aug 2022                         | MICS6 results show Ekiti with second-lowest out-of-school rate                                 | Needs primary |
 | EK-035 | Oct 2022 (year disputed)         | Ekiti airport ceremonially commissioned while unfinished                                       | Conflicting   |
 | EK-034 | 16 Oct 2022                      | Oyebanji sworn in as governor                                                                  | Verified      |
@@ -228,7 +228,7 @@ The corrections made across the two revisions.
 | Bawa: "Lt. Col."                                                                       | The official list gives Lt. Col., so the original wording was right (Wikipedia's "Colonel" may be a later rank).                                           | 1             |
 | Segun Oni: 2007–2009; governor list                                                    | Two stints (29 May 2007 to 17 Feb 2009; 6 May 2009 to 15 Oct 2010) with Tunji Odeyemi acting in between; Tope Ademiluyi added as acting governor in 2007.  | 1, 42, 43     |
 | Oyebanji: "2022–present"                                                               | June 2026 re-election reported; INEC's declaration document not yet consulted (EK-044).                                                                    | 11, 54        |
-| Fayose impeached in 2006                                                               | Correct; the day is disputed (15 or 16 Oct). The April 2015 Supreme Court ruling still needs the judgment.                                                 | 1, 7          |
+| Fayose impeached in 2006                                                               | Correct; the day is disputed (15 or 16 Oct). The 14 April 2015 Supreme Court ruling is reported by two outlets; the judgment itself is still needed.       | 1, 7          |
 | ABUAD hospital commissioned by Osinbajo, 2017                                          | Inaugurated Oct 2017; the vice president was represented by the Health Minister.                                                                           | 45            |
 | FMC Ido-Ekiti teaching hospital: 2023                                                  | Approved for upgrade in Oct 2014 for ABUAD students; a National Assembly Act later listed Ido among new federal teaching hospitals (Ido date unconfirmed). | 44, 47        |
 | Federal Polytechnic and other institutions                                             | Removed: the cited source did not support it.                                                                                                              | 26            |
@@ -241,7 +241,7 @@ Deliberately left out of the story until sources are found.
 
 - **Coverage gaps:** Agriculture (1 tracked event), Sports (1) and Culture (3). Festivals such as Olosunta need dates and authoritative sources.
 
-- **INEC records:** the 2018, 2022 and 2026 declarations still need to be read from INEC's own posts or documents (2014 obtained).
+- **INEC records:** the 2018 and 2026 declarations still need to be read from INEC's own posts or documents (2014 and 2022 obtained).
 
 - **Source conflicts kept open:** 2006 census totals (EK-008), impeachment day (EK-009), airport commissioning year (EK-035), Ikogosi concession year (EK-036).
 
@@ -380,3 +380,21 @@ Government, institutional and official sources come first; news outlets are cite
 **\[63\]** Times Higher Education: Afe Babalola University profile. [<u>https://www.timeshighereducation.com/world-university-rankings/afe-babalola-university</u>](https://www.timeshighereducation.com/world-university-rankings/afe-babalola-university)
 
 **\[64\]** The Guardian Nigeria: Ekiti Assembly hails Agbeyewa Farms (Aug 2025). [<u>https://guardian.ng/features/agro-care/ekiti-assembly-hails-agbeyewa-farms-says-agric-revolution-will-end-hunger-in-nigeria/</u>](https://guardian.ng/features/agro-care/ekiti-assembly-hails-agbeyewa-farms-says-agric-revolution-will-end-hunger-in-nigeria/)
+
+**\[65\]** BusinessDay: Supreme Court dismisses APC's appeal, affirms Ayo Fayose governor (14 Apr 2015). [<u>https://businessday.ng/uncategorized/article/supreme-court-dismisses-apcs-appeal-affirms-ayo-fayose-governor/</u>](https://businessday.ng/uncategorized/article/supreme-court-dismisses-apcs-appeal-affirms-ayo-fayose-governor/)
+
+**\[66\]** Vanguard: Breaking news: Fayose's impeachment in 2006 not valid - Supreme Court (14 Apr 2015). [<u>https://www.vanguardngr.com/2015/04/breaking-news-supreme-court-affirms-fayoses-victory/</u>](https://www.vanguardngr.com/2015/04/breaking-news-supreme-court-affirms-fayoses-victory/)
+
+**\[67\]** Daily Trust: INEC declares Oyebanji winner of Ekiti governorship election (21 Jun 2026). [<u>https://dailytrust.com/inec-declares-oyebanji-winner-of-ekiti-governorship-election/</u>](https://dailytrust.com/inec-declares-oyebanji-winner-of-ekiti-governorship-election/)
+
+**\[68\]** Premium Times: \#EkitiDecides2026: Oyebanji secures second term, defies Ekiti's history of unseating incumbents (21 Jun 2026). [<u>https://www.premiumtimesng.com/regional/ssouth-west/889505-ekitidecides2026-oyebanji-secures-second-term-defies-ekitis-history-of-unseating-incumbents.html</u>](https://www.premiumtimesng.com/regional/ssouth-west/889505-ekitidecides2026-oyebanji-secures-second-term-defies-ekitis-history-of-unseating-incumbents.html)
+
+**\[69\]** Dataphyte: Ekiti Governorship Election 2026: The Anti-incumbency Pattern and APC's Current Dominance (19 Jun 2026). [<u>https://www.dataphyte.com/topic/elections/ekiti-governorship-election-2026-the-anti-incumbency-pattern-and-apcs-current-dominance</u>](https://www.dataphyte.com/topic/elections/ekiti-governorship-election-2026-the-anti-incumbency-pattern-and-apcs-current-dominance)
+
+**\[70\]** Premium Times: It's Official: INEC declares APC's Oyebanji winner (Form EC8E, 21 Jun 2026). [<u>https://www.premiumtimesng.com/regional/ssouth-west/889497-its-official-inec-declares-apcs-oyebanji-winner-of-ekiti-governorship-election.html</u>](https://www.premiumtimesng.com/regional/ssouth-west/889497-its-official-inec-declares-apcs-oyebanji-winner-of-ekiti-governorship-election.html)
+
+**\[71\]** INEC (official Facebook page): Declaration of Result, Ekiti State Governorship Election, 18 June 2022. [<u>https://www.facebook.com/inecnigeria/posts/declaration-of-result-of-the-ekiti-state-governorship-election-held-on-saturday-/404942308325501/</u>](https://www.facebook.com/inecnigeria/posts/declaration-of-result-of-the-ekiti-state-governorship-election-held-on-saturday-/404942308325501/)
+
+**\[72\]** Vanguard: INEC declares Oyebanji winner of Ekiti governorship election (21 Jun 2026). [<u>https://www.vanguardngr.com/2026/06/inec-declares-oyebanji-winner-of-ekiti-governorship-election/</u>](https://www.vanguardngr.com/2026/06/inec-declares-oyebanji-winner-of-ekiti-governorship-election/)
+
+**\[73\]** THISDAY: Live Updates: Ekiti Governorship Election 2026 (21 Jun 2026). [<u>https://www.thisdaylive.com/2026/06/21/live-updates-ekiti-governorship-election-2026/</u>](https://www.thisdaylive.com/2026/06/21/live-updates-ekiti-governorship-election-2026/)
