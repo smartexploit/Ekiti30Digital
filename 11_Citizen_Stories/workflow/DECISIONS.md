@@ -1,6 +1,6 @@
 # Citizen Contribution Workflow — Decisions Log
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT — proposals awaiting confirmation**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0), some decisions still PROPOSED or OPEN**
 
 ## Purpose
 

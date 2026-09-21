@@ -1,6 +1,6 @@
 # Contribution Workflow — My Ekiti Story and Ekiti 2056
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 2)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `DECISIONS.md` (D1–D5, D9–D11, D13). Items marked PROPOSED there stay proposals until confirmed. Unresolved items in this document are tagged `[OPEN-Mx]`, where x is the member who must decide.
 
 ## 1. Purpose

@@ -1,6 +1,6 @@
 # Test Submissions and Scenarios
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 5)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Checks the requirements in `ENGINEERING_HANDOFF.md`. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and rules

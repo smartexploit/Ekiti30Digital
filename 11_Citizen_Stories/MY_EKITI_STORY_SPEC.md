@@ -1,6 +1,6 @@
 # My Ekiti Story — Submission Specification
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 3)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `workflow/DECISIONS.md` (D6–D9, D13, D14, D16) and `workflow/CONTRIBUTION_WORKFLOW.md`. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and scope

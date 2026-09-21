@@ -2,7 +2,7 @@
 
 Owner: **Member 8 — Community, Media & Verification Lead**
 Related issue: **#8 — Design citizen stories and Ekiti 2056 contribution workflow**
-Status: **In progress (design phase)**
+Status: **Ready for review (v1.0)**
 
 ## Purpose
 
@@ -18,4 +18,4 @@ Moderation, statuses, credit, anonymity and corrections are shared with My Ekiti
 
 | Path | Description | Status |
 |---|---|---|
-| `EKITI_2056_SPEC.md` | Submission process, form fields, categories, review focus, public presentation | Draft |
+| `EKITI_2056_SPEC.md` | Submission process, form fields, categories, review focus, public presentation | Ready for review |

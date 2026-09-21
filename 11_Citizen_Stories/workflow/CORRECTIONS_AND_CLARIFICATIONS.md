@@ -1,6 +1,6 @@
 # Corrections and Clarifications
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 3)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `DECISIONS.md` D8, D10, D12, D14; `CONTRIBUTION_WORKFLOW.md` (T4, T9, T11, T13, T14, T16–T19). Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Principles

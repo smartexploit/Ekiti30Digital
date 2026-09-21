@@ -1,6 +1,6 @@
 # Community Engagement Plan — Initial Contributor Recruitment
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 4)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `DECISIONS.md` (D7–D9, D13, D14, D16), `MY_EKITI_STORY_SPEC.md`, `../../12_Ekiti_2056/EKITI_2056_SPEC.md`. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and goals

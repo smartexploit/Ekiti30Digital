@@ -1,6 +1,6 @@
 # Contributor Message Templates
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 4)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 Depends on: `CONTRIBUTION_WORKFLOW.md`, `MODERATION_GUIDE.md`, `CORRECTIONS_AND_CLARIFICATIONS.md`, `CREDIT_AND_ANONYMITY.md`, `DECISIONS.md` D8, D9, D13, D14. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and scope

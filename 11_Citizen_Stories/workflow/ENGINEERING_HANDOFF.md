@@ -1,6 +1,6 @@
 # Engineering Handoff — Citizen Contribution Workflow
 
-Issue: #8 · Owner: Member 8 · Status: **DRAFT (Phase 5)**
+Issue: #8 · Owner: Member 8 · Status: **READY FOR REVIEW (v1.0)**
 For: Member 2 (Engineering). Written without assuming a technology stack. Unresolved items are tagged `[OPEN-Mx]`.
 
 ## 1. Purpose and how to use this document
