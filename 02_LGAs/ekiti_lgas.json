@@ -1,0 +1,551 @@
+[
+  {
+    "lga_name": "Ado Ekiti",
+    "headquarters": "Ado-Ekiti",
+    "latitude": 7.621111,
+    "longitude": 5.221389,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ado-Ekiti"
+    ],
+    "notable_places": [
+      "Fajuyi Memorial Park",
+      "Ewi of Ado-Ekiti's Palace"
+    ],
+    "important_institutions": [
+      "Ekiti State University",
+      "Afe Babalola University",
+      "Federal Polytechnic Ado-Ekiti"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Coordinates and listed places require independent review before publication",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.latlong.net/place/ado-ekiti-nigeria-24847.html"
+      }
+    ]
+  },
+  {
+    "lga_name": "Efon",
+    "headquarters": "Efon-Alaaye",
+    "latitude": 7.65649,
+    "longitude": 4.92235,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Efon-Alaaye"
+    ],
+    "notable_places": [
+      "Efon hills"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Landmarks and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geodatos.net/en/coordinates/nigeria/efon-alaaye"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ekiti East",
+    "headquarters": "Omuo-Ekiti",
+    "latitude": 7.75833,
+    "longitude": 5.72227,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Omuo-Ekiti",
+      "Isinbode-Ekiti",
+      "Ilasa-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Communities and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.mindat.org/feature-2325727.html"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ekiti South-West",
+    "headquarters": "Ilawe-Ekiti",
+    "latitude": 7.6,
+    "longitude": 5.1,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ilawe-Ekiti"
+    ],
+    "notable_places": [
+      "Alawe of Ilawe's Palace"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Headquarters information is supported by the official Ekiti State directory. Coordinates and landmark details remain pending.",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ilawe-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ekiti West",
+    "headquarters": "Aramoko-Ekiti",
+    "latitude": 7.711,
+    "longitude": 5.044,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Aramoko-Ekiti",
+      "Ikogosi-Ekiti",
+      "Ipole-Iloro",
+      "Erijiyan-Ekiti"
+    ],
+    "notable_places": [
+      "Ikogosi Warm Springs",
+      "Arinta Waterfall"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Tourism sites and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Aramoko-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Emure",
+    "headquarters": "Emure-Ekiti",
+    "latitude": 7.45,
+    "longitude": 5.466667,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Emure-Ekiti"
+    ],
+    "notable_places": [
+      "Elemure of Emure's Palace"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Landmark and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Emure-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Aiyekire",
+    "headquarters": "Ode-Ekiti",
+    "latitude": 7.789,
+    "longitude": 5.711,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ode-Ekiti",
+      "Aisegba-Ekiti",
+      "Agbado-Ekiti",
+      "Iluomoba-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Ekiti State Government uses Aiyekire as the official LGA name. Gbonyin is also used in some government and public records. Coordinates remain approximate and pending review.",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government/aiyekire"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ode-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ido/Osi",
+    "headquarters": "Ido-Ekiti",
+    "latitude": 7.846,
+    "longitude": 5.183,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ido-Ekiti",
+      "Ifaki-Ekiti",
+      "Usi-Ekiti",
+      "Ayetoro-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "Federal Teaching Hospital Ido-Ekiti"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Institution and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ido-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ijero",
+    "headquarters": "Ijero-Ekiti",
+    "latitude": 7.815,
+    "longitude": 5.067,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ijero-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "Ekiti State College of Health Sciences and Technology, Ijero-Ekiti"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Institution and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ijero-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ikere",
+    "headquarters": "Ikere-Ekiti",
+    "latitude": 7.498,
+    "longitude": 5.232,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ikere-Ekiti"
+    ],
+    "notable_places": [
+      "Olosunta Hills",
+      "Orole Hills"
+    ],
+    "important_institutions": [
+      "Bamidele Olumilua University of Education, Science and Technology"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Institution, landmarks and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ikere-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ikole",
+    "headquarters": "Ikole-Ekiti",
+    "latitude": 7.797,
+    "longitude": 5.514,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ikole-Ekiti",
+      "Odo-Ayedun-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Communities and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ikole-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ilejemeje",
+    "headquarters": "Eda-Oniyo-Ekiti",
+    "latitude": 7.995,
+    "longitude": 5.126,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Eda-Oniyo-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Headquarters spelling and coordinates require confirmation",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Eda-Oniyo-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Irepodun/Ifelodun",
+    "headquarters": "Igede-Ekiti",
+    "latitude": 7.668,
+    "longitude": 5.126,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Igede-Ekiti",
+      "Iyin-Ekiti",
+      "Iworoko-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "Federal University of Technology and Environmental Sciences (FUTES), Iyin-Ekiti"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "FUTES in Iyin-Ekiti is supported by an official FUTA publication. Its operational details and exact campus coordinates still require independent verification.",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Igede-Ekiti&country=NG"
+      },
+      {
+        "name": "Federal University of Technology Akure",
+        "type": "Official university source",
+        "link": "https://www.futa.edu.ng/home/newsd/1419"
+      }
+    ]
+  },
+  {
+    "lga_name": "Ise/Orun",
+    "headquarters": "Ise-Ekiti",
+    "latitude": 7.465,
+    "longitude": 5.423,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Ise-Ekiti",
+      "Orun-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Communities and coordinates require independent verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Ise-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Moba",
+    "headquarters": "Otun-Ekiti",
+    "latitude": 7.989,
+    "longitude": 5.124,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Otun-Ekiti",
+      "Ikun-Ekiti",
+      "Erinmope-Ekiti"
+    ],
+    "notable_places": [
+      "Ikun Dairy Farm"
+    ],
+    "important_institutions": [
+      "To be researched"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Landmark classification, communities and coordinates require verification",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Otun-Ekiti&country=NG"
+      }
+    ]
+  },
+  {
+    "lga_name": "Oye",
+    "headquarters": "Oye-Ekiti",
+    "latitude": 7.8,
+    "longitude": 5.333,
+    "coordinate_type": "Headquarters town centre",
+    "major_towns_communities": [
+      "Oye-Ekiti",
+      "Ayede-Ekiti",
+      "Itapa-Ekiti",
+      "Ilupeju-Ekiti",
+      "Isan-Ekiti"
+    ],
+    "notable_places": [
+      "To be researched"
+    ],
+    "important_institutions": [
+      "Federal University Oye-Ekiti",
+      "Ekiti State Polytechnic, Isan-Ekiti"
+    ],
+    "last_checked": "2026-09-21",
+    "verification_status": "Pending",
+    "limitations": "Institution, communities and coordinates require independent verification. Ekiti State Polytechnic, Isan-Ekiti, is supported by the institution's official website; its exact campus coordinates still require independent verification.",
+    "owner": "Akintade Daniel Emmanuel",
+    "sources": [
+      {
+        "name": "Ekiti State Government Local Government and LCDAs directory",
+        "type": "Official government source",
+        "link": "https://www.ekitistate.gov.ng/about-ekiti/local-government"
+      },
+      {
+        "name": "secondary geographic coordinate reference",
+        "type": "secondary geographic database",
+        "link": "https://www.geonames.org/search.html?q=Oye-Ekiti&country=NG"
+      },
+      {
+        "name": "Ekiti State Polytechnic, Isan-Ekiti official website",
+        "type": "Official institutional source",
+        "link": "https://www.ekspoly.edu.ng/"
+      }
+    ]
+  }
+]
