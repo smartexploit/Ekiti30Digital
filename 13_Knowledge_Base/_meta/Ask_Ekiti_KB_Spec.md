@@ -326,7 +326,7 @@ Decisions confirmed by the team and relayed by Member 3. They are reflected in t
 | 1 | Verification authority | **Confirmed.** Verification Lead: Member 8, Victor Ogunyemi (conflict decisions, Tier C exceptions, source-verification decisions). Senior reviewer for sensitive matters: Member 1, Faith Ogunlade (Technical Lead). | A8 |
 | 2 | Folder mapping and government content | **Confirmed.** Government-related historical and reference content (governors, ministries, laws, institutions) lives in `01_History/government/`. | A2 |
 | 3 | Pre-1996 background at launch | **Yes.** A small verified set is included at launch, kept clearly separate from the 1996–2026 timeline (`01_History/pre-1996/`, not in `03_Timeline`). | A2, A10 |
-| 4 | Launch language | **Yoruba.** The reviewer has now been formally assigned, **Member 1, Faith Ogunlade** as the Yoruba Reviewer. | A3, A8, A9 (rule 9), A11 |
+| 4 | Launch language | **English + Yoruba.** The reviewer has now been formally assigned, **Member 1, Faith Ogunlade** as the Yoruba Reviewer. | A3, A8, A9 (rule 9), A11 |
 | 5 | Tier D (oral/community) sources | **Not at launch.** No Tier D material in the initial verified KB. To be introduced in a later phase once the verification and attribution workflow is mature. | A4, A5 |
 | 6 | Backend implementation | **Member 2's engineering decision.** Part B remains a non-binding proposal. | Part B |
 
