@@ -42,6 +42,30 @@ class Settings(BaseSettings):
         """FRONTEND_ORIGIN split on commas, with whitespace stripped."""
         return [origin.strip() for origin in self.FRONTEND_ORIGIN.split(",") if origin.strip()]
 
+    # --- Ask Ekiti: LLM / embeddings provider config (infra only) -------
+    #
+    # No provider has been chosen yet, so these are all optional/nullable
+    # and unset by default. Provider client instantiation happens in
+    # app/services/ once LLM_PROVIDER is set — not implemented yet,
+    # pending provider decision.
+    LLM_PROVIDER: str | None = None  # e.g. "openai", "anthropic"
+    LLM_MODEL: str | None = None
+    EMBEDDING_PROVIDER: str | None = None
+    EMBEDDING_MODEL: str | None = None
+
+    # Must match whatever embedding model is eventually configured (e.g.
+    # 1536 for OpenAI text-embedding-3-small). Also mirrored as the
+    # placeholder EMBEDDING_DIMENSIONS constant in app/models/knowledge.py,
+    # which the Chunk.embedding column is defined against directly — keep
+    # the two in sync by hand until that model is wired up to read this
+    # setting instead.
+    EMBEDDING_DIMENSIONS: int = 1536
+
+    # Provider-specific API keys rather than one generic setting, so
+    # whichever provider is chosen just needs its own key set.
+    OPENAI_API_KEY: str | None = None
+    ANTHROPIC_API_KEY: str | None = None
+
 
 @lru_cache
 def get_settings() -> Settings:

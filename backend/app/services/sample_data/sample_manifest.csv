@@ -1,0 +1,6 @@
+doc_id,source_title,source_url,class,tier,last_verified,ingestible
+sample-001,History of Ekiti State,https://example.com/history-of-ekiti,history,1,2026-01-15,yes
+sample-002,Draft: Unverified Notes on Ado-Ekiti,,notes,3,2026-02-01,no
+sample-003,Ekiti LGA Overview,https://example.com/ekiti-lgas,lga,1,2026-03-10,yes
+sample-004,Internal Review Draft,https://example.com/internal-draft,notes,3,2026-04-05,No
+sample-005,Ekiti Tourism Landmarks,https://example.com/ekiti-tourism,tourism,2,2026-05-20,yes
