@@ -16,11 +16,17 @@ Download `homepage-preview.html` and open it in any browser (double-click it, or
 
 ## Status
 
-v4 — reviewed once with the full team. Group feedback so far:
-- Colors need to be bolder/more saturated → addressed in v4
-- Landmarks section needs to support more than 4 places → now an open-ended scrollable strip
-- "Moments that shaped us" needs more entries → now an open-ended scrollable strip
-- Layout/flow approved, holding here pending further review
+**v4 — submitted as PR #14. This is the design handoff to Engineering.**
+
+Reviewed once with the full team via group chat. Feedback incorporated:
+- Colors pushed bolder/more saturated (previous pass felt "matte")
+- Landmarks section made expandable (was capped at 4)
+- Moments section made expandable (was capped at 5)
+- Dark mode removed per team decision
+
+Placeholders for leaders/landmarks photography are **acceptable for launch** — real
+photography is not a blocker for technical implementation and will be swapped in as
+sourced and rights-cleared.
 
 ## Dependencies on other roles
 
