@@ -10,9 +10,9 @@ const sections = [
 
 export function Nav() {
   return (
-    <header className="border-b border-black/[.08] dark:border-white/[.145]">
+    <header className="border-b border-line">
       <nav className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-4">
-        <Link href="/" className="font-semibold">
+        <Link href="/" className="font-display font-semibold">
           EKITI@30 DIGITAL
         </Link>
         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">

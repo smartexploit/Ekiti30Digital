@@ -26,8 +26,15 @@ class Settings(BaseSettings):
     # .env or docker-compose to use Postgres instead.
     DATABASE_URL: str = "sqlite:///./dev.db"
 
-    # Comma-separated list of allowed CORS origins for the frontend.
+    # Comma-separated list of allowed CORS origins for the frontend, e.g.
+    # "http://localhost:3000,https://staging.example.com". Use
+    # `cors_origins` (below) to get this parsed into a list.
     FRONTEND_ORIGIN: str = "http://localhost:3000"
+
+    @property
+    def cors_origins(self) -> list[str]:
+        """FRONTEND_ORIGIN split on commas, with whitespace stripped."""
+        return [origin.strip() for origin in self.FRONTEND_ORIGIN.split(",") if origin.strip()]
 
 
 @lru_cache
