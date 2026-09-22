@@ -24,6 +24,12 @@ class Settings(BaseSettings):
     # SQLite by default so nobody is blocked locally; set DATABASE_URL to a
     # Postgres URL (e.g. postgresql://user:pass@localhost:5432/ekiti30) in
     # .env or docker-compose to use Postgres instead.
+    #
+    # Note: the Ask Ekiti knowledge base (app/models/knowledge.py) uses a
+    # pgvector column for embeddings, which requires Postgres with the
+    # pgvector extension (see docker-compose.yml). Running locally against
+    # the SQLite default means vector search won't work — that's expected;
+    # switch to the Dockerized Postgres to use it.
     DATABASE_URL: str = "sqlite:///./dev.db"
 
     # Comma-separated list of allowed CORS origins for the frontend, e.g.
