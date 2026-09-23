@@ -195,50 +195,61 @@ The v1.0 draft named an "Education" lead. There is none in the current 8-member 
 - Editors never silently change a contributor's meaning. Uncertain factual statements are held, qualified, attributed or removed depending on the result.
 - A contributor may request removal of their contribution. Response timeline: to be set.
 
-## D13. Language — CONFIRMED (English and Yoruba), details PROPOSED
+## D13. Language — CONFIRMED (English and Yoruba), Yoruba reviewer CONFIRMED
 
 **Direction from Member 1 (confirmed):**
 - Accept submissions in both English and Yoruba.
-- Yoruba submissions go through the same moderation and verification process.
-- An appropriate reviewer is involved where language-specific review is required.
+- Yoruba submissions go through the same moderation, verification and editorial process.
+- **Yoruba-capable reviewer role is assigned to Faith Ogunlade.** Yoruba submissions are routed to Faith Ogunlade for language review before publication. This is not a launch follow-up; it is confirmed and active from launch.
 
-**How this applies (proposed):**
+**How this applies:**
 1. Both forms include "Language of submission" (English or Yoruba). It is stored and used to assign a reviewer.
 2. Same stages, checks, reason codes and statuses for both languages. There are no shortcuts for either.
-3. Moderation and editorial review of Yoruba submissions is done by a reviewer who reads Yoruba. Member 8 still coordinates.
+3. Moderation and editorial review of Yoruba submissions is done by Faith Ogunlade. Member 8 still coordinates.
 4. Editorial edits to Yoruba text respect spelling, diacritics and tone marks, and never change meaning. Anything unclear goes back to the contributor.
-5. Verification requests include the claim in its original wording plus an English working translation, clearly marked as such. Leads who read Yoruba can check the original.
+5. Verification requests include the claim in its original wording plus an English working translation, clearly marked as such. Faith Ogunlade checks the original.
 6. Published in the language submitted. Any English translation shown is labelled as a translation, has been checked by a person, and does not replace the original.
 7. Machine or AI translation is a working aid only. It is never the sole basis for moderation, verification or publication (consistent with CONTRIBUTING.md section 6).
-8. For engineering (Phase 5): Yoruba characters and tone marks must be stored, displayed and searched correctly (UTF-8).
+8. For engineering (Phase 5): the role is implemented as an attribute (`reviewer_role = YORUBA_REVIEWER`) on a user record, not hard-coded in application logic, so a backup reviewer can be added the same way. Faith Ogunlade's user record holds this attribute at launch.
 
-**Open:** who takes the Yoruba-capable reviewer role. Member 1 confirmed that no specific reviewer is hard-coded until this is agreed. In the workflow and in engineering it is an assignable role (`reviewer_role = YORUBA_REVIEWER`) filled from a configurable list. To be confirmed by Member 1 and Member 8.
+**Open:** a backup Yoruba reviewer, in case Faith Ogunlade is unavailable.
 
-## D14. Privacy, data minimisation and retention — CONFIRMED (principles), retention period OPEN
+## D14. Privacy, data minimisation and retention — CONFIRMED, retention periods APPROVED
 
-**Direction from Member 1 (confirmed):**
+**Direction from Member 1 (confirmed and approved):**
 - Data minimisation: collect only information necessary for submission, review, follow-up and publication.
 - Contact information is never publicly displayed by default.
 - Contributor identity and contact details have restricted access.
 - Photos and media require appropriate permission.
-- The specific retention period is left open until the project's privacy notice and retention policy are established. No period is assumed in the meantime.
+- **Retention periods are approved as launch defaults** (below), applying data minimisation and avoiding unnecessary retention of personal contact information.
 
-**Proposed practice:**
+**Approved retention periods**
+
+| Data type | Period | Action after |
+|---|---|---|
+| Contact details, item is public | While published | Deleted when unpublished or removed |
+| Contact details, item rejected or withdrawn | **90 days** | Deleted |
+| Rejected or withdrawn content and reason code | **12 months** | Deleted |
+| Correction records and reporter contact | **12 months** | Deleted |
+| Message log | **12 months** | Deleted |
+| Media files (unapproved) | 90 days | Deleted |
+| Audit trail (no contact details) | Indefinite | Reviewed annually |
+
+**Practice**
 - Only the fields in D6 are collected.
 - Contact details are used only for follow-up, revision requests, corrections and removal requests. They are never public, and never given to verifiers, publishers or the wider team.
 - Identity and contact fields are visible to designated reviewers only (D8).
 - Media: the contributor confirms the right to share it. Identifiable people in photos, especially children, need their permission or a parent's or guardian's (D9).
-- Each form shows a short privacy notice: what is collected, why, who sees it, how long it is kept, and how to ask for removal. The text is drafted once the policy exists.
-- A contributor can ask for their item and personal data to be removed. Response time is set with the policy.
+- Each form shows a short privacy notice stating what is collected, why, who sees it, how long it is kept, and how to ask for removal, using the approved periods above.
+- A contributor can ask for their item and personal data to be removed within these periods.
 
 **For engineering (Phase 5):**
 - Identity and contact fields are restricted by role, and excluded from exports and public pages.
-- Retention is a configurable setting for each data type, not a fixed number in the code, so the period can be set later.
-- Deletion of a submission and its personal data must be possible.
+- Retention is a configurable setting per data type, seeded with the approved periods above, not fixed in code.
+- Deletion of a submission and its personal data must be possible, and a scheduled job applies these periods automatically.
 
 **Open:**
-- Retention periods for each data type.
-- The privacy notice and who drafts it.
+- Exact privacy notice wording (uses the periods above; final copy by Member 1).
 - Removal-request response time.
 - Whether a legal check against Nigeria's data protection law is needed (to be verified, not legal advice).
 
@@ -272,8 +283,8 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 | Decision | Who confirms |
 |---|---|
 | D10: whether Member 1 designates another senior reviewer later (Member 1 is the senior reviewer for the initial launch) | Member 1 |
-| D14: privacy notice and retention policy (period left open); who drafts | Member 1 |
-| D13: who takes the Yoruba-capable reviewer role (assignable role, not hard-coded) | Member 1 + Member 8 |
+| D14: exact privacy notice wording (periods approved), removal-response time | Member 1 |
+| D13: backup Yoruba reviewer | Member 1 + Member 8 |
 | D9: conditions for lifting 18+ only (future, not for launch) | Member 1, later |
 | D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
 | D11 (routing) | Members 4, 5, 7 |
@@ -285,3 +296,4 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 |---|---|---|---|
 | 2026-09-20 | Member 1 | D9, D10, D13, D14 | D9: 18+ only for the initial launch, not permanently. Minors later, once a guardian/consent workflow and safeguards exist. D10: Member 8 coordinates moderation and editorial review. Factual claims need the relevant lead's verification before publication. Sensitive allegations need Member 1 or a designated senior reviewer. D13: English and Yoruba accepted, same moderation and verification, with a language-specific reviewer where required. D14: data minimisation, contact details never public by default, restricted access to identity and contacts, media needs permission, retention period left open until the privacy notice and retention policy exist. |
 | 2026-09-20 | Member 1 | D10, D13 | Follow-up. D10: an unverified claim may stay as part of the contributor's clearly labelled citizen account, never as verified fact. Harmful, defamatory, seriously accusatory or otherwise unsuitable claims are removed or sent back for revision. Member 1 is the designated senior reviewer for sensitive submissions at initial launch, unless he designates another. D13: Yoruba submissions follow the same moderation, verification and editorial process, with a Yoruba-capable reviewer where language-specific review is required. No specific reviewer is hard-coded until the role is confirmed. |
+| 2026-09-23 | Member 1 | D13, D14 | Retention periods approved as launch defaults (90 days rejected contact, 12 months rejected content/corrections/messages). Yoruba reviewer confirmed: Faith Ogunlade, assigned and active from launch, not a follow-up. Member 2's D2/D6/engineering questions remain outstanding; Wednesday deadline stands, unanswered items to be recorded as accepted follow-up if not blocking minimum launch functionality. |

@@ -35,7 +35,7 @@ Tracked from `ENGINEERING_HANDOFF.md` section 14 and `DECISIONS.md` D2, D6, D16.
 
 **If no reply by Wed:** these stay PROPOSED and go into PR #9 as accepted follow-up work, per Member 1's instruction not to merge until resolved or explicitly accepted as follow-up.
 
-## 3. Privacy and retention — proposed for Member 1's decision
+## 3. Privacy and retention — APPROVED by Member 1 (2026-09-23)
 
 D14 left the retention period open pending a privacy policy. Given the deadline, here is a concrete proposal to approve or amend, rather than leaving it open indefinitely.
 
@@ -51,14 +51,11 @@ D14 left the retention period open pending a privacy policy. Given the deadline,
 
 **Privacy notice**: short-form text already drafted in `MY_EKITI_STORY_SPEC.md` section 7, pending Member 1's approval of exact wording.
 
-**Recommendation:** approve these as launch defaults, adjustable later. They are the same numbers used as the working example in `DECISIONS.md` D14 before Member 1 asked to leave the period open.
+**Status: approved.** These are now the confirmed launch defaults, recorded in `DECISIONS.md` D14.
 
-## 4. Yoruba-capable reviewer role
+## 4. Yoruba-capable reviewer role — CONFIRMED (2026-09-23)
 
-No one is currently assigned (D13). Options:
-- A team member who reads Yoruba fluently is named as reviewer (part-time, reviewing only Yoruba submissions).
-- If no one is available internally, a trusted community volunteer is vetted and given the role before launch.
-- **Fallback if unresolved by Wed:** Yoruba submissions are accepted but held in `NEEDS_REVISION`-equivalent status until a reviewer is named, rather than blocking the whole feature. This is explicitly a follow-up, not a blocker to closing Issue #8's design phase.
+Assigned to **Faith Ogunlade**. Active from launch, not a follow-up. Recorded in `DECISIONS.md` D13. Open: a backup reviewer.
 
 ## 5. Consistency
 
