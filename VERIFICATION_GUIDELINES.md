@@ -26,3 +26,8 @@ When edge cases arise during moderation, escalate as follows:
 - **Cultural/Tourism Records:** Escalate to Culture & Tourism Lead (Member 7).
 - **Yoruba Language & Cultural Context:** Escalate to **Member 1 — Faith Ogunlade** (Project Lead / Yoruba Reviewer) per Decision D13.
 - **Technical/Schema Issues:** Escalate to Engineering Lead (Member 2).
+
+## 4. UI/UX Media Dimension Standards (Member 6 Specification)
+When verifying incoming community media assets, confirm they meet Member 6's layout standards prior to Cloudinary upload:
+- **Community Story Photos:** 4:3 aspect ratio.
+- **Contributor Portraits:** 1:1 aspect ratio (minimum 400×400px square).
