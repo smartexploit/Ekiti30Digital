@@ -1,0 +1,2 @@
+id,path,category,doc_type,status,source_tier,source_ids,publication_date,last_verified,verified_by,language,translation_of,period_covered,file_sha256,ingestible,reason
+history-state-creation-1996,01_History/state-creation-1996.md,history,event,draft,A,SRC-001,2021-10-01,,,en,,1996,8e1d708622839d6ccdcb759c7af90c3238d229ec676a259c6b36f7fc822f9a1c,no,status is draft
