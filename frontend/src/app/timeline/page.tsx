@@ -1,13 +1,31 @@
+import type { Metadata } from "next";
+import TimelineView from "@/components/TimelineView";
+
+export const metadata: Metadata = {
+  title: "30-Year Timeline — EKITI@30 DIGITAL",
+  description:
+    "A verified record of events and developments in Ekiti State from 1996 to 2026, sourced and dated.",
+};
+
 export default function TimelinePage() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-display text-2xl font-semibold tracking-tight">
-        Ekiti Timeline
-      </h1>
-      <p className="mt-2 text-ink-soft">
-        An interactive timeline of Ekiti State&apos;s key events, milestones,
-        and institutions from 1996 to 2026.
-      </p>
+    <main>
+      <section className="tl-hero">
+        <div className="wrap">
+          <div className="eyebrow-row">
+            <span className="eyebrow-dot"></span> 1996 – 2026
+          </div>
+          <h1 className="hero-title" style={{ fontSize: "clamp(30px, 4vw, 46px)" }}>
+            Thirty years, <em>one line</em>.
+          </h1>
+          <p className="hero-sub">
+            Every event here is sourced and dated — and where the record is
+            incomplete or disputed, we say so rather than smoothing it over.
+            That&apos;s the standard this whole platform holds itself to.
+          </p>
+        </div>
+      </section>
+      <TimelineView />
     </main>
   );
 }

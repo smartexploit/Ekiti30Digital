@@ -1,14 +1,23 @@
+import Hero from "@/components/Hero";
+import LeadersStrip from "@/components/LeadersStrip";
+import LandmarksStrip from "@/components/LandmarksStrip";
+import MomentsSpine from "@/components/MomentsSpine";
+import FeatureGrid from "@/components/FeatureGrid";
+import Footer from "@/components/Footer";
+
+// Note: <Nav /> is already rendered globally in layout.tsx — don't add
+// a Header component here, it would duplicate the site nav.
 export default function Home() {
   return (
-    <main className="mx-auto flex max-w-3xl flex-1 flex-col justify-center px-6 py-16">
-      <h1 className="font-display text-3xl font-semibold tracking-tight">
-        EKITI@30 DIGITAL
-      </h1>
-      <p className="mt-4 max-w-xl text-lg text-ink-soft">
-        A collaborative digital knowledge platform documenting Ekiti
-        State&apos;s journey from 1996 to 2026 and beyond &mdash; our story,
-        our people, our future.
-      </p>
-    </main>
+    <>
+      <main className="flex-1">
+        <Hero />
+        <LeadersStrip />
+        <LandmarksStrip />
+        <MomentsSpine />
+        <FeatureGrid />
+      </main>
+      <Footer />
+    </>
   );
 }
