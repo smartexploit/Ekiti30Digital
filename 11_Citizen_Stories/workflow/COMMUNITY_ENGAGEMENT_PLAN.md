@@ -65,7 +65,7 @@ This plan covers the Issue #8 task "Design an initial contributor/community enga
 - Anything promising rewards, prizes or fame.
 - Anything that pressures someone to share a painful memory.
 
-Every public message uses the wording approved by Member 1 `[OPEN-M1]`. Yoruba versions are written or approved by the Yoruba-capable reviewer role (D13).
+Every public message uses the wording approved by Member 1 `[OPEN-M1]`. Yoruba versions are written or approved by Faith Ogunlade, the confirmed Yoruba-capable reviewer (D13).
 
 ## 5. Phases
 

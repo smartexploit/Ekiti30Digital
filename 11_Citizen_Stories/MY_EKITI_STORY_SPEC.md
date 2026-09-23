@@ -104,7 +104,7 @@ Final wording needs Member 1's approval. It is not legal advice.
 
 **Privacy notice (short form, shown above the submit button)**
 
-> We collect your name, contact details, LGA and your story so that we can review it, contact you and publish it. Your contact details are never shown publicly and are seen only by the reviewers who need them. How long we keep your information will be stated once our privacy policy is published. To ask for changes or removal, contact [contact address to be set].
+> We collect your name, contact details, LGA and your story so that we can review it, contact you and publish it. Your contact details are never shown publicly and are seen only by the reviewers who need them. If your contribution is not published, we keep your contact details for 90 days and then delete them. Related content and messages are kept for up to 12 months for records, then deleted. To ask for changes or removal, contact [contact address to be set].
 
 The retention sentence is a placeholder until the retention policy exists (`DECISIONS.md` D14).
 

@@ -22,7 +22,7 @@ These scenarios prove that the workflow works before launch. Each one has sample
 | Moderator and Editor | Member 8 |
 | Verifier ("Test Lead") | Any team member acting as a lead, not a real routing decision |
 | Senior reviewer | Member 1, or a stand-in on staging |
-| Yoruba-capable reviewer | Anyone who reads Yoruba. This is a test, not the launch appointment `[OPEN-M1]`. |
+| Yoruba-capable reviewer | Anyone who reads Yoruba. This is a test, not the launch appointment (the launch role is confirmed: Faith Ogunlade, D13). |
 | Engineering | Member 2, for the system checks |
 
 Run the scenarios in order. Some rely on the ones before, such as the corrections that follow publication.
@@ -84,7 +84,7 @@ Run the scenarios in order. Some rely on the ones before, such as the correction
 | S5 | "Ilu-Test Grammar School was established in 1985. I remember my first day there." |
 | S6 | "Mr. Fictional Person took money from the Ilu-Test community fund and everyone knows it." |
 | S7 | "As the only pharmacist in Ilu-Test in the 1990s, I remember the queues outside my shop every Monday." |
-| S8 | A Yoruba story written by a Yoruba speaker, at least 100 words, with one dated claim, for example a year for the market. No text is provided here `[OPEN-M1]`. |
+| S8 | A Yoruba story written by a Yoruba speaker, at least 100 words, with one dated claim, for example a year for the market. No text is provided here. `[OPEN-M8]` Member 8 to draft with Faith Ogunlade before this test is run. |
 | S9 | "I am 16 years old and I want to tell the story of my school in Ilu-Test." |
 | S10 | "My neighbour, Mr. Fictional Neighbour, lives at 12 Test Street and his phone number is 0000 000 0000. I remember visiting him." |
 | S11 | The same text as S1, submitted a second time by the same contributor. |
