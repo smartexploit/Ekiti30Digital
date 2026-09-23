@@ -140,6 +140,8 @@ uvicorn app.main:app --reload
 
 The API defaults to a local SQLite database (`sqlite:///./dev.db`), so no database setup is required to get started. To use Postgres instead, set `DATABASE_URL` in `.env` (or run `docker compose up` from the repo root, which starts a Postgres service alongside the backend).
 
+**Note:** the Ask Ekiti knowledge base uses a `pgvector` column for embeddings, which requires Postgres with the pgvector extension (the `docker-compose.yml` Postgres image already has it). If you're running locally against the SQLite default, vector search won't be available — that's expected; switch to the Dockerized Postgres for that.
+
 ### Frontend setup
 
 ```bash

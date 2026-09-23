@@ -10,7 +10,12 @@
 
 services:
   db:
-    image: postgres:16-alpine
+    # pgvector-enabled Postgres image, needed for the Ask Ekiti knowledge
+    # base's Chunk.embedding column (see app/models/knowledge.py). Whatever
+    # hosts this in production must also support the pgvector extension
+    # (e.g. Supabase, Neon, or self-managed Postgres with pgvector installed)
+    # — plain Postgres will fail to create that column.
+    image: pgvector/pgvector:pg16
     restart: unless-stopped
     environment:
       POSTGRES_USER: ekiti30
