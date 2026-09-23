@@ -3,7 +3,7 @@
 Infrastructure only: this is the storage layer for the knowledge base that
 will back the Ask Ekiti assistant. Chunking and embedding generation are not
 implemented here — see app/services/ingestion.py for the ingestion skeleton
-and its TODOs. No LLM/embeddings provider has been chosen yet.
+and its TODOs.
 """
 
 from datetime import date, datetime
@@ -14,11 +14,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 
-# Placeholder embedding dimension. Update this once the embeddings
-# provider/model is chosen — dimension varies by model (e.g. 1536 for
-# OpenAI text-embedding-3-small, 384/768 for many sentence-transformers
-# models). Changing this requires a new migration.
-EMBEDDING_DIMENSIONS = 1536
+# Output dimension of the configured embedding model,
+# paraphrase-multilingual-MiniLM-L12-v2 (384). Must match
+# EMBEDDING_DIMENSIONS in app/core/config.py — changing the model or this
+# value requires a new migration.
+EMBEDDING_DIMENSIONS = 384
 
 
 class KnowledgeDocument(Base):
@@ -28,19 +28,27 @@ class KnowledgeDocument(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    # Matches the manifest's doc_id (see app/services/ingestion.py).
+    # The manifest's `id` column (see app/services/ingestion.py).
     doc_id: Mapped[str] = mapped_column(unique=True, index=True)
 
-    source_title: Mapped[str]
+    # Not present in kb_manifest.csv, so nullable until they're looked up
+    # from elsewhere (see the TODO in ingest_documents).
+    source_title: Mapped[str | None]
     source_url: Mapped[str | None]
 
-    # `class` is a reserved word in Python, so the attribute is `class_`
-    # while the actual DB column is named `class` to match the manifest.
+    # The manifest's `category` column. `class` is a reserved word in
+    # Python, so the attribute is `class_` while the DB column is `class`.
     class_: Mapped[str] = mapped_column("class")
 
+    # The manifest's `source_tier` column.
     tier: Mapped[str]
     last_verified: Mapped[date] = mapped_column(Date)
     ingestible: Mapped[bool] = mapped_column(Boolean)
+
+    # Source file path relative to 13_Knowledge_Base/, and its SHA-256 from
+    # the manifest — the latter lets future ingestion skip unchanged files.
+    path: Mapped[str | None]
+    file_sha256: Mapped[str | None]
 
     # Source content prior to chunking. Nullable since a document row can
     # exist (from the manifest) before its content has been ingested.
@@ -73,9 +81,6 @@ class Chunk(Base):
 
     content: Mapped[str] = mapped_column(Text)
 
-    # TODO: EMBEDDING_DIMENSIONS is a placeholder (1536) until the
-    # embeddings provider/model is confirmed — update it and generate a new
-    # migration once that's decided.
     embedding: Mapped[list[float] | None] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())

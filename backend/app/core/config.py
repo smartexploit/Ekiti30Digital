@@ -42,29 +42,33 @@ class Settings(BaseSettings):
         """FRONTEND_ORIGIN split on commas, with whitespace stripped."""
         return [origin.strip() for origin in self.FRONTEND_ORIGIN.split(",") if origin.strip()]
 
-    # --- Ask Ekiti: LLM / embeddings provider config (infra only) -------
+    # --- Ask Ekiti: LLM / embeddings gateway config (infra only) --------
     #
-    # No provider has been chosen yet, so these are all optional/nullable
-    # and unset by default. Provider client instantiation happens in
-    # app/services/ once LLM_PROVIDER is set — not implemented yet,
-    # pending provider decision.
-    LLM_PROVIDER: str | None = None  # e.g. "openai", "anthropic"
+    # All LLM and embedding calls go through a single gateway ("baalebo")
+    # that houses every provider internally behind one endpoint, so the app
+    # only needs the gateway's URL and key — never per-provider API keys.
+    # All optional and unset by default; no client is implemented yet.
+    ASK_EKITI_LLM_WEBHOOK_URL: str | None = None
+    ASK_EKITI_LLM_WEBHOOK_KEY: str | None = None
+
+    # Model identifier, expected to be passed in the gateway request
+    # payload to select the underlying model/provider. The exact payload
+    # shape is unconfirmed until the gateway's API docs arrive — it may
+    # also need a separate provider field.
     LLM_MODEL: str | None = None
-    EMBEDDING_PROVIDER: str | None = None
-    EMBEDDING_MODEL: str | None = None
 
-    # Must match whatever embedding model is eventually configured (e.g.
-    # 1536 for OpenAI text-embedding-3-small). Also mirrored as the
-    # placeholder EMBEDDING_DIMENSIONS constant in app/models/knowledge.py,
-    # which the Chunk.embedding column is defined against directly — keep
-    # the two in sync by hand until that model is wired up to read this
-    # setting instead.
-    EMBEDDING_DIMENSIONS: int = 1536
+    # Embeddings are generated locally with sentence-transformers (free,
+    # self-hosted) rather than through the gateway. The model is
+    # multilingual so Yoruba content embeds meaningfully.
+    EMBEDDING_PROVIDER: str = "sentence-transformers"
+    EMBEDDING_MODEL: str = "paraphrase-multilingual-MiniLM-L12-v2"
 
-    # Provider-specific API keys rather than one generic setting, so
-    # whichever provider is chosen just needs its own key set.
-    OPENAI_API_KEY: str | None = None
-    ANTHROPIC_API_KEY: str | None = None
+    # Output dimension of EMBEDDING_MODEL (384 for
+    # paraphrase-multilingual-MiniLM-L12-v2). Also mirrored as the
+    # EMBEDDING_DIMENSIONS constant in app/models/knowledge.py, which the
+    # Chunk.embedding column is defined against directly — keep the two in
+    # sync by hand; changing it requires a new migration.
+    EMBEDDING_DIMENSIONS: int = 384
 
 
 @lru_cache
