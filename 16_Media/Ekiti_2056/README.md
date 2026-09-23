@@ -1,18 +1,18 @@
-# Ekiti 2056 Media Intake Directory
+# Ekiti 2056 Media Intake & Metadata Standard
 
-Place citizen-submitted photos, infographics, and visual media assets for Ekiti 2056 future visions here.
+Raw media files must NOT be stored directly in GitHub. This directory contains metadata records, manifests, and vision assets schema.
 
-Every file added to this directory must record the following metadata in a `.md` or `.json` manifest:
+Every Ekiti 2056 visual submission must track the following 12 fields:
 
-- **Title:** [e.g., Solar Agri-Hub Concept Visual]
-- **Category:** Citizen Vision / Ekiti 2056
-- **Related section/ID:** [e.g. VISION-001]
-- **Location:** [Town + LGA]
-- **Date/year taken:** [YYYY]
-- **Description/caption:** [Description of the vision/idea visual]
-- **Photographer/Source:** [Contributor Name]
-- **Source URL:** [if applicable]
-- **Copyright/permission status:** Permission Granted (Consent Statement Checked)
-- **Submitted by:** Member 8
-- **Verification status:** Community Contribution
-- **File name:** [e.g., vision_ado_solar_001.jpg]
+- **Submission/Reference ID:** [e.g. VISION-001]
+- **Title:** [e.g. Ado-Ekiti Solar Agri-Hub Conceptual Render]
+- **Section:** Ekiti 2056
+- **Contributor/Credit Preference:** [e.g. Full Name / Anonymous / Pseudonym]
+- **Location/LGA:** [Town + LGA]
+- **Description:** [Description of vision proposal]
+- **Date/Period:** [2056 Projection]
+- **Source/Submitted By:** [Contributor Name & Contact]
+- **Permission/Consent Status:** Granted (Consent Statement Checked)
+- **Verification/Moderation Status:** PENDING_MODERATION / MODERATED / VERIFIED / REJECTED
+- **Attribution Requirement:** [e.g. "Concept credit: Funke Adeleke"]
+- **Publication Status:** UNPUBLISHED / PUBLISHED

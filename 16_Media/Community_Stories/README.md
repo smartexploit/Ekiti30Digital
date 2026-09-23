@@ -1,18 +1,18 @@
-# Community Stories Media Intake Directory
+# Community Stories Media Intake & Metadata Standard
 
-Place citizen-submitted photos and media assets here.
+Raw media files must NOT be stored directly in GitHub. This directory contains metadata records, manifests, and workflow instructions for approved media pipeline routing.
 
-Every file added to this directory must record the following metadata in a `.md` or `.json` manifest:
+Every community submission metadata record must track the following 12 fields:
 
-- **Title:**
-- **Category:** Community / My Ekiti Story
-- **Related section/ID:** [e.g. STORY-001]
-- **Location:** [Town + LGA]
-- **Date/year taken:**
-- **Description/caption:**
-- **Photographer/Source:** [Contributor Name]
-- **Source URL:** [if applicable]
-- **Copyright/permission status:** Permission Granted (Consent Statement Checked)
-- **Submitted by:** Member 8
-- **Verification status:** Community Contribution
-- **File name:**
+- **Submission/Reference ID:** [e.g. STORY-001]
+- **Title:** [e.g. Ikogosi Warm Springs Oral History Photo]
+- **Section:** My Ekiti Story
+- **Contributor/Credit Preference:** [e.g. Full Name / Anonymous / Pseudonym]
+- **Location/LGA:** [Town + LGA]
+- **Description:** [Caption or narrative context]
+- **Date/Period:** [YYYY or historical period]
+- **Source/Submitted By:** [Contributor Name & Contact]
+- **Permission/Consent Status:** Granted (Consent Box Checked)
+- **Verification/Moderation Status:** PENDING_MODERATION / MODERATED / VERIFIED / REJECTED
+- **Attribution Requirement:** [e.g. "Photo credit: Adebayo Ogunyemi"]
+- **Publication Status:** UNPUBLISHED / PUBLISHED
