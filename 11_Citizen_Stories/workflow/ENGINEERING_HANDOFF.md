@@ -181,7 +181,7 @@ Names are for clarity. Use your own conventions. **Identity data must live apart
 | `message_log` | `message_id`, `submission_id` or `correction_id`, `template_id`, `language`, `channel`, `sent_at`, `sent_by`, `state` (`SENT`, `HELD`, `FAILED`) | Holds no story text |
 | `message_template` | `template_id` (M01 to M20), `language`, `subject`, `body`, `version`, `state`, `approved_by` | Stored as data, never in code |
 | `consent_text` | `version`, `type`, `text`, `effective_from` | |
-| `retention_setting` | `data_type`, `period_days` (empty until set), `action` (`DELETE`, `ANONYMISE`), `updated_by`, `updated_at` | Section 11 |
+| `retention_setting` | `data_type`, `period_days` (seeded with approved defaults: 90 for rejected contact details, 365 for rejected content/corrections/messages), `action` (`DELETE`, `ANONYMISE`), `updated_by`, `updated_at` | Section 11 |
 | `user` | `user_id`, `name`, `roles`, `reviewer_role`, `active` | |
 | Reference lists | 16 LGAs plus "Outside Ekiti State" (names from Member 5's dataset), 10 vision categories | Editable by an admin |
 
@@ -437,7 +437,7 @@ Please answer or comment on each. Answers go into `DECISIONS.md`.
 
 | Item | Who decides |
 |---|---|
-| Privacy notice, retention periods, launch gate, contact address for removal requests | Member 1 |
+| Privacy notice wording, contact address for removal requests (retention periods and launch gate already approved) | Member 1 |
 | Whether messages are sent for spam, threats and exploitative content; campaign-material rule | Member 1 |
 | Break-glass access rules and export with identity fields | Member 1 |
 | Questions Q1 to Q14 | Member 2 (Engineering) |

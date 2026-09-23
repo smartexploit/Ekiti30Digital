@@ -23,23 +23,23 @@ Owner: Member 8 · Updated: 2026-09-22 · Target: final integration review, Wed 
 
 **12 of 13 tasks drafted and internally consistent. Remaining gaps are external confirmations, not missing design work.**
 
-## 2. Member 2 (Engineering) — outstanding items
+## 2. Member 2 (Engineering) — accepted follow-up work
 
 Tracked from `ENGINEERING_HANDOFF.md` section 14 and `DECISIONS.md` D2, D6, D16.
 
-| Item | Asked | Status | Due |
-|---|---|---|---|
-| D2: status model (3 fields, per-claim verification) | Yes | No reply | Chasing, see message below |
-| D6/D16: form fields and limits | Yes | No reply | Chasing |
-| Q1–Q15 in ENGINEERING_HANDOFF.md §14 (stack, verifier access, corrections model, estimate, etc.) | Yes | No reply | Chasing |
+| Item | Asked | Status |
+|---|---|---|
+| D2: status model (3 fields, per-claim verification) | Yes | No reply by deadline. Accepted as follow-up work per Member 1's instruction; does not block launch or merge. |
+| D6/D16: form fields and limits | Yes | Same as above. |
+| Q1–Q15 in ENGINEERING_HANDOFF.md §14 (stack, verifier access, corrections model, estimate, etc.) | Yes | Same as above. |
 
-**If no reply by Wed:** these stay PROPOSED and go into PR #9 as accepted follow-up work, per Member 1's instruction not to merge until resolved or explicitly accepted as follow-up.
+**Resolved (2026-09-23):** Member 2 did not reply by the agreed deadline. Per Member 1's instruction, these items are recorded as accepted follow-up work rather than launch blockers, and PR #9 proceeds to review without them.
 
 ## 3. Privacy and retention — APPROVED by Member 1 (2026-09-23)
 
 D14 retention periods are approved as launch defaults (see below), confirmed by Member 1 on 2026-09-23.
 
-| Data | Proposed period | Action after |
+| Data | Approved period | Action after |
 |---|---|---|
 | Contact details, item public | While published | Deleted when unpublished/removed |
 | Contact details, item rejected/withdrawn | 90 days | Deleted |
