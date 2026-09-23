@@ -383,6 +383,6 @@ The status of each template: M01 to M20 are all **Needed**.
 | Whether no reply is sent to spam, abusive or exploitative submissions | Member 1 |
 | How the record of an under-age submission is deleted | Member 1, with the retention policy |
 | The privacy notice link and contact address for removal requests | Member 1 |
-| Who takes the Yoruba-capable reviewer role, and Yoruba versions of all templates | Member 1 + Member 8 |
+| Yoruba versions of all templates (reviewer confirmed: Faith Ogunlade) | Member 8 + Faith Ogunlade |
 | Message delivery, sending and audit logging | Member 2 (Engineering) |
 | Whether messages also go out by SMS or WhatsApp, and by whom | Member 2 + Member 1 |

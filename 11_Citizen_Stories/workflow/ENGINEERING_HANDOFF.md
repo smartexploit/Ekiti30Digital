@@ -22,7 +22,7 @@ This document turns the My Ekiti Story and Ekiti 2056 workflow into build requir
 | Ekiti 2056 form and public page | `../12_Ekiti_2056/EKITI_2056_SPEC.md` |
 | Tests | `workflow/TEST_SUBMISSIONS.md` |
 
-**Status of the requirements.** Confirmed by Member 1: 18+ only at launch (D9), sign-off and unverified-claim rules (D10), English and Yoruba (D13), data minimisation with the retention period left open (D14). Still PROPOSED until you confirm: the status model (D2), the field lists (D6, D16), and everything marked `[OPEN-M2]`.
+**Status of the requirements.** Confirmed by Member 1: 18+ only at launch (D9), sign-off and unverified-claim rules (D10), English and Yoruba (D13), data minimisation with approved launch retention periods (D14: 90 days for rejected contact details, 12 months for rejected content, corrections and messages). D2, D6 and D16 remain PROPOSED — Member 2 did not respond by the agreed deadline, so these are recorded as accepted follow-up work and do not block launch. Please pick these up when you are able; everything marked `[OPEN-M2]` follows the same status.
 
 **Three rules to keep in mind throughout**
 1. Moderation, verification and editorial approval are separate checks with separate records.
@@ -65,7 +65,7 @@ One person may hold several roles. Every action is checked against a role on the
 | Verifier | Members 4, 5 and 7, as routed (D11) | Sees only the claims assigned to them |
 | Senior reviewer | Member 1 (D10). Another person only if Member 1 designates one. | Sign-off on sensitive items |
 | Admin | Engineering | Technical administration. No content or identity access by default. |
-| Yoruba-capable reviewer | An assignable attribute (`reviewer_role = YORUBA_REVIEWER`), not a named person (D13) | Given to any moderator or editor who reads Yoruba |
+| Yoruba-capable reviewer | Launch assignment: Faith Ogunlade (D13). Implemented as an assignable attribute (`reviewer_role = YORUBA_REVIEWER`) so a backup can be added the same way. | Given to any moderator or editor who reads Yoruba |
 
 | Action | Moderator | Editor | Verifier | Senior reviewer | Admin |
 |---|---|---|---|---|---|
@@ -353,7 +353,7 @@ Builds on the field list in the earlier v1.0 draft.
 
 **Audit.** Every status change, decision, claim outcome, message, credit change and correction writes an `audit_log` entry. The log is append only and holds no contact details. Every view of identity or contact writes an `identity_access_log` entry.
 
-**Retention is configurable and no period is assumed** (D14, period left open by Member 1). Provide one setting for each data type below. Each has a period and an action, and starts empty. Until a period is set, the dashboard shows that retention is not configured, and nothing is auto-deleted.
+**Retention periods are approved as launch defaults** (D14): 90 days for rejected contact details; 12 months for rejected content, corrections and messages. Provide one configurable setting per data type below, seeded with these approved values, so a period can still be adjusted later without a code change.
 
 | Data type | Notes |
 |---|---|
@@ -371,7 +371,7 @@ Builds on the field list in the earlier v1.0 draft.
 - Deleted data also leaves backups on a stated schedule `[OPEN-M2]` (Q14).
 - Contact details and identity are excluded from public output, exports, search indexes, share previews and verifier views.
 - No profile of contributors is built across submissions.
-- **Recommended launch gate `[OPEN-M1]`:** Member 1 sets the retention periods and approves the privacy notice before public launch.
+- **Retention periods are set** (D14: 90 days / 12 months, approved by Member 1). `[OPEN-M1]` Final privacy notice wording still needs Member 1's sign-off before public launch.
 - How the record of an under-age attempt is deleted is open (`workflow/MESSAGE_TEMPLATES.md` M11).
 
 ## 12. Non-functional requirements
@@ -440,7 +440,6 @@ Please answer or comment on each. Answers go into `DECISIONS.md`.
 | Privacy notice, retention periods, launch gate, contact address for removal requests | Member 1 |
 | Whether messages are sent for spam, threats and exploitative content; campaign-material rule | Member 1 |
 | Break-glass access rules and export with identity fields | Member 1 |
-| Who takes the Yoruba-capable reviewer role | Member 1 + Member 8 |
 | Questions Q1 to Q14 | Member 2 (Engineering) |
 | Official LGA list and place names | Member 5 |
 | Public labels, visual design, standing statements | Member 6 |

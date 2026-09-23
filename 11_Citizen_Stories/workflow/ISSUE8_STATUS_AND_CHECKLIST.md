@@ -37,7 +37,7 @@ Tracked from `ENGINEERING_HANDOFF.md` section 14 and `DECISIONS.md` D2, D6, D16.
 
 ## 3. Privacy and retention — APPROVED by Member 1 (2026-09-23)
 
-D14 left the retention period open pending a privacy policy. Given the deadline, here is a concrete proposal to approve or amend, rather than leaving it open indefinitely.
+D14 retention periods are approved as launch defaults (see below), confirmed by Member 1 on 2026-09-23.
 
 | Data | Proposed period | Action after |
 |---|---|---|

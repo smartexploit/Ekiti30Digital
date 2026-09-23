@@ -30,7 +30,7 @@ Moderation, verification and editorial approval are separate stages with separat
 
 No submission moves directly from citizen submission to PUBLIC.
 
-## D2. Status model — PROPOSED
+## D2. Status model — PROPOSED (Member 2 did not respond by the deadline; accepted as follow-up work, not a launch blocker)
 
 Each submission carries three status fields.
 
@@ -72,7 +72,7 @@ A story can be published as a personal/community account even when some claims s
 
 Consistent with CONTRIBUTING.md §4. Conflicting sources are documented, not silently resolved (CONTRIBUTING.md §11).
 
-## D6. Submission fields — PROPOSED (language field added after Member 1's reply)
+## D6. Submission fields — PROPOSED (language field added after Member 1's reply; Member 2 confirmation is accepted as follow-up work, not a launch blocker)
 
 **My Ekiti Story**
 
@@ -262,7 +262,7 @@ The v1.0 draft named an "Education" lead. There is none in the current 8-member 
 
 ---
 
-## D16. Additions to the D6 field lists, proposed in the Phase 3 specs — PROPOSED
+## D16. Additions to the D6 field lists, proposed in the Phase 3 specs — PROPOSED (accepted as follow-up work, not a launch blocker)
 
 The submission specs add these details to the D6 field lists. They contain no personal data beyond what D6 already collects.
 
@@ -283,17 +283,24 @@ Full specifications: `MY_EKITI_STORY_SPEC.md` (in `11_Citizen_Stories/`) and `EK
 | Decision | Who confirms |
 |---|---|
 | D10: whether Member 1 designates another senior reviewer later (Member 1 is the senior reviewer for the initial launch) | Member 1 |
-| D14: exact privacy notice wording (periods approved), removal-response time | Member 1 |
-| D13: backup Yoruba reviewer | Member 1 + Member 8 |
+| D14: exact privacy notice wording (retention periods already approved), removal-response time | Member 1 |
+| D13: backup Yoruba reviewer (launch reviewer confirmed: Faith Ogunlade) | Member 1 + Member 8 |
 | D9: conditions for lifting 18+ only (future, not for launch) | Member 1, later |
-| D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
 | D11 (routing) | Members 4, 5, 7 |
-| D16 (additions to the D6 fields; LGA list source) | Member 2 (Engineering), Member 5 (LGA list) |
+| D16: LGA list source | Member 5 |
+
+**Accepted follow-up, not a launch blocker (Member 2 did not respond by the agreed deadline):**
+
+| Decision | Who confirms |
+|---|---|
+| D6 (fields, including the language field), D2 (status model, transitions) | Member 2 (Engineering) |
+| D16 (additions to the D6 fields) | Member 2 (Engineering) |
 
 ## Confirmation record
 
 | Date | From | Decisions | Summary |
 |---|---|---|---|
-| 2026-09-20 | Member 1 | D9, D10, D13, D14 | D9: 18+ only for the initial launch, not permanently. Minors later, once a guardian/consent workflow and safeguards exist. D10: Member 8 coordinates moderation and editorial review. Factual claims need the relevant lead's verification before publication. Sensitive allegations need Member 1 or a designated senior reviewer. D13: English and Yoruba accepted, same moderation and verification, with a language-specific reviewer where required. D14: data minimisation, contact details never public by default, restricted access to identity and contacts, media needs permission, retention period left open until the privacy notice and retention policy exist. |
+| 2026-09-20 | Member 1 | D9, D10, D13, D14 | D9: 18+ only for the initial launch, not permanently. Minors later, once a guardian/consent workflow and safeguards exist. D10: Member 8 coordinates moderation and editorial review. Factual claims need the relevant lead's verification before publication. Sensitive allegations need Member 1 or a designated senior reviewer. D13: English and Yoruba accepted, same moderation and verification, with a language-specific reviewer where required. D14: data minimisation, contact details never public by default, restricted access to identity and contacts, media needs permission, retention period left open at the time (later approved as 90 days / 12 months on 2026-09-23, see the entry below). |
 | 2026-09-20 | Member 1 | D10, D13 | Follow-up. D10: an unverified claim may stay as part of the contributor's clearly labelled citizen account, never as verified fact. Harmful, defamatory, seriously accusatory or otherwise unsuitable claims are removed or sent back for revision. Member 1 is the designated senior reviewer for sensitive submissions at initial launch, unless he designates another. D13: Yoruba submissions follow the same moderation, verification and editorial process, with a Yoruba-capable reviewer where language-specific review is required. No specific reviewer is hard-coded until the role is confirmed. |
 | 2026-09-23 | Member 1 | D13, D14 | Retention periods approved as launch defaults (90 days rejected contact, 12 months rejected content/corrections/messages). Yoruba reviewer confirmed: Faith Ogunlade, assigned and active from launch, not a follow-up. Member 2's D2/D6/engineering questions remain outstanding; Wednesday deadline stands, unanswered items to be recorded as accepted follow-up if not blocking minimum launch functionality. |
+| 2026-09-23 | Member 1 | D13, D14 | Final consistency pass: retention periods (90 days rejected contact, 12 months rejected content/corrections/messages) confirmed applied throughout. Yoruba reviewer (Faith Ogunlade) confirmed applied throughout, no longer described as unassigned. D2, D6, D16 (Member 2's items) recorded as accepted follow-up work, not launch blockers, per Member 1's instruction. |

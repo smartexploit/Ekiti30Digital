@@ -104,7 +104,7 @@ Repeat problems: if a contributor repeatedly submits spam, abuse or invented mat
 - Never reject or mark down a submission for dialect, spelling, missing tone marks, or a mix of Yoruba and English.
 - Do not rely on machine translation alone to judge whether content is abusive, threatening or misleading. Tone and idiom can be lost. If unsure, ask a Yoruba reader.
 - Other languages: request revision and ask for English or Yoruba (`INSUFFICIENT_INFORMATION`). PROPOSED.
-- A Yoruba-capable reviewer takes part where language-specific review is required. The role is not hard-coded to a named person, and is assigned once Member 1 and Member 8 confirm who takes it (D13).
+- A Yoruba-capable reviewer takes part where language-specific review is required. The launch assignment is Faith Ogunlade (D13). The role stays assignable so a backup reviewer can be added the same way.
 
 ## 9. Ekiti 2056 specifics
 
@@ -120,4 +120,3 @@ Repeat problems: if a contributor repeatedly submits spam, abuse or invented mat
 | Campaign-material rule (check 13) | Member 1 |
 | Who besides Member 8 acts as a moderator | Member 1 |
 | Whether Member 1 designates another senior reviewer (Member 1 is the senior reviewer for the initial launch) | Member 1 |
-| Who takes the Yoruba-capable reviewer role (not hard-coded until confirmed) | Member 1 + Member 8 |
