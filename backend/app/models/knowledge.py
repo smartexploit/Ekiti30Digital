@@ -12,13 +12,8 @@ from pgvector.sqlalchemy import Vector
 from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.config import settings
 from app.models.base import Base
-
-# Output dimension of the configured embedding model,
-# paraphrase-multilingual-MiniLM-L12-v2 (384). Must match
-# EMBEDDING_DIMENSIONS in app/core/config.py — changing the model or this
-# value requires a new migration.
-EMBEDDING_DIMENSIONS = 384
 
 
 class KnowledgeDocument(Base):
@@ -81,7 +76,11 @@ class Chunk(Base):
 
     content: Mapped[str] = mapped_column(Text)
 
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
+    # Sized to the embedding model's output (settings.EMBEDDING_DIMENSIONS).
+    # Changing the model or that setting requires a new migration.
+    embedding: Mapped[list[float] | None] = mapped_column(
+        Vector(settings.EMBEDDING_DIMENSIONS)
+    )
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 

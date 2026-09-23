@@ -64,10 +64,9 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "paraphrase-multilingual-MiniLM-L12-v2"
 
     # Output dimension of EMBEDDING_MODEL (384 for
-    # paraphrase-multilingual-MiniLM-L12-v2). Also mirrored as the
-    # EMBEDDING_DIMENSIONS constant in app/models/knowledge.py, which the
-    # Chunk.embedding column is defined against directly — keep the two in
-    # sync by hand; changing it requires a new migration.
+    # paraphrase-multilingual-MiniLM-L12-v2). The Chunk.embedding column in
+    # app/models/knowledge.py is sized from this, so changing it requires a
+    # new migration.
     EMBEDDING_DIMENSIONS: int = 384
 
 
