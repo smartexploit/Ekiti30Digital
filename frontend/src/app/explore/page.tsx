@@ -12,10 +12,10 @@ const lgas = [
 ];
 
 const featuredSites = [
-  { name: "Ikogosi Warm Springs", lga: "Ekiti West", type: "Natural Wonder", status: "Verified" },
-  { name: "Arinta Waterfalls", lga: "Ipole-Iloro", type: "Eco-Tourism", status: "Verified" },
-  { name: "Olota of Ikere Palace", lga: "Ikere-Ekiti", type: "Historic Heritage", status: "Single source" },
-  { name: "Ewi's Palace", lga: "Ado-Ekiti", type: "Cultural Landmark", status: "Verified" }
+  { name: "Ikogosi Warm Springs", town: "Ikogosi", lga: "Ekiti West", type: "Natural Wonder", status: "Verified" },
+  { name: "Arinta Waterfalls", town: "Ipole-Iloro", lga: "Ekiti West", type: "Eco-Tourism", status: "Verified" },
+  { name: "Olota of Ikere Palace", town: "Ikere-Ekiti", lga: "Ikere", type: "Historic Heritage", status: "Verified" },
+  { name: "Ewi's Palace", town: "Ado-Ekiti", lga: "Ado-Ekiti", type: "Cultural Landmark", status: "Verified" }
 ];
 
 export default function ExplorePage() {
@@ -28,7 +28,7 @@ export default function ExplorePage() {
         Explore <em>Ekiti</em>
       </h1>
       <p className="hero-sub max-w-2xl">
-        From the rolling hills of Efon to the springs of Ikogosi, discover the geography,
+        From the rolling hills of Efon to the warm springs of Ikogosi, discover the geography,
         heritage, and institutions mapped across our sixteen local governments.
       </p>
 
@@ -46,10 +46,10 @@ export default function ExplorePage() {
         <div className="md:col-span-2 border border-line rounded-xl p-8 min-h-[380px] flex flex-col justify-between">
           <div className="flex justify-between items-center text-xs opacity-75">
             <span>Geospatial Directory Layer</span>
-            <span className="status-verified">16 LGAs Mapped</span>
+            <span className="status-verified">Member 5 Dataset Ready</span>
           </div>
           <div className="text-center py-16 opacity-50 font-mono text-sm">
-            [ Interactive Leaflet / Mapbox GIS View ]
+            [ Interactive Leaflet / Mapbox GIS View — Integrated from 02_LGAs ]
           </div>
           <div className="text-xs opacity-75">
             Coordinates: 7.6211° N, 5.2215° E • Capital: Ado-Ekiti
@@ -62,12 +62,10 @@ export default function ExplorePage() {
             <div key={site.name} className="border border-line rounded-xl p-4">
               <div className="flex justify-between items-start">
                 <span className="text-[11px] uppercase tracking-wider opacity-75">{site.type}</span>
-                <span className={`text-[10px] ${site.status === "Verified" ? "status-verified" : "status-single"}`}>
-                  {site.status}
-                </span>
+                <span className="status-verified text-[10px]">{site.status}</span>
               </div>
               <h4 className="font-semibold text-base mt-2">{site.name}</h4>
-              <p className="text-xs opacity-75 mt-1">{site.lga} LGA</p>
+              <p className="text-xs opacity-75 mt-1">{site.town}, {site.lga} LGA</p>
             </div>
           ))}
         </div>
