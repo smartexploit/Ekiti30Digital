@@ -2,28 +2,40 @@
 title: "Abanijorin Rocks & Cave"
 category: "tourism"
 subcategory: "Historical Landmark / Natural Site"
+lga: "Irepodun/Ifelodun LGA"
 location: "Iyin-Ekiti"
 source: "Visit Ekiti (Ekiti State Government tourism portal)"
 source_url: "https://visitekiti.ek.gov.ng/"
-publication_date: null
-last_verified: "2026-09-21"
+source_type: "Government tourism portal (unreachable at time of collection)"
+additional_sources: []
 verification_status: "Needs verification"
 media_reference: "Needs sourcing (source site was offline at time of collection — recheck)"
+media_rights: "No media currently available — rights status not yet determined"
+publication_date: null
+last_verified: "2026-09-23"
+traditional_account: false
+notes: "The state's own tourism portal (visitekiti.ek.gov.ng) was suspended/offline when this entry was researched. Re-check the live site, or corroborate with the Bureau of Tourism Development directly, before upgrading this entry's status."
 ---
 
 # Abanijorin Rocks & Cave
 
-A rock formation at the foot of a mountain along the Ado-Ekiti road in Iyin-Ekiti, containing a cave.
+## Documented Facts
 
-## Historical / Cultural Significance
+A rock formation containing a cave, at the foot of a mountain along the Ado-Ekiti road in Iyin-Ekiti.
 
-Cited by the state's own tourism portal as one of Ekiti's notable natural/heritage curiosities alongside Arinta and Ikogosi.
+## Verification Breakdown
 
-## Verification note
+- **Overall entry** — *Needs verification* (Visit Ekiti (Ekiti State Government tourism portal))
 
-Status: **Needs verification** — based on a single lower-reliability source; check against a primary or second independent source before publishing.
+## Notes / Uncertainties
 
-## Source
+The state's own tourism portal (visitekiti.ek.gov.ng) was suspended/offline when this entry was researched. Re-check the live site, or corroborate with the Bureau of Tourism Development directly, before upgrading this entry's status.
 
-- Visit Ekiti (Ekiti State Government tourism portal)
-- https://visitekiti.ek.gov.ng/
+## Media / Photo Reference
+
+- Status: Needs sourcing (source site was offline at time of collection — recheck)
+- Rights: No media currently available — rights status not yet determined
+
+## Sources
+
+- Visit Ekiti (Ekiti State Government tourism portal) — https://visitekiti.ek.gov.ng/ (Government tourism portal (unreachable at time of collection))

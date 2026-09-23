@@ -2,28 +2,47 @@
 title: "Olosunta & Orole Hills"
 category: "tourism"
 subcategory: "Natural Site / Landscape"
+lga: "Ikere LGA"
 location: "Ikere-Ekiti"
-source: "Ekiti State Government (Tourism page); Wikipedia ("Ikere-Ekiti")"
+source: "Ekiti State Government (Tourism page); Wikipedia (\"Ikere-Ekiti\")"
 source_url: "https://en.wikipedia.org/wiki/Ikere-Ekiti"
-publication_date: null
-last_verified: "2026-09-21"
-verification_status: "Verified"
+source_type: "Government publication + online encyclopedia (Wikipedia)"
+additional_sources: []
+verification_status: "Needs verification"
 media_reference: "Needs sourcing"
+media_rights: "No media currently available — rights status not yet determined"
+publication_date: null
+last_verified: "2026-09-23"
+traditional_account: true
+notes: "DOWNGRADED in this revision per reviewer feedback: the general existence/naming of the hills is supported by the government tourism page and Wikipedia, but Wikipedia is a tertiary source and the significance claims (founding mythology, \"unconquered\" status) are oral tradition, not institutionally documented. Overall status lowered from \"Verified\" to \"Needs verification\" until a stronger primary/institutional source is found for the geographic description, and the mythological content is kept clearly separate."
 ---
 
 # Olosunta & Orole Hills
 
-Two steep-sided hills on the northern and southern sides of Ikere-Ekiti, each treated as the seat of a resident deity (see the Cultural Traditions entry on Olosunta/Orole veneration) and promoted as scenic resort/viewing sites.
+## Documented Facts
 
-## Historical / Cultural Significance
+Two steep-sided hills on the northern and southern sides of Ikere-Ekiti, promoted by the state as scenic resort/viewing sites.
 
-Central to Ikere-Ekiti's founding mythology and to its historical reputation as the only Ekiti town never conquered in the region's inter-tribal wars.
+## Traditional / Community Account
 
-## Verification note
+Each hill is treated as the seat of a resident deity (see the Cultural Traditions entry on Olosunta/Orole veneration). Local tradition ties the hills to Ikere-Ekiti's founding mythology and to the town's reputation as the only Ekiti town never conquered in the region's inter-tribal wars.
 
-Status: **Verified** — corroborated by an official/government or well-documented academic/museum source.
+> This section records a belief, oral tradition, or community account. It is presented as such and should not be displayed or treated as independently verified historical fact.
 
-## Source
+## Verification Breakdown
 
-- Ekiti State Government (Tourism page); Wikipedia ("Ikere-Ekiti")
-- https://en.wikipedia.org/wiki/Ikere-Ekiti
+- **Existence, general location and naming of the two hills** — *Needs verification* (Government tourism page + Wikipedia (tertiary sources only))
+- **Deity veneration, founding mythology, "unconquered" status** — *Community claim* (Local oral tradition)
+
+## Notes / Uncertainties
+
+DOWNGRADED in this revision per reviewer feedback: the general existence/naming of the hills is supported by the government tourism page and Wikipedia, but Wikipedia is a tertiary source and the significance claims (founding mythology, "unconquered" status) are oral tradition, not institutionally documented. Overall status lowered from "Verified" to "Needs verification" until a stronger primary/institutional source is found for the geographic description, and the mythological content is kept clearly separate.
+
+## Media / Photo Reference
+
+- Status: Needs sourcing
+- Rights: No media currently available — rights status not yet determined
+
+## Sources
+
+- Ekiti State Government (Tourism page); Wikipedia ("Ikere-Ekiti") — https://en.wikipedia.org/wiki/Ikere-Ekiti (Government publication + online encyclopedia (Wikipedia))

@@ -2,28 +2,40 @@
 title: "Ijesu (New Yam Festival)"
 category: "culture"
 subcategory: "Festival / Cultural Event"
+lga: "Statewide — not LGA-specific"
 location: "Statewide (all LGAs) — annual"
 source: "Ekiti State Government (Tourism page)"
 source_url: "https://ekitistate.gov.ng/newsite/about-us/tourism/"
-publication_date: null
-last_verified: "2026-09-21"
+source_type: "Government publication"
+additional_sources: []
 verification_status: "Verified"
 media_reference: "Needs sourcing"
+media_rights: "No media currently available — rights status not yet determined"
+publication_date: null
+last_verified: "2026-09-23"
+traditional_account: false
+notes: "Statewide/generic entry; local variations by town are not yet documented and would need LGA-level follow-up."
 ---
 
 # Ijesu (New Yam Festival)
 
-A New Yam festival celebrated across Ekiti communities, marking the yam harvest with thanksgiving and communal celebration.
+## Documented Facts
 
-## Historical / Cultural Significance
+A New Yam festival celebrated across Ekiti communities, marking the yam harvest with thanksgiving and communal celebration. Listed by the state government among the state's core recurring festivals.
 
-Listed by the state government among the core recurring festivals of Ekiti alongside town-specific festivals such as Udiroko and Olosunta.
+## Verification Breakdown
 
-## Verification note
+- **Overall entry** — *Verified* (Ekiti State Government (Tourism page))
 
-Status: **Verified** — corroborated by an official/government or well-documented academic/museum source.
+## Notes / Uncertainties
 
-## Source
+Statewide/generic entry; local variations by town are not yet documented and would need LGA-level follow-up.
 
-- Ekiti State Government (Tourism page)
-- https://ekitistate.gov.ng/newsite/about-us/tourism/
+## Media / Photo Reference
+
+- Status: Needs sourcing
+- Rights: No media currently available — rights status not yet determined
+
+## Sources
+
+- Ekiti State Government (Tourism page) — https://ekitistate.gov.ng/newsite/about-us/tourism/ (Government publication)

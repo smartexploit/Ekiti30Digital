@@ -2,28 +2,40 @@
 title: "Esa Cave"
 category: "tourism"
 subcategory: "Historical Landmark / Natural Site"
+lga: "Irepodun/Ifelodun LGA"
 location: "Iyin-Ekiti"
-source: "Wikipedia ("Iyin Ekiti"); Ekiti State Government (EKIFEST coverage)"
+source: "Wikipedia (\"Iyin Ekiti\")"
 source_url: "https://en.wikipedia.org/wiki/Iyin_Ekiti"
-publication_date: null
-last_verified: "2026-09-21"
+source_type: "Online encyclopedia (Wikipedia) + brief government mention"
+additional_sources: []
 verification_status: "Needs verification"
 media_reference: "Needs sourcing"
+media_rights: "No media currently available — rights status not yet determined"
+publication_date: null
+last_verified: "2026-09-23"
+traditional_account: false
+notes: "Sourced only from Wikipedia and a brief government mention — no primary or on-the-ground source yet. Needs corroboration with a local/community source before its status can be upgraded."
 ---
 
 # Esa Cave
 
-A cave site listed among Iyin-Ekiti's ecotourism and cultural-tourism attractions, alongside the Akonoso bend of a local river.
+## Documented Facts
 
-## Historical / Cultural Significance
+A cave listed among Iyin-Ekiti's ecotourism attractions, alongside the Akonoso bend of a local river. Named by the state government among heritage/monument sites (with Ogun Onire Grove and Fajuyi Park) once proposed for UNESCO World Heritage consideration.
 
-Named by the state government among heritage/monument sites (with Ogun Onire Grove and Fajuyi Park) once proposed for UNESCO World Heritage consideration.
+## Verification Breakdown
 
-## Verification note
+- **Overall entry** — *Needs verification* (Wikipedia ("Iyin Ekiti"))
 
-Status: **Needs verification** — based on a single lower-reliability source; check against a primary or second independent source before publishing.
+## Notes / Uncertainties
 
-## Source
+Sourced only from Wikipedia and a brief government mention — no primary or on-the-ground source yet. Needs corroboration with a local/community source before its status can be upgraded.
 
-- Wikipedia ("Iyin Ekiti"); Ekiti State Government (EKIFEST coverage)
-- https://en.wikipedia.org/wiki/Iyin_Ekiti
+## Media / Photo Reference
+
+- Status: Needs sourcing
+- Rights: No media currently available — rights status not yet determined
+
+## Sources
+
+- Wikipedia ("Iyin Ekiti") — https://en.wikipedia.org/wiki/Iyin_Ekiti (Online encyclopedia (Wikipedia) + brief government mention)

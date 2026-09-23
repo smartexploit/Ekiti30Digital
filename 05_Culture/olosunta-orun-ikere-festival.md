@@ -2,28 +2,46 @@
 title: "Olosunta Orun Ikere Festival"
 category: "culture"
 subcategory: "Festival / Cultural Event"
+lga: "Ikere LGA"
 location: "Ikere-Ekiti — annual, August"
 source: "The Arthub NG (Ekiti tourism news)"
 source_url: "https://thearthubng.com/?p=10340"
-publication_date: null
-last_verified: "2026-09-21"
+source_type: "Tourism-news blog (single source)"
+additional_sources: []
 verification_status: "Needs verification"
 media_reference: "Needs sourcing"
+media_rights: "No media currently available — rights status not yet determined"
+publication_date: null
+last_verified: "2026-09-23"
+traditional_account: true
+notes: "Rests on a single tourism-news source. Corroborate with the palace/community account and the Bureau of Tourism Development before upgrading."
 ---
 
 # Olosunta Orun Ikere Festival
 
-An annual festival honouring Olosunta Mountain/deity, tied to the founding mythology of Ikere-Ekiti, and led by the Olukere of Ikere in council with local chiefs.
+## Documented Facts
 
-## Historical / Cultural Significance
+An annual festival honouring Olosunta Mountain/deity, tied to Ikere-Ekiti's founding mythology, led by the Olukere of Ikere in council with local chiefs.
 
-Organisers describe the festival as having grown to international scale, drawing both domestic and foreign visitors, and it is actively promoted by the Ekiti State Bureau of Tourism Development.
+## Traditional / Community Account
 
-## Verification note
+Organisers describe the festival as having grown to international scale; this scale claim comes from festival promotional material and is not independently corroborated.
 
-Status: **Needs verification** — based on a single lower-reliability source; check against a primary or second independent source before publishing.
+> This section records a belief, oral tradition, or community account. It is presented as such and should not be displayed or treated as independently verified historical fact.
 
-## Source
+## Verification Breakdown
 
-- The Arthub NG (Ekiti tourism news)
-- https://thearthubng.com/?p=10340
+- **Overall entry** — *Needs verification* (The Arthub NG (Ekiti tourism news))
+
+## Notes / Uncertainties
+
+Rests on a single tourism-news source. Corroborate with the palace/community account and the Bureau of Tourism Development before upgrading.
+
+## Media / Photo Reference
+
+- Status: Needs sourcing
+- Rights: No media currently available — rights status not yet determined
+
+## Sources
+
+- The Arthub NG (Ekiti tourism news) — https://thearthubng.com/?p=10340 (Tourism-news blog (single source))
