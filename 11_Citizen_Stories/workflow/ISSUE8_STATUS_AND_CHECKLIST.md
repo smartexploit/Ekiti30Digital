@@ -1,6 +1,6 @@
 # Issue #8 — Status, Acceptance Checklist and Follow-ups
 
-Owner: Member 8 · Updated: 2026-09-22 · Target: final integration review, Wed 23 Sep 2026
+Owner: Member 8 · Updated: 2026-09-23 · Target: final integration review, Wed 23 Sep 2026
 
 ## 1. Acceptance checklist (Issue #8's 13 tasks)
 
@@ -67,5 +67,5 @@ All 12 documents are marked **READY FOR REVIEW (v1.0)**. Confirmed decisions (D1
 
 - PR #9 is open, not draft, not merged, per your instruction.
 - 12 of 13 tasks are drafted and internally consistent.
-- Three items need your direct decision before Wednesday: privacy/retention numbers (section 3), Yoruba reviewer (section 4), and whether Member 2's silence becomes an accepted follow-up.
-- Everything else is external confirmation (Members 2, 4, 5, 7), tracked here and chased below.
+- All three items you needed to decide are resolved: D13 — Yoruba reviewer is Faith Ogunlade, active from launch. D14 — retention is 90 days for rejected/withdrawn contact details, 12 months for rejected/withdrawn content, corrections and messages. Member 2's silence is recorded as accepted follow-up work, per your instruction.
+- Everything else is external confirmation (Members 2, 4, 5, 7), tracked here and does not block merge.
