@@ -4,7 +4,8 @@ Related section/ID: Culture/Tourism (CT-001, tracker label; canonical entries ar
 Canonical entry: 04_Tourism/ikogosi-warm-springs.md
 Location: Ikogosi-Ekiti
 LGA: Ekiti West LGA
-Location source URL: TBD -- official page confirming town and LGA not yet checked
+Location source URL: https://www.ekitistate.gov.ng/about-ekiti/local-government/ekiti-west
+Location source note: Ekiti State Government Ekiti West LGA page lists Ikogosi warm spring as a natural feature of Ekiti West LGA and Ikogosi among its towns.
 Description/caption: Meeting point of warm and cold springs that flow together while keeping different temperatures
 Submitted by: Member 7
 Verification status: Needs verification

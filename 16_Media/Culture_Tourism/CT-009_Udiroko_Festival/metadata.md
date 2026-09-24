@@ -12,7 +12,7 @@ Verification status: Needs verification
 ## Site information
 Site information source: Ekiti State Government (Udiroko festival articles)
 Source URL: https://www.ekitistate.gov.ng/?p=4314
-Notes on reliability: Source type: Government publication, corroborated by long-running independent press coverage. Single source; no independent corroboration recorded. Status of the canonical written entry: Verified (this is not the status of any image).
+Notes on reliability: Only one source is listed: the Ekiti State Government Udiroko festival articles. The canonical file says the festival is corroborated by long-running independent press coverage (including the 2024 UNWTO visit) but names no press source, so that corroboration is stated but not yet linked. The 1310 AD origin date is oral tradition, not documented fact. Festival visibility does not grant image reuse rights.
 
 ## Image
 Image source: TBD

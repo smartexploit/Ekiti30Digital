@@ -4,7 +4,8 @@ Related section/ID: Culture/Tourism (CT-002, tracker label; canonical entries ar
 Canonical entry: 04_Tourism/arinta-waterfall.md
 Location: Ipole-Iloro
 LGA: Ekiti West LGA
-Location source URL: TBD -- official page confirming town and LGA not yet checked
+Location source URL: https://www.ekitistate.gov.ng/about-ekiti/local-government/ekiti-west
+Location source note: Ekiti State Government Ekiti West LGA page places the Ipole-Iloro waterfalls and the town of Ipole-Iloro in Ekiti West LGA. It uses the name 'Ipole-Iloro waterfalls' rather than 'Arinta'; the Arinta name comes from the canonical entry's own source.
 Description/caption: Waterfall and natural tourism site
 Submitted by: Member 7
 Verification status: Needs verification
