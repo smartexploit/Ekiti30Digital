@@ -2,17 +2,16 @@
 
 Raw media files must NOT be stored directly in GitHub. This directory contains metadata records, manifests, and vision assets schema.
 
-Every Ekiti 2056 visual submission must track the following 12 fields:
+Every Ekiti 2056 visual submission must track the following fields aligned with the canonical submission lifecycle:
 
 - **Submission/Reference ID:** [e.g. VISION-001]
 - **Title:** [e.g. Ado-Ekiti Solar Agri-Hub Conceptual Render]
 - **Section:** Ekiti 2056
-- **Contributor/Credit Preference:** [e.g. Full Name / Anonymous / Pseudonym]
 - **Location/LGA:** [Town + LGA]
 - **Description:** [Description of vision proposal]
 - **Date/Period:** [2056 Projection]
-- **Source/Submitted By:** [Contributor Name & Contact]
-- **Permission/Consent Status:** Granted (Consent Statement Checked)
-- **Verification/Moderation Status:** PENDING_MODERATION / MODERATED / VERIFIED / REJECTED
+- **Consent Status:** Granted (Consent Statement Checked)
+- **Review Status:** RECEIVED / UNDER_REVIEW / NEEDS_REVISION / APPROVED / REJECTED / PUBLISHED / ARCHIVED
+- **Internal Contributor Identity (Restricted):** [Contributor Real Name & Contact Details — Internal Reviewers Only]
+- **Public Credit Preference:** [Full Name / Anonymous / Pseudonym]
 - **Attribution Requirement:** [e.g. "Concept credit: Funke Adeleke"]
-- **Publication Status:** UNPUBLISHED / PUBLISHED
