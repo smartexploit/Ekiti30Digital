@@ -194,3 +194,40 @@ Quality, source credibility and clear reuse rights are more important than quant
 
 Akintade Daniel Emmanuel  
 Geospatial and LGA Lead
+
+## Boundary Dataset and Reproducibility
+
+The highlighted LGA maps use the following pinned geoBoundaries dataset:
+
+- Boundary ID: `NGA-ADM2-59680162`
+- Boundary type: `ADM2 — Local Government Areas`
+- Year represented: `2022`
+- Original source: `GRID3`
+- geoBoundaries build date: `2023-12-12`
+- Pinned repository commit: `9469f09`
+- Licence: `CC BY 4.0`
+- GeoJSON: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/NGA/ADM2/geoBoundaries-NGA-ADM2.geojson
+
+The script uses this pinned GeoJSON URL rather than the moving `current` API endpoint, ensuring that the maps remain reproducible.
+
+## Aiyekire and Gbonyin Mapping
+
+The pinned geoBoundaries dataset contains one source feature named `Gbonyin`, with shape ID `59680162B53652676960042`. It does not contain a separate feature named `Aiyekire`.
+
+For this project, that single source boundary is displayed under the canonical current name `Aiyekire`. The script validates the exact source name and shape ID and does not combine or duplicate two geometries.
+
+The validation requires exactly 16 unique Ekiti LGA features and 16 unique shape IDs before any map can be generated.
+
+## Visual Map Review
+
+On 24 September 2026, Akintade Daniel Emmanuel visually inspected all 16 generated LGA maps.
+
+The review confirmed that:
+
+- Each map has the correct LGA title.
+- Each intended LGA is highlighted in dark green.
+- The remaining LGAs are displayed in light green.
+- No boundary is duplicated or accidentally substituted.
+- All 16 generated PNG files are readable and correctly labelled.
+
+This visual review confirms that the script selected and highlighted the intended source feature. It does not convert the third-party boundaries into official surveyed Ekiti State Government boundaries. The map assets therefore remain marked as `Pending` until independent geographic verification is completed.
