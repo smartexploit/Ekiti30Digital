@@ -1,7 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import ask_ekiti, health, lgas, stories, timeline, vision2056
+from app.api.routes import (
+    admin,
+    ask_ekiti,
+    health,
+    lgas,
+    stories,
+    timeline,
+    uploads,
+    vision2056,
+)
 from app.core.config import settings
 
 app = FastAPI(title=settings.PROJECT_NAME)
@@ -20,3 +29,5 @@ app.include_router(lgas.router)
 app.include_router(stories.router)
 app.include_router(vision2056.router)
 app.include_router(ask_ekiti.router)
+app.include_router(uploads.router)
+app.include_router(admin.router)
