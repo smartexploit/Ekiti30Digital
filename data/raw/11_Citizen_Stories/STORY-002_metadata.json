@@ -1,13 +1,18 @@
 {
-  "submission_id": "STORY-002",
-  "title": "Ado-Ekiti Central Market Trade",
-  "section": "My Ekiti Story",
-  "location_lga": "Ado-Ekiti, Ado-Ekiti LGA",
-  "description": "Daily commercial activity and local community life in Ado town center.",
-  "date_period": "2025",
-  "consent_status": "Granted",
-  "review_status": "RECEIVED",
-  "internal_contributor_identity": "Adeola Bakare (adeola@example.com)",
+  "record_id": "STORY-002",
+  "record_type": "TEST_FIXTURE",
+  "title": "Ado-Ekiti Trade Memories",
+  "internal_contributor_identity": "TEST-CONTRIBUTOR-002",
   "public_credit_preference": "Pseudonym",
-  "attribution_requirement": "Photo credit: Ekiti Heritage Project"
+  "attribution_text": "Photo credit: Ekiti Heritage Project",
+  "media_rights": {
+    "ownership": "Ekiti Heritage Project (Test Partner)",
+    "permission_scope": "Testing and Demonstrational Pipeline Verification",
+    "attribution_required": true
+  },
+  "consent": {
+    "status": "Granted",
+    "scope": "Project publication testing",
+    "is_synthetic": true
+  }
 }

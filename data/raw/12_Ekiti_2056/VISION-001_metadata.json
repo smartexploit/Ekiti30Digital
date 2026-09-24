@@ -1,13 +1,18 @@
 {
-  "submission_id": "VISION-001",
-  "title": "Ado-Ekiti Solar Agri-Hub Concept",
-  "section": "Ekiti 2056",
-  "location_lga": "Ado-Ekiti LGA",
-  "description": "Conceptual proposal for renewable solar energy powering smart agricultural storage.",
-  "date_period": "2056 Projection",
-  "consent_status": "Granted",
-  "review_status": "RECEIVED",
-  "internal_contributor_identity": "Funke Adeleke (funke@example.com)",
-  "public_credit_preference": "Full Name",
-  "attribution_requirement": "Concept credit: Funke Adeleke"
+  "record_id": "VISION-001",
+  "record_type": "TEST_FIXTURE",
+  "title": "Ekiti 2056 Tech Hub Concept",
+  "internal_contributor_identity": "TEST-CONTRIBUTOR-003",
+  "public_credit_preference": "Public Name",
+  "attribution_text": "Ekiti 2056 Future Labs",
+  "media_rights": {
+    "ownership": "Synthetic Concept Asset",
+    "permission_scope": "Local Integration Testing Only",
+    "attribution_required": false
+  },
+  "consent": {
+    "status": "Granted",
+    "scope": "Synthetic test data for pipeline ingestion testing",
+    "is_synthetic": true
+  }
 }

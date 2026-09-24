@@ -1,13 +1,18 @@
 {
-  "submission_id": "STORY-001",
-  "title": "Memories of Ikogosi Warm Springs",
-  "section": "My Ekiti Story",
-  "location_lga": "Ikogosi, Ekiti West LGA",
-  "description": "Historical family visit and oral history recording at Ikogosi Warm Springs.",
-  "date_period": "2024",
-  "consent_status": "Granted",
-  "review_status": "RECEIVED",
-  "internal_contributor_identity": "Victor Ogunyemi (vctkunle@gmail.com)",
-  "public_credit_preference": "Full Name",
-  "attribution_requirement": "Photo credit: Victor Ogunyemi"
+  "record_id": "STORY-001",
+  "record_type": "TEST_FIXTURE",
+  "title": "Memories of Ikogosi Springs",
+  "internal_contributor_identity": "TEST-CONTRIBUTOR-001",
+  "public_credit_preference": "Anonymous",
+  "attribution_text": "Anonymous Contributor",
+  "media_rights": {
+    "ownership": "Synthetic Test Asset",
+    "permission_scope": "Local Integration Testing Only",
+    "attribution_required": false
+  },
+  "consent": {
+    "status": "Granted",
+    "scope": "Synthetic test data for pipeline ingestion testing",
+    "is_synthetic": true
+  }
 }
