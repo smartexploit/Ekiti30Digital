@@ -70,6 +70,23 @@ class Settings(BaseSettings):
     # sync by hand; changing it requires a new migration.
     EMBEDDING_DIMENSIONS: int = 384
 
+    # --- Media uploads (Cloudinary) -------------------------------------
+    #
+    # The browser uploads files directly to Cloudinary using an unsigned
+    # preset, so the backend only needs these two public, non-secret
+    # values (returned to the frontend by POST /api/uploads/init). The
+    # Cloudinary API key/secret are never needed by the app — only by
+    # scripts/setup_cloudinary_preset.py, run once by hand.
+    CLOUDINARY_CLOUD_NAME: str | None = None
+    CLOUDINARY_UPLOAD_PRESET: str | None = None
+
+    # --- Admin auth -----------------------------------------------------
+    #
+    # Shared secret used to verify the admin JWTs issued by NextAuth in the
+    # frontend (see app/core/auth.py). Must equal the frontend's
+    # NEXTAUTH_SECRET. Unset means every admin route rejects requests.
+    NEXTAUTH_SECRET: str | None = None
+
 
 @lru_cache
 def get_settings() -> Settings:
