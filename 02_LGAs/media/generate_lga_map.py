@@ -10,6 +10,7 @@ from shapely.geometry import shape
 from shapely.ops import unary_union
 
 
+# Configuration for all 16 Ekiti State LGAs
 LGA_CONFIG = {
     "ado-ekiti": {
         "source_names": {"adoekiti"},
@@ -21,18 +22,125 @@ LGA_CONFIG = {
         "title": "Aiyekire",
         "folder": "aiyekire",
     },
+    "efon": {
+        "source_names": {"efon"},
+        "title": "Efon",
+        "folder": "efon",
+    },
+    "ekiti-east": {
+        "source_names": {"ekitieast"},
+        "title": "Ekiti East",
+        "folder": "ekiti-east",
+    },
+    "ekiti-south-west": {
+        "source_names": {"ekitisouthwest"},
+        "title": "Ekiti South-West",
+        "folder": "ekiti-south-west",
+    },
+    "ekiti-west": {
+        "source_names": {"ekitiwest"},
+        "title": "Ekiti West",
+        "folder": "ekiti-west",
+    },
+    "emure": {
+        "source_names": {"emure"},
+        "title": "Emure",
+        "folder": "emure",
+    },
+    "ido-osi": {
+        "source_names": {"idoosi"},
+        "title": "Ido/Osi",
+        "folder": "ido-osi",
+    },
+    "ijero": {
+        "source_names": {"ijero"},
+        "title": "Ijero",
+        "folder": "ijero",
+    },
+    "ikere": {
+        "source_names": {"ikere"},
+        "title": "Ikere",
+        "folder": "ikere",
+    },
+    "ikole": {
+        "source_names": {"ikole"},
+        "title": "Ikole",
+        "folder": "ikole",
+    },
+    "ilejemeje": {
+        "source_names": {"ilejemeje"},
+        "title": "Ilejemeje",
+        "folder": "ilejemeje",
+    },
+    "irepodun-ifelodun": {
+        "source_names": {"irepodunifelodun"},
+        "title": "Irepodun/Ifelodun",
+        "folder": "irepodun-ifelodun",
+    },
+    "ise-orun": {
+        "source_names": {"iseorun"},
+        "title": "Ise/Orun",
+        "folder": "ise-orun",
+    },
+    "moba": {
+        "source_names": {"moba"},
+        "title": "Moba",
+        "folder": "moba",
+    },
+    "oye": {
+        "source_names": {"oye"},
+        "title": "Oye",
+        "folder": "oye",
+    },
 }
 
 
+CANONICAL_LABELS = {
+    "adoekiti": "Ado-Ekiti",
+    "aiyekire": "Aiyekire",
+    "gbonyin": "Aiyekire",
+    "efon": "Efon",
+    "ekitieast": "Ekiti East",
+    "ekitisouthwest": "Ekiti South-West",
+    "ekitiwest": "Ekiti West",
+    "emure": "Emure",
+    "idoosi": "Ido/Osi",
+    "ijero": "Ijero",
+    "ikere": "Ikere",
+    "ikole": "Ikole",
+    "ilejemeje": "Ilejemeje",
+    "irepodunifelodun": "Irepodun/Ifelodun",
+    "iseorun": "Ise/Orun",
+    "moba": "Moba",
+    "oye": "Oye",
+}
+
+
+EKITI_SOURCE_NAMES = set(CANONICAL_LABELS)
+
+
 def normalize(value):
-    return re.sub(r"[^a-z0-9]", "", value.lower())
+    """Convert an LGA name to a simple comparison format."""
+    return re.sub(r"[^a-z0-9]", "", str(value).lower())
 
 
 def geometry_parts(geometry):
+    """Return the polygons contained in a Polygon or MultiPolygon."""
     if geometry.geom_type == "MultiPolygon":
         return list(geometry.geoms)
 
     return [geometry]
+
+
+def get_feature_name(properties):
+    """Read the LGA name from supported GeoJSON property fields."""
+    return (
+        properties.get("shapeName")
+        or properties.get("ADM2_NAME")
+        or properties.get("admin2Name")
+        or properties.get("name")
+        or ""
+    )
 
 
 def main():
@@ -54,87 +162,64 @@ def main():
         "gbOpen/NGA/ADM2/"
     )
 
-    with urllib.request.urlopen(metadata_url) as response:
-        metadata = json.load(response)
+    print("Downloading geographic boundary information...")
 
     with urllib.request.urlopen(
-        metadata["gjDownloadURL"]
+        metadata_url,
+        timeout=60,
+    ) as response:
+        metadata = json.load(response)
+
+    geojson_url = metadata["gjDownloadURL"]
+
+    with urllib.request.urlopen(
+        geojson_url,
+        timeout=120,
     ) as response:
         data = json.load(response)
 
-    ekiti_names = {
-        "adoekiti",
-        "efon",
-        "ekitieast",
-        "ekitisouthwest",
-        "ekitiwest",
-        "emure",
-        "aiyekire",
-        "gbonyin",
-        "idoosi",
-        "ijero",
-        "ikere",
-        "ikole",
-        "ilejemeje",
-        "irepodunifelodun",
-        "iseorun",
-        "moba",
-        "oye",
-    }
-
-    canonical_labels = {
-        "adoekiti": "Ado-Ekiti",
-        "efon": "Efon",
-        "ekitieast": "Ekiti East",
-        "ekitisouthwest": "Ekiti South-West",
-        "ekitiwest": "Ekiti West",
-        "emure": "Emure",
-        "aiyekire": "Aiyekire",
-        "gbonyin": "Aiyekire",
-        "idoosi": "Ido/Osi",
-        "ijero": "Ijero",
-        "ikere": "Ikere",
-        "ikole": "Ikole",
-        "ilejemeje": "Ilejemeje",
-        "irepodunifelodun": "Irepodun/Ifelodun",
-        "iseorun": "Ise/Orun",
-        "moba": "Moba",
-        "oye": "Oye",
-    }
-
     selected = []
 
-    for feature in data["features"]:
+    for feature in data.get("features", []):
         properties = feature.get("properties", {})
-
-        name = (
-            properties.get("shapeName")
-            or properties.get("ADM2_NAME")
-            or properties.get("admin2Name")
-            or properties.get("name")
-            or ""
-        )
-
+        name = get_feature_name(properties)
         normalized_name = normalize(name)
 
-        if normalized_name in ekiti_names:
-            selected.append({
-                "name": name,
-                "normalized_name": normalized_name,
-                "geometry": shape(feature["geometry"]),
-            })
+        if normalized_name in EKITI_SOURCE_NAMES:
+            selected.append(
+                {
+                    "name": name,
+                    "normalized_name": normalized_name,
+                    "geometry": shape(feature["geometry"]),
+                }
+            )
 
     canonical_found = {
-        "aiyekire"
-        if item["normalized_name"] == "gbonyin"
-        else item["normalized_name"]
+        (
+            "aiyekire"
+            if item["normalized_name"] == "gbonyin"
+            else item["normalized_name"]
+        )
         for item in selected
     }
 
     if len(canonical_found) != 16:
+        found_names = sorted(canonical_found)
+
         raise ValueError(
-            f"Expected 16 Ekiti LGAs, found "
-            f"{len(canonical_found)}"
+            "Expected 16 Ekiti LGAs, but found "
+            f"{len(canonical_found)}: {found_names}"
+        )
+
+    highlighted_features = [
+        item
+        for item in selected
+        if item["normalized_name"] in config["source_names"]
+    ]
+
+    if not highlighted_features:
+        raise ValueError(
+            f"Could not find boundary data for {config['title']}."
         )
 
     state_geometry = unary_union(
@@ -170,7 +255,7 @@ def main():
         ax.text(
             point.x,
             point.y,
-            canonical_labels.get(
+            CANONICAL_LABELS.get(
                 normalized_name,
                 item["name"],
             ),
@@ -195,7 +280,7 @@ def main():
     title = config["title"]
 
     ax.set_title(
-        f"Ekiti State Local Government Areas\n"
+        "Ekiti State Local Government Areas\n"
         f"{title} LGA Highlighted",
         fontsize=16,
         fontweight="bold",
@@ -233,8 +318,16 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    output_path = Path(
-        f"02_LGAs/media/{config['folder']}/"
+    output_directory = Path(
+        "02_LGAs/media"
+    ) / config["folder"]
+
+    output_directory.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    output_path = output_directory / (
         f"{args.lga}-lga-highlight-map-01.png"
     )
 
@@ -247,7 +340,7 @@ def main():
         facecolor="white",
     )
 
-    plt.close()
+    plt.close(fig)
 
     print("Map generated successfully")
     print("LGA:", title)
