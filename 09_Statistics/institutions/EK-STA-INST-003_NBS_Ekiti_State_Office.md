@@ -1,17 +1,18 @@
-﻿---
-doc_id: EK-STA-INST-003
-source_title: "National Bureau of Statistics (NBS) — Ekiti State Field Office"
-source_url: "National Bureau of Statistics (NBS) Operational Directory"
-class: statistics
-tier: A
-last_verified: 2026-09-25
-ingestible: no
----
-
-# EK-STA-INST-003: National Bureau of Statistics (NBS) — Ekiti State Field Office
-
-- **Institutional Mandate:** Federal statistical agency branch responsible for executing national census operations, household surveys, and harmonized state-level economic accounting within Ekiti State.
-- **Establishment / Background:** Established in Ado-Ekiti following state creation to align state data collection with the National Strategy for the Development of Statistics (NSDS).
-- **Role in Ekiti Statistical System:** Partners with EKSBS to validate methodology, co-publish Joint State GDP Re-basing studies, and execute national living standards surveys (NLSS) locally.
-- **Data Produced & Managed:** Produces federal-level sample surveys, National Labor Force Statistics (state breakdowns), and national CPI market sampling nodes.
-- **Verification Status:** VERIFIED_OFFICIAL
+—-—-—-——
+—d—o—c—_—i—d—:— —E—K—-—S—T—A—-—I—N—S—T—-—0—0—3——
+—s—o—u—r—c—e—_—t—i—t—l—e—:— —"—N—a—t—i—o—n—a—l— —B—u—r—e—a—u— —o—f— —S—t—a—t—i—s—t—i—c—s— —(—N—B—S—)— ——— —E—k—i—t—i— —S—t—a—t—e— —F—i—e—l—d— —O—f—f—i—c—e—"——
+—s—o—u—r—c—e—_—u—r—l—:— —"—N—a—t—i—o—n—a—l— —B—u—r—e—a—u— —o—f— —S—t—a—t—i—s—t—i—c—s— —(—N—B—S—)— —O—p—e—r—a—t—i—o—n—a—l— —D—i—r—e—c—t—o—r—y—"——
+—c—l—a—s—s—:— —s—t—a—t—i—s—t—i—c—s——
+—t—i—e—r—:— —A——
+—l—a—s—t—_—v—e—r—i—f—i—e—d—:— —2—0—2—6—-—0—9—-—2—5——
+—i—n—g—e—s—t—i—b—l—e—:— —n—o——
+—-—-—-——
+——
+—#— —E—K—-—S—T—A—-—I—N—S—T—-—0—0—3—:— —N—a—t—i—o—n—a—l— —B—u—r—e—a—u— —o—f— —S—t—a—t—i—s—t—i—c—s— —(—N—B—S—)— ——— —E—k—i—t—i— —S—t—a—t—e— —F—i—e—l—d— —O—f—f—i—c—e——
+——
+—-— —*—*—I—n—s—t—i—t—u—t—i—o—n—a—l— —M—a—n—d—a—t—e—:—*—*— —F—e—d—e—r—a—l— —s—t—a—t—i—s—t—i—c—a—l— —a—g—e—n—c—y— —b—r—a—n—c—h— —r—e—s—p—o—n—s—i—b—l—e— —f—o—r— —e—x—e—c—u—t—i—n—g— —n—a—t—i—o—n—a—l— —c—e—n—s—u—s— —o—p—e—r—a—t—i—o—n—s—,— —h—o—u—s—e—h—o—l—d— —s—u—r—v—e—y—s—,— —a—n—d— —h—a—r—m—o—n—i—z—e—d— —s—t—a—t—e—-—l—e—v—e—l— —e—c—o—n—o—m—i—c— —a—c—c—o—u—n—t—i—n—g— —w—i—t—h—i—n— —E—k—i—t—i— —S—t—a—t—e—.——
+—-— —*—*—E—s—t—a—b—l—i—s—h—m—e—n—t— —/— —B—a—c—k—g—r—o—u—n—d—:—*—*— —E—s—t—a—b—l—i—s—h—e—d— —i—n— —A—d—o—-—E—k—i—t—i— —f—o—l—l—o—w—i—n—g— —s—t—a—t—e— —c—r—e—a—t—i—o—n— —t—o— —a—l—i—g—n— —s—t—a—t—e— —d—a—t—a— —c—o—l—l—e—c—t—i—o—n— —w—i—t—h— —t—h—e— —N—a—t—i—o—n—a—l— —S—t—r—a—t—e—g—y— —f—o—r— —t—h—e— —D—e—v—e—l—o—p—m—e—n—t— —o—f— —S—t—a—t—i—s—t—i—c—s— —(—N—S—D—S—)—.——
+—-— —*—*—R—o—l—e— —i—n— —E—k—i—t—i— —S—t—a—t—i—s—t—i—c—a—l— —S—y—s—t—e—m—:—*—*— —P—a—r—t—n—e—r—s— —w—i—t—h— —E—K—S—B—S— —t—o— —v—a—l—i—d—a—t—e— —m—e—t—h—o—d—o—l—o—g—y—,— —c—o—-—p—u—b—l—i—s—h— —J—o—i—n—t— —S—t—a—t—e— —G—D—P— —R—e—-—b—a—s—i—n—g— —s—t—u—d—i—e—s—,— —a—n—d— —e—x—e—c—u—t—e— —n—a—t—i—o—n—a—l— —l—i—v—i—n—g— —s—t—a—n—d—a—r—d—s— —s—u—r—v—e—y—s— —(—N—L—S—S—)— —l—o—c—a—l—l—y—.——
+—-— —*—*—D—a—t—a— —P—r—o—d—u—c—e—d— —&— —M—a—n—a—g—e—d—:—*—*— —P—r—o—d—u—c—e—s— —f—e—d—e—r—a—l—-—l—e—v—e—l— —s—a—m—p—l—e— —s—u—r—v—e—y—s—,— —N—a—t—i—o—n—a—l— —L—a—b—o—r— —F—o—r—c—e— —S—t—a—t—i—s—t—i—c—s— —(—s—t—a—t—e— —b—r—e—a—k—d—o—w—n—s—)—,— —a—n—d— —n—a—t—i—o—n—a—l— —C—P—I— —m—a—r—k—e—t— —s—a—m—p—l—i—n—g— —n—o—d—e—s—.——
+—-— —*—*—V—e—r—i—f—i—c—a—t—i—o—n— —S—t—a—t—u—s—:—*—*— —V—E—R—I—F—I—E—D—_—O—F—F—I—C—I—A—L——
+—

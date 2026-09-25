@@ -1,18 +1,19 @@
-﻿---
-doc_id: EK-STA-PROJ-003
-source_title: "Ekiti Central Data Bank Modernisation and API Gateway (RESEARCH GAP)"
-source_url: "NEEDS_RESEARCH"
-class: statistics
-tier: A
-last_verified: 2026-09-25
-ingestible: no
----
-
-# EK-STA-PROJ-003: Ekiti Central Data Bank Modernisation and API Gateway (RESEARCH GAP)
-
-> **Research Gap Status:** This project record is explicitly flagged as **NEEDS_RESEARCH**. While modern data bank objectives are outlined in EKSBS planning briefs, specific administrative project contracts, technical architecture specifications, and implementation milestones for the API Gateway remain unverified from primary government sources.
-
-- **Proposed Purpose:** Planned modernization of the Central Data Bank into a digital cloud repository featuring real-time MDA telemetry feeds and open statistical APIs.
-- **Responsible Institution:** EKSBS in conjunction with Bureau of ICT.
-- **Implementation Status:** UNVERIFIED / IN_PLANNING.
-- **Verification Status:** RESEARCH_GAP
+—-—-—-——
+—d—o—c—_—i—d—:— —E—K—-—S—T—A—-—P—R—O—J—-—0—0—3——
+—s—o—u—r—c—e—_—t—i—t—l—e—:— —"—E—k—i—t—i— —C—e—n—t—r—a—l— —D—a—t—a— —B—a—n—k— —M—o—d—e—r—n—i—s—a—t—i—o—n— —a—n—d— —A—P—I— —G—a—t—e—w—a—y— —(—R—E—S—E—A—R—C—H— —G—A—P—)—"——
+—s—o—u—r—c—e—_—u—r—l—:— —"—N—E—E—D—S—_—R—E—S—E—A—R—C—H—"——
+—c—l—a—s—s—:— —s—t—a—t—i—s—t—i—c—s——
+—t—i—e—r—:— —A——
+—l—a—s—t—_—v—e—r—i—f—i—e—d—:— —2—0—2—6—-—0—9—-—2—5——
+—i—n—g—e—s—t—i—b—l—e—:— —n—o——
+—-—-—-——
+——
+—#— —E—K—-—S—T—A—-—P—R—O—J—-—0—0—3—:— —E—k—i—t—i— —C—e—n—t—r—a—l— —D—a—t—a— —B—a—n—k— —M—o—d—e—r—n—i—s—a—t—i—o—n— —a—n—d— —A—P—I— —G—a—t—e—w—a—y— —(—R—E—S—E—A—R—C—H— —G—A—P—)——
+——
+—>— —*—*—R—e—s—e—a—r—c—h— —G—a—p— —S—t—a—t—u—s—:—*—*— —T—h—i—s— —p—r—o—j—e—c—t— —r—e—c—o—r—d— —i—s— —e—x—p—l—i—c—i—t—l—y— —f—l—a—g—g—e—d— —a—s— —*—*—N—E—E—D—S—_—R—E—S—E—A—R—C—H—*—*—.— —W—h—i—l—e— —m—o—d—e—r—n— —d—a—t—a— —b—a—n—k— —o—b—j—e—c—t—i—v—e—s— —a—r—e— —o—u—t—l—i—n—e—d— —i—n— —E—K—S—B—S— —p—l—a—n—n—i—n—g— —b—r—i—e—f—s—,— —s—p—e—c—i—f—i—c— —a—d—m—i—n—i—s—t—r—a—t—i—v—e— —p—r—o—j—e—c—t— —c—o—n—t—r—a—c—t—s—,— —t—e—c—h—n—i—c—a—l— —a—r—c—h—i—t—e—c—t—u—r—e— —s—p—e—c—i—f—i—c—a—t—i—o—n—s—,— —a—n—d— —i—m—p—l—e—m—e—n—t—a—t—i—o—n— —m—i—l—e—s—t—o—n—e—s— —f—o—r— —t—h—e— —A—P—I— —G—a—t—e—w—a—y— —r—e—m—a—i—n— —u—n—v—e—r—i—f—i—e—d— —f—r—o—m— —p—r—i—m—a—r—y— —g—o—v—e—r—n—m—e—n—t— —s—o—u—r—c—e—s—.——
+——
+—-— —*—*—P—r—o—p—o—s—e—d— —P—u—r—p—o—s—e—:—*—*— —P—l—a—n—n—e—d— —m—o—d—e—r—n—i—z—a—t—i—o—n— —o—f— —t—h—e— —C—e—n—t—r—a—l— —D—a—t—a— —B—a—n—k— —i—n—t—o— —a— —d—i—g—i—t—a—l— —c—l—o—u—d— —r—e—p—o—s—i—t—o—r—y— —f—e—a—t—u—r—i—n—g— —r—e—a—l—-—t—i—m—e— —M—D—A— —t—e—l—e—m—e—t—r—y— —f—e—e—d—s— —a—n—d— —o—p—e—n— —s—t—a—t—i—s—t—i—c—a—l— —A—P—I—s—.——
+—-— —*—*—R—e—s—p—o—n—s—i—b—l—e— —I—n—s—t—i—t—u—t—i—o—n—:—*—*— —E—K—S—B—S— —i—n— —c—o—n—j—u—n—c—t—i—o—n— —w—i—t—h— —B—u—r—e—a—u— —o—f— —I—C—T—.——
+—-— —*—*—I—m—p—l—e—m—e—n—t—a—t—i—o—n— —S—t—a—t—u—s—:—*—*— —U—N—V—E—R—I—F—I—E—D— —/— —I—N—_—P—L—A—N—N—I—N—G—.——
+—-— —*—*—V—e—r—i—f—i—c—a—t—i—o—n— —S—t—a—t—u—s—:—*—*— —R—E—S—E—A—R—C—H—_—G—A—P——
+—
