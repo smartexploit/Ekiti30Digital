@@ -1,6 +1,6 @@
 ﻿---
 doc_id: EK-STA-DATA-001
-source_title: "30-Year Ekiti State Macroeconomic and Demographic Data Matrix (1996–2026)"
+source_title: "Selected-Year Historical Macroeconomic and Demographic Indicators Matrix (1996–2026)"
 source_url: "Official State Statistical Year Books & NBS National Reports"
 class: statistics
 tier: A
@@ -8,16 +8,18 @@ last_verified: 2026-09-25
 ingestible: no
 ---
 
-# 30-Year Macroeconomic and Demographic Data Matrix (1996–2026)
+# Selected-Year Historical Macroeconomic and Demographic Indicators Matrix (1996–2026)
 
-### Core Indicators Table
+> **Note on Coverage & Gaps:** This matrix represents validated **benchmark years** (1996, 2006, 2014, 2016, 2019, 2024, 2026) rather than a complete, uninterrupted 30-year annual time series. Intervening annual values (e.g., 1997–2005, 2007–2013) remain tracked as active research gaps in GAPS.md pending archival retrieval from EKSBS print records.
+
+### Selected-Year Indicators Matrix Table
 
 | Indicator | Year | Value | Unit | Geography | Source | Source Date/Version | Verification Status | Notes / Uncertainty |
 |---|---|---|---|---|---|---|---|---|
 | Total Population | 1996 | 1,650,000 | Persons | Ekiti State | Federal Census Projections | 1991 Census Extrapolation | UNVERIFIED_ESTIMATE | State administrative figures estimated 1,780,000 for budget allocation formulas. |
 | Total Population | 2006 | 2,398,957 | Persons | Ekiti State | National Population Commission (NPC) | 2006 Final Figures (2007) | VERIFIED | Official federal census baseline (1,215,487 Males / 1,183,470 Females). |
-| Total Population | 2016 | 3,270,000 | Persons | Ekiti State | EKSBS / NBS | Projections (2016) | ESTIMATE | Based on 3.2% annual growth model. |
-| Total Population | 2026 | 3,920,000 | Persons | Ekiti State | EKSBS Projections | 2026 MTEF Baseline | PROJECTION | Projected figure used in 2026 State Budget planning. |
+| Total Population | 2016 | 3,270,000 | Persons | Ekiti State | EKSBS / NBS | Projections (2016) | ESTIMATE | Based on 3.2% annual exponential growth model. |
+| Total Population | 2026 | 3,920,000 | Persons | Ekiti State | EKSBS Projections | 2026 MTEF Baseline | PROJECTION | Projected baseline used in 2026 State Budget planning. |
 | State Gross Domestic Product (SGDP) | 2006 | 180.5 | Billion NGN | Ekiti State | NBS State GDP Estimates | 2007 Publication | VERIFIED | Nominal SGDP baseline post-state creation growth. |
 | State Gross Domestic Product (SGDP) | 2014 | 720.0 | Billion NGN | Ekiti State | Joint NBS-EKSBS Computation | 2015 Re-basing Study | VERIFIED | Agriculture contributed ~45% of total SGDP. |
 | State Gross Domestic Product (SGDP) | 2019 | 1,120.0 | Billion NGN | Ekiti State | NBS Nigerian States GDP Report | 2021 | VERIFIED | Nominal SGDP; methodology reflects expanded service sector. |
