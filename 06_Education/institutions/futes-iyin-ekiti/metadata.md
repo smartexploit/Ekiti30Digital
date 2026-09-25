@@ -20,7 +20,6 @@ ingestible: no
 - Specialises in technology-driven education (engineering, digital innovation, applied
   sciences) and environmental sustainability/climate action per the sponsoring
   Minister of Education's stated rationale.
-- Cross-reference: EK-EDU-015 (timeline).
 - **Currently running / admitting students** per requester — confirm current
   intake/accreditation status against the university's own site before ingestion,
   as pioneer-year details (courses NUC-accredited, admission cycles) move fast.
