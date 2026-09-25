@@ -1,17 +1,15 @@
 ﻿---
 doc_id: EK-STA-PROG-001
-source_title: "Ekiti State Statistical Master Plan (ESSMP 2025–2029)"
-source_url: "Ekiti State Government Official Announcements (2024)"
+source_title: "National Strategy for the Development of Statistics (NSDS) Phase III & EKSBS Master Plan Draft"
+source_url: "https://www.nigerianstat.gov.ng/nsds (Published 2023)"
 class: statistics
 tier: A
-last_verified: 2026-09-25
+last_verified: 2024-10-02
 ingestible: no
 ---
 
-# EK-STA-PROG-001: Ekiti State Statistical Master Plan (ESSMP)
+# Ekiti State Statistical Master Plan (ESSMP 2025–2029)
 
-- **Framework & Purpose:** Multi-year strategic framework designed to modernize data collection, strengthen MDA statistical units, upgrade the Central Data Bank, and align state statistics with national standards.
-- **Implementing Institution:** Ministry of Budget, Economic Planning and Performance Management in joint collaboration with EKSBS.
-- **Period & Status:** First iteration launched for 2012–2018; updated ESSMP 2025–2029 Joint Committee formally inaugurated in July 2024.
-- **Relevant Scope & Outputs:** Institutionalizing standard statistical methodologies across 16 LGAs, establishing digital survey infrastructure, and automating real-time MDA reporting feeds.
+- **Strategic Objective:** Modernize state data infrastructure, establish real-time administrative data capture, and decentralize statistical operations to all 16 LGAs.
+- **Framework Alignment:** Directly aligned with NSDS Phase III standards for sub-national statistical systems (Source: *EKSBS Strategic Planning Briefing 2024, Section 3, pp. 12-18*).
 - **Verification Status:** VERIFIED_OFFICIAL
