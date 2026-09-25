@@ -1,4 +1,4 @@
-﻿doc_id,file_path,class,tier,last_verified,ingestible
+doc_id,file_path,class,tier,last_verified,ingestible
 EK-STA-000,09_Statistics/README.md,statistics,A,2026-09-25,no
 EK-STA-000-INT,09_Statistics/INTEGRATION_NOTES.md,statistics,A,2026-09-25,no
 EK-STA-000-GAP,09_Statistics/GAPS.md,statistics,A,2026-09-25,no
@@ -10,10 +10,10 @@ EK-STA-INST-003,09_Statistics/institutions/EK-STA-INST-003_NBS_Ekiti_State_Offic
 EK-STA-INST-004,09_Statistics/institutions/EK-STA-INST-004_Ekiti_State_Spatial_Data_Infrastructure.md,statistics,A,2026-09-25,no
 EK-STA-INST-005,09_Statistics/institutions/EK-STA-INST-005_EKSU_Department_of_Statistics.md,statistics,A,2026-09-25,no
 EK-STA-PROG-001,09_Statistics/programmes/EK-STA-PROG-001_Ekiti_State_Statistical_Master_Plan.md,statistics,A,2026-09-25,no
-EK-STA-PROG-002,09_Statistics/programmes/EK-STA-PROG-002_Annual_Abstract_Series.md,statistics,A,2026-09-25,no
+EK-STA-PROG-002,09_Statistics/programmes/EK-STA-PROG-002_Annual_Abstract_of_Statistics_Series.md,statistics,A,2026-09-25,no
 EK-STA-PROG-003,09_Statistics/programmes/EK-STA-PROG-003_Open_Data_Portal.md,statistics,A,2026-09-25,no
-EK-STA-PROG-004,09_Statistics/programmes/EK-STA-PROG-004_State_GDP_Accounting_Framework.md,statistics,A,2026-09-25,no
-EK-STA-PROG-005,09_Statistics/programmes/EK-STA-PROG-005_LGA_Decentralisation.md,statistics,A,2026-09-25,no
+EK-STA-PROG-004,09_Statistics/programmes/EK-STA-PROG-004_State_GDP_and_Macroeconomic_Accounting.md,statistics,A,2026-09-25,no
+EK-STA-PROG-005,09_Statistics/programmes/EK-STA-PROG-005_LGA_Level_Data_Decentralisation.md,statistics,A,2026-09-25,no
 EK-STA-PROJ-001,09_Statistics/projects/EK-STA-PROJ-001_Digital_Census_Prep_GIS_Boundary_Mapping.md,statistics,A,2026-09-25,no
 EK-STA-PROJ-002,09_Statistics/projects/EK-STA-PROJ-002_Realtime_Market_Price_CPI_Tracking.md,statistics,A,2026-09-25,no
 EK-STA-PROJ-003,09_Statistics/projects/EK-STA-PROJ-003_Data_Bank_Modernisation.md,statistics,A,2026-09-25,no
