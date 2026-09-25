@@ -1,7 +1,7 @@
 doc_id,path,source_title,source_url,class,tier,last_verified,ingestible
-,GAPS.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
-,INTEGRATION_NOTES.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
-,README.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
+EK-HEA-000-GAP,GAPS.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
+EK-HEA-000-INT,INTEGRATION_NOTES.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
+EK-HEA-000,README.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-CP-001,current_projects/EK-HEA-CP-001_EKSUTH_80_Bed_Multipurpose_Facility.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-CP-002,current_projects/EK-HEA-CP-002_Ikogosi_Awo_Ipao_Hospitals.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-CP-003,current_projects/EK-HEA-CP-003_Nine_General_Hospitals_Renovation_Solar_Equipment.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
@@ -10,7 +10,7 @@ EK-HEA-CP-005,current_projects/EK-HEA-CP-005_FMC_Ikole_Upgrade.md,Ekiti State He
 EK-HEA-CP-006,current_projects/EK-HEA-CP-006_Pharmacy_Warehouse_Modernisation.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-CP-007,current_projects/EK-HEA-CP-007_EKSUTH_Power_Infrastructure.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-HEALTH-FACILITY-LANDSCAPE,data/EK-HEA-HEALTH-FACILITY-LANDSCAPE.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
-,docs/RESEARCH_METHOD.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
+EK-HEA-000-RES,docs/RESEARCH_METHOD.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-INST-001,institutions/EK-HEA-INST-001_Ekiti_Ministry_of_Health_and_Human_Services.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-INST-002,institutions/EK-HEA-INST-002_Primary_Health_Care_Development_Agency.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
 EK-HEA-INST-003,institutions/EK-HEA-INST-003_Hospitals_Management_Board.md,Ekiti State Health Sector KB,,health_knowledge,primary/official+secondary,2026-09-25,no
