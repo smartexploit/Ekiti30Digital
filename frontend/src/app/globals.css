@@ -254,6 +254,8 @@ footer .wordmark .num { color: var(--rust); font-style: italic; font-weight: 500
 .btn-primary:hover { box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--rust) 75%, transparent); }
 .btn-primary:focus-visible, .btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 40%, transparent); }
 .btn-primary:disabled { cursor: progress; filter: saturate(0.75); }
+/* Buttons with an icon + label. display is set here, not with Tailwind classes: the unlayered .btn-primary rule above beats utility classes. */
+.btn-flex { display: flex; align-items: center; justify-content: center; gap: 8px; }
 
 .alert { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; border-radius: var(--radius-s); padding: 12px 14px; border: 1px solid; }
 .alert-error { color: var(--rust); background: color-mix(in srgb, var(--rust) 8%, var(--bg)); border-color: color-mix(in srgb, var(--rust) 35%, transparent); }

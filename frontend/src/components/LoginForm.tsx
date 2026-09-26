@@ -190,7 +190,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
                     disabled={busy}
                     whileHover={busy ? undefined : { y: -1 }}
                     whileTap={busy ? undefined : { scale: 0.97 }}
-                    className="btn-primary mt-1 flex items-center justify-center gap-2"
+                    className="btn-primary btn-flex mt-1"
                   >
                     {status === "submitting" ? (
                       <>
