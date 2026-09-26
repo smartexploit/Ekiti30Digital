@@ -2,6 +2,7 @@
 
 import re
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -69,6 +70,17 @@ class LoginResponse(BaseModel):
     id: int
     name: str
     email: str
+
+
+class LoginNotApprovedResponse(BaseModel):
+    """403 body when the password is right but the account can't log in.
+
+    `detail` is for people reading the response; clients should branch on
+    `code` rather than matching the message text.
+    """
+
+    detail: str
+    code: Literal["pending", "rejected"]
 
 
 class ContributorOut(BaseModel):

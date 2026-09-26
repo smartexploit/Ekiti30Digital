@@ -111,14 +111,14 @@ def test_login_pending_account_returns_403(client, db_session):
     add_contributor(db_session, status="pending")
     response = login(client)
     assert response.status_code == 403
-    assert response.json()["detail"] == "Account pending approval"
+    assert response.json() == {"detail": "Account pending approval", "code": "pending"}
 
 
 def test_login_rejected_account_returns_403(client, db_session):
     add_contributor(db_session, status="rejected")
     response = login(client)
     assert response.status_code == 403
-    assert response.json()["detail"] == "Account not approved"
+    assert response.json() == {"detail": "Account not approved", "code": "rejected"}
 
 
 def test_login_wrong_password_on_pending_account_returns_401(client, db_session):

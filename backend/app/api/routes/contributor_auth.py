@@ -12,6 +12,7 @@ password guessing and /signup to spam accounts.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -19,6 +20,7 @@ from app.core.passwords import hash_password, verify_password
 from app.models.base import get_db
 from app.models.contributor import ContributorAccount
 from app.schemas.contributors import (
+    LoginNotApprovedResponse,
     LoginRequest,
     LoginResponse,
     SignupRequest,
@@ -64,13 +66,17 @@ def signup(body: SignupRequest, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/login", response_model=LoginResponse)
+@router.post(
+    "/login",
+    response_model=LoginResponse,
+    responses={status.HTTP_403_FORBIDDEN: {"model": LoginNotApprovedResponse}},
+)
 def login(body: LoginRequest, db: Session = Depends(get_db)):
     """Check a contributor's credentials and approval status.
 
     401 for an unknown email or wrong password (deliberately identical);
     403 only once the password is proven correct but the account isn't
-    approved.
+    approved, with a `code` of "pending" or "rejected".
     """
     account = (
         db.query(ContributorAccount)
@@ -84,13 +90,16 @@ def login(body: LoginRequest, db: Session = Depends(get_db)):
             detail="Invalid email or password",
         )
 
-    if account.status == "pending":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Account pending approval"
-        )
     if account.status != "approved":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Account not approved"
+        # A JSONResponse rather than HTTPException, whose body can only
+        # carry `detail`.
+        pending = account.status == "pending"
+        body = LoginNotApprovedResponse(
+            detail="Account pending approval" if pending else "Account not approved",
+            code="pending" if pending else "rejected",
+        )
+        return JSONResponse(
+            status_code=status.HTTP_403_FORBIDDEN, content=body.model_dump()
         )
 
     return LoginResponse(id=account.id, name=account.name, email=account.email)
