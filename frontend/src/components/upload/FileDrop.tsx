@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useAnimationControls } from "motion/react";
 import { useEffect, useState } from "react";
 
+import { FieldError } from "@/components/ui/FieldError";
 import { FILE_ACCEPT, fileFormat, formatBytes, isVideo, listFormats, MAX_UPLOAD_BYTES } from "@/lib/uploads";
 
 type Props = {
@@ -137,27 +138,5 @@ export function FileDrop({ file, previewUrl, error, errorTick, disabled, onSelec
       </AnimatePresence>
       <FieldError id={`${INPUT_ID}-error`} message={error} />
     </motion.div>
-  );
-}
-
-export function FieldError({ id, message }: { id: string; message: string | null }) {
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      {message && (
-        <motion.p
-          key={message}
-          id={id}
-          initial={{ opacity: 0, height: 0, y: -4 }}
-          animate={{ opacity: 1, height: "auto", y: 0 }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.2 }}
-          className="field-error overflow-hidden"
-          role="alert"
-        >
-          <span aria-hidden="true">●</span>
-          {message}
-        </motion.p>
-      )}
-    </AnimatePresence>
   );
 }

@@ -4,8 +4,9 @@ import { AnimatePresence, motion, useAnimationControls, type Variants } from "mo
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import { FieldError } from "@/components/ui/FieldError";
 import { Spinner } from "@/components/ui/Spinner";
-import { FieldError, FileDrop } from "@/components/upload/FileDrop";
+import { FileDrop } from "@/components/upload/FileDrop";
 import { UploadSteps, type UploadPhase } from "@/components/upload/UploadSteps";
 import { UploadSuccess } from "@/components/upload/UploadSuccess";
 import {
