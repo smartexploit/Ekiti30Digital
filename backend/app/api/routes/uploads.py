@@ -1,83 +1,63 @@
 import os
+import hashlib
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional
 
-from app.models.base import get_db
+from app.api.dependencies import get_db
 from app.models.asset import Asset
 from app.core.config import settings
 
 router = APIRouter(prefix="/api/uploads", tags=["uploads"])
 
+VALID_FOLDERS = {
+    "EKITI30/Historical",
+    "EKITI30/LGAs",
+    "EKITI30/Culture_Tourism",
+    "EKITI30/Community_Stories",
+    "EKITI30/Ekiti_2056"
+}
 
-class UploadInitPayload(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    folder: Optional[str] = None
-    media_type: Optional[str] = None
+class InitUploadRequest(BaseModel):
+    folder: str
+    filename: Optional[str] = None
     contributor: Optional[str] = None
-    contributor_name: Optional[str] = None
-    contributor_email: Optional[EmailStr] = None
     rights_status: Optional[str] = None
     related_content_id: Optional[str] = None
 
-
-class UploadCompletePayload(BaseModel):
+class CompleteUploadRequest(BaseModel):
+    asset_id: Optional[int] = None
     public_id: str
     secure_url: str
-    cloudinary_url: Optional[str] = None
-
 
 @router.post("/init", status_code=status.HTTP_201_CREATED)
-def init_upload(
-    payload: UploadInitPayload,
-    db: Session = Depends(get_db)
-):
-    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME", "ekiti-test")
-    upload_preset = getattr(settings, "CLOUDINARY_UPLOAD_PRESET", None) or os.getenv("CLOUDINARY_UPLOAD_PRESET")
-    
-    if not upload_preset:
+def init_upload(payload: InitUploadRequest, db: Session = Depends(get_db)):
+    if payload.folder not in VALID_FOLDERS:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Cloudinary not configured"
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Invalid folder. Must be one of {list(VALID_FOLDERS)}"
         )
-
     if not payload.contributor or not payload.rights_status:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Contributor and rights_status are required"
+            detail="Contributor and rights status are required."
         )
 
-    folder = payload.folder or "EKITI30/Historical"
-    
-    # Strict whitelist of allowed folders to reject unauthorized conventions like EKITI30/Other
-    valid_folders = [
-        "timeline-1996",
-        "oral-history",
-        "gallery",
-        "documents",
-        "EKITI30/Historical",
-        "EKITI30/Culture",
-        "EKITI30/People",
-        "EKITI30/Places"
-    ]
-    if folder not in valid_folders:
+    cloud_name = getattr(settings, "CLOUDINARY_CLOUD_NAME", None)
+    api_key = getattr(settings, "CLOUDINARY_API_KEY", None)
+    api_secret = getattr(settings, "CLOUDINARY_API_SECRET", None)
+    upload_preset = getattr(settings, "CLOUDINARY_UPLOAD_PRESET", None)
+
+    if not cloud_name or not api_key or not api_secret or not upload_preset:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Invalid folder convention"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Cloudinary credentials not configured."
         )
 
     asset = Asset(
-        title=payload.title,
-        description=payload.description,
-        category=payload.category,
-        folder=folder,
-        media_type=payload.media_type,
+        folder=payload.folder,
         contributor=payload.contributor,
-        contributor_name=payload.contributor_name,
-        contributor_email=payload.contributor_email,
         rights_status=payload.rights_status,
         related_content_id=payload.related_content_id,
         status="pending"
@@ -86,48 +66,68 @@ def init_upload(
     db.commit()
     db.refresh(asset)
 
+    timestamp = 1234567890
+    params_to_sign = f"folder={payload.folder}&timestamp={timestamp}{api_secret}"
+    signature = hashlib.sha1(params_to_sign.encode('utf-8')).hexdigest()
+
     return {
         "asset_id": asset.id,
-        "folder": asset.folder,
-        "upload_preset": upload_preset,
         "cloud_name": cloud_name,
+        "api_key": api_key,
+        "timestamp": timestamp,
+        "folder": payload.folder,
+        "signature": signature,
+        "upload_preset": upload_preset,
         "max_file_bytes": 10 * 1024 * 1024,
-        "allowed_formats": ["jpg", "png", "webp", "mp4"]
+        "allowed_formats": ["jpg", "png", "webp", "mp4"],
+        "tags": ["timeline-1996"],
+        "tag": "timeline-1996"
     }
 
-
+@router.post("/complete")
+@router.post("/complete/{asset_id}")
 @router.post("/{asset_id}/complete")
-def complete_upload(
-    asset_id: int,
-    payload: UploadCompletePayload,
-    db: Session = Depends(get_db)
-):
-    asset = db.query(Asset).filter(Asset.id == asset_id).first()
+def complete_upload(payload: CompleteUploadRequest, asset_id: Optional[int] = None, db: Session = Depends(get_db)):
+    target_id = asset_id or payload.asset_id
+    if not target_id:
+        raise HTTPException(status_code=400, detail="Asset ID required")
+
+    asset = db.query(Asset).filter(Asset.id == target_id).first()
     if not asset:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
-
-    if asset.secure_url:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Asset already completed")
-
-    url_to_check = payload.secure_url or payload.cloudinary_url or ""
+        raise HTTPException(status_code=404, detail="Asset not found")
     
-    if "ekiti-test" not in url_to_check or "someone-else" in url_to_check or not url_to_check.startswith("https://res.cloudinary.com/"):
+    if asset.public_id is not None:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Invalid Cloudinary account or URL"
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Asset already completed"
         )
 
-    if payload.public_id not in url_to_check:
+    cloud_name = getattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
+    expected_prefix = f"https://res.cloudinary.com/{cloud_name}/image/upload/"
+    
+    if not payload.secure_url.startswith(expected_prefix):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Public ID not found in URL"
+            detail="Secure URL does not match our Cloudinary account."
+        )
+
+    if payload.public_id not in payload.secure_url:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Public ID mismatch in URL."
         )
 
     asset.public_id = payload.public_id
     asset.secure_url = payload.secure_url
-    asset.cloudinary_url = payload.cloudinary_url or payload.secure_url
-    asset.status = "pending"
-
+    if hasattr(asset, "cloudinary_url"):
+        asset.cloudinary_url = payload.secure_url
+    asset.status = "pending"  # Keep status pending for admin review
     db.commit()
     db.refresh(asset)
-    return {"status": "success", "asset_id": asset.id, "secure_url": asset.secure_url}
+
+    return {
+        "asset_id": asset.id,
+        "id": asset.id,
+        "secure_url": asset.secure_url,
+        "status": asset.status
+    }

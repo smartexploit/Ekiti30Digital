@@ -1,71 +1,83 @@
-"""Shared fixtures for API tests: in-memory DB, test client, admin tokens."""
-
-import time
-
-import jwt
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
+from datetime import datetime, timedelta
+import os
+import jwt
 
-from app.core.config import settings
 from app.main import app
-from app.models.base import Base, get_db
+from app.models.base import Base
+from app.api.dependencies import get_db
+from app.core.config import settings
 
-TEST_SECRET = "test-nextauth-secret-not-used-anywhere-real"
+settings.NEXTAUTH_SECRET = "test-secret-key-123456"
 
+SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+@pytest.fixture(autouse=True)
+def setup_database():
+    if "CLOUDINARY_CLOUD_NAME" not in os.environ:
+        os.environ["CLOUDINARY_CLOUD_NAME"] = "ekiti-test"
+    if "CLOUDINARY_API_KEY" not in os.environ:
+        os.environ["CLOUDINARY_API_KEY"] = "123456789"
+    if "CLOUDINARY_API_SECRET" not in os.environ:
+        os.environ["CLOUDINARY_API_SECRET"] = "test-secret"
+    if "CLOUDINARY_UPLOAD_PRESET" not in os.environ:
+        os.environ["CLOUDINARY_UPLOAD_PRESET"] = "ekiti30_member_unsigned"
+
+    Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
 def db_session():
-    # StaticPool keeps one connection so every session sees the same
-    # in-memory database, including those opened by the test client.
-    engine = create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
-    Base.metadata.create_all(engine)
-    session = sessionmaker(bind=engine)()
-    try:
-        yield session
-    finally:
-        session.close()
-
+    connection = engine.connect()
+    transaction = connection.begin()
+    session = TestingSessionLocal(bind=connection)
+    yield session
+    session.close()
+    transaction.rollback()
+    connection.close()
 
 @pytest.fixture
-def client(db_session, monkeypatch):
-    monkeypatch.setattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
-    monkeypatch.setattr(settings, "CLOUDINARY_UPLOAD_PRESET", "ekiti30_member_unsigned")
-    monkeypatch.setattr(settings, "NEXTAUTH_SECRET", TEST_SECRET)
-
-    app.dependency_overrides[get_db] = lambda: db_session
-    try:
-        yield TestClient(app)
-    finally:
-        app.dependency_overrides.clear()
-
-
-def _make_token(
-    secret: str = TEST_SECRET,
-    role: str = "admin",
-    email: str = "admin@example.com",
-    expires_in: int = 3600,
-) -> str:
-    now = int(time.time())
-    return jwt.encode(
-        {"sub": email, "email": email, "role": role, "iat": now, "exp": now + expires_in},
-        secret,
-        algorithm="HS256",
-    )
-
+def client(db_session):
+    def override_get_db():
+        try:
+            yield db_session
+        finally:
+            pass
+    app.dependency_overrides[get_db] = override_get_db
+    with TestClient(app) as client:
+        yield client
+    app.dependency_overrides.clear()
 
 @pytest.fixture
 def make_token():
-    """Mint a token shaped like the ones frontend/src/lib/auth.ts issues."""
+    def _make_token(email="admin@example.com", role="admin", secret=None, expires_in=None):
+        used_secret = secret if secret is not None else settings.NEXTAUTH_SECRET
+        if expires_in is not None:
+            exp_time = datetime.utcnow() + timedelta(seconds=expires_in)
+        else:
+            exp_time = datetime.utcnow() + timedelta(hours=1)
+        payload = {
+            "sub": email,
+            "email": email,
+            "role": role,
+            "iat": datetime.utcnow(),
+            "exp": exp_time
+        }
+        return jwt.encode(payload, used_secret, algorithm="HS256")
     return _make_token
 
-
 @pytest.fixture
-def admin_headers() -> dict[str, str]:
-    return {"Authorization": f"Bearer {_make_token()}"}
+def admin_headers(make_token):
+    return {"Authorization": f"Bearer {make_token(role='admin')}"}
