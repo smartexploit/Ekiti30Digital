@@ -1,22 +1,15 @@
-from pydantic import BaseModel, EmailStr
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
-class StoryCreate(BaseModel):
-    fullName: str
-    email: EmailStr
+class StoryBase(BaseModel):
     title: str
-    category: Optional[str] = "Education"
     content: str
+    author: Optional[str] = None
 
-class StoryRead(BaseModel):
+class StoryCreate(StoryBase):
+    pass
+
+class StoryRead(StoryBase):
     id: int
-    fullName: str
-    title: str
-    category: str
-    content: str
-    status: str
-    createdAt: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
