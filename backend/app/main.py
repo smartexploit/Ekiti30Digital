@@ -2,32 +2,26 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import (
-    admin,
-    ask_ekiti,
     health,
-    lgas,
-    stories,
-    timeline,
     uploads,
-    vision2056,
+    admin,
+    stories,
 )
-from app.core.config import settings
 
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(
+    title="Ekiti30 Digital API",
+    version="1.0.0",
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(health.router)
-app.include_router(timeline.router)
-app.include_router(lgas.router)
-app.include_router(stories.router)
-app.include_router(vision2056.router)
-app.include_router(ask_ekiti.router)
-app.include_router(uploads.router)
-app.include_router(admin.router)
+app.include_router(health.router, tags=["health"])
+app.include_router(uploads.router, prefix="/api/uploads", tags=["uploads"])
+app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
+app.include_router(stories.router, prefix="/api/stories", tags=["stories"])

@@ -8,3 +8,8 @@ backend/.pytest_cache/
 
 # General
 .DS_Store
+venv/
+.venv/
+backend/To
+backend/fix_server.py
+backend/setup_and_test.py
