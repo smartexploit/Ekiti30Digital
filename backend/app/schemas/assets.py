@@ -1,61 +1,61 @@
-"""Request/response schemas for media uploads and admin review."""
-
 from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel, ConfigDict
 
-from pydantic import BaseModel, ConfigDict, Field
+
+class UploadInitPayload(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    folder: Optional[str] = None
+    media_type: Optional[str] = None
+    contributor: Optional[str] = None
+    contributor_name: Optional[str] = None
+    contributor_email: Optional[str] = None
+    rights_status: Optional[str] = None
+
+    model_config = ConfigDict(extra="ignore")
 
 
-class UploadInitRequest(BaseModel):
-    contributor: str = Field(min_length=1)
-    source: str | None = None
-    location_lga: str | None = None
-    description: str | None = None
-    rights_status: str = Field(min_length=1)
-    related_content_id: str | None = None
-    # Must be one of cloudinary_convention.ALLOWED_FOLDERS.
-    folder: str
+class UploadInitRequest(UploadInitPayload):
+    pass
 
 
 class UploadInitResponse(BaseModel):
-    """Everything the frontend needs to upload directly to Cloudinary."""
-
     asset_id: int
-    cloud_name: str
     upload_preset: str
-    folder: str
-    # Not enforceable by an unsigned preset — the frontend must check these
-    # before uploading.
-    max_file_bytes: int
-    allowed_formats: list[str]
+    cloud_name: str
+    folder: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-class UploadCompleteRequest(BaseModel):
-    """The values Cloudinary returns to the browser after a direct upload."""
+class UploadCompletePayload(BaseModel):
+    public_id: str
+    secure_url: str
 
-    public_id: str = Field(min_length=1)
-    secure_url: str = Field(min_length=1)
+    model_config = ConfigDict(extra="ignore")
 
 
-class RejectRequest(BaseModel):
-    rejection_reason: str = Field(min_length=1)
+class UploadCompleteRequest(UploadCompletePayload):
+    pass
 
 
 class AssetOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
     id: int
-    public_id: str | None
-    cloudinary_url: str | None
-    folder: str
-    contributor: str
-    source: str | None
-    location_lga: str | None
-    description: str | None
-    rights_status: str
-    related_content_id: str | None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    folder: Optional[str] = None
+    media_type: Optional[str] = None
+    contributor: Optional[str] = None
+    rights_status: Optional[str] = None
     status: str
-    rejection_reason: str | None
-    reviewed_by: str | None
-    reviewed_at: datetime | None
-    created_at: datetime
-    updated_at: datetime
+    public_id: Optional[str] = None
+    secure_url: Optional[str] = None
+    reviewed_by: Optional[str] = None
+    rejection_reason: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

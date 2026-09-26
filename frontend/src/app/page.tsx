@@ -4,9 +4,8 @@ import LandmarksStrip from "@/components/LandmarksStrip";
 import MomentsSpine from "@/components/MomentsSpine";
 import FeatureGrid from "@/components/FeatureGrid";
 import Footer from "@/components/Footer";
+import { MyStoryForm } from "@/components/MyStoryForm";
 
-// Note: <Nav /> is already rendered globally in layout.tsx — don't add
-// a Header component here, it would duplicate the site nav.
 export default function Home() {
   return (
     <>
@@ -15,6 +14,7 @@ export default function Home() {
         <LeadersStrip />
         <LandmarksStrip />
         <MomentsSpine />
+        <MyStoryForm />
         <FeatureGrid />
       </main>
       <Footer />
