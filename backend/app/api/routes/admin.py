@@ -1,80 +1,79 @@
-from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from typing import List, Optional
+from pydantic import BaseModel, Field
+from datetime import datetime
 
-from app.models.base import get_db
+from app.api.dependencies import get_db, get_current_admin_user
 from app.models.asset import Asset
-from app.schemas.asset import AssetResponse, AssetRejectPayload
-from app.api.dependencies import get_current_admin_user
+from app.models.story import Story
+from app.schemas.story import StoryRead, StoryStatusUpdate
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 
+class RejectionPayload(BaseModel):
+    rejection_reason: str = Field(..., min_length=1)
 
-@router.get("/assets/pending", response_model=list[AssetResponse])
-def list_pending_assets(
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_admin_user)
-):
-    return db.query(Asset).filter(Asset.status == "pending").all()
+# --- Asset Moderation Endpoints ---
 
+@router.get("/assets/pending", response_model=List[dict])
+def list_pending_assets(db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+    assets = db.query(Asset).filter(Asset.status == "pending").all()
+    return [
+        {
+            "id": a.id,
+            "folder": a.folder,
+            "contributor": a.contributor,
+            "rights_status": a.rights_status,
+            "status": a.status,
+            "rejection_reason": a.rejection_reason,
+            "reviewed_by": a.reviewed_by,
+            "reviewed_at": a.reviewed_at,
+        }
+        for a in assets
+    ]
 
-@router.post("/assets/{asset_id}/approve", response_model=AssetResponse)
-def approve_asset(
-    asset_id: int,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_admin_user)
-):
+@router.post("/assets/{asset_id}/approve")
+def approve_asset(asset_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
     asset = db.query(Asset).filter(Asset.id == asset_id).first()
     if not asset:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
-    
+        raise HTTPException(status_code=404, detail="Asset not found")
     if asset.status != "pending":
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Asset already reviewed")
+        raise HTTPException(status_code=409, detail="Asset already reviewed")
 
     asset.status = "approved"
-    asset.reviewed_by = getattr(current_user, "email", "admin")
-    asset.reviewed_at = datetime.now(timezone.utc)
-    
+    asset.reviewed_by = getattr(admin, "email", "admin@example.com")
+    asset.reviewed_at = datetime.utcnow()
+    asset.rejection_reason = None
     db.commit()
-    db.refresh(asset)
-    return asset
+    return {"status": "approved"}
 
+@router.post("/assets/{asset_id}/reject")
+def reject_asset(asset_id: int, payload: RejectionPayload, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+    if not payload.rejection_reason or not payload.rejection_reason.strip():
+        raise HTTPException(status_code=422, detail="Rejection reason required")
 
-@router.post("/assets/{asset_id}/reject", response_model=AssetResponse)
-def reject_asset(
-    asset_id: int,
-    payload: AssetRejectPayload,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_admin_user)
-):
     asset = db.query(Asset).filter(Asset.id == asset_id).first()
     if not asset:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
-
+        raise HTTPException(status_code=404, detail="Asset not found")
     if asset.status != "pending":
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Asset already reviewed")
-
-    if not payload.rejection_reason:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Rejection reason required")
+        raise HTTPException(status_code=409, detail="Asset already reviewed")
 
     asset.status = "rejected"
     asset.rejection_reason = payload.rejection_reason
-    asset.reviewed_by = getattr(current_user, "email", "admin")
-    asset.reviewed_at = datetime.now(timezone.utc)
-
+    asset.reviewed_by = getattr(admin, "email", "admin@example.com")
+    asset.reviewed_at = datetime.utcnow()
     db.commit()
-    db.refresh(asset)
-    return asset
+    return {"status": "rejected"}
 
-from app.schemas.story import StoryRead, StoryStatusUpdate
-from app.models.story import Story
+# --- Story Moderation Endpoints ---
 
 @router.get("/stories/pending", response_model=List[StoryRead])
-def list_pending_stories(db: Session = Depends(get_db), admin: dict = Depends(verify_admin_token)):
+def list_pending_stories(db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
     return db.query(Story).filter(Story.status == "pending").all()
 
 @router.patch("/stories/{story_id}/status", response_model=StoryRead)
-def update_story_status(story_id: int, payload: StoryStatusUpdate, db: Session = Depends(get_db), admin: dict = Depends(verify_admin_token)):
+def update_story_status(story_id: int, payload: StoryStatusUpdate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
     story = db.query(Story).filter(Story.id == story_id).first()
     if not story:
         raise HTTPException(status_code=404, detail="Story not found")

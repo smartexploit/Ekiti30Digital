@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
-from app.database import get_db
+from app.api.dependencies import get_db
 from app.models.story import Story
 from app.schemas.story import StoryCreate, StoryRead
 
@@ -13,7 +13,7 @@ def create_story(payload: StoryCreate, db: Session = Depends(get_db)):
         title=payload.title,
         content=payload.content,
         author=payload.author,
-        status="pending"  # Enforce default pending moderation state
+        status="pending"
     )
     db.add(db_story)
     db.commit()
@@ -22,6 +22,4 @@ def create_story(payload: StoryCreate, db: Session = Depends(get_db)):
 
 @router.get("", response_model=List[StoryRead])
 def list_public_stories(db: Session = Depends(get_db)):
-    # Strict public filtering: only return approved stories
-    stories = db.query(Story).filter(Story.status == "approved").all()
-    return stories
+    return db.query(Story).filter(Story.status == "approved").all()
