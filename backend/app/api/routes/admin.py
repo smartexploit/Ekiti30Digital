@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel, Field
 from datetime import datetime
 
-from app.api.dependencies import get_db, get_current_admin_user
+from app.api.dependencies import get_db
+from app.core.auth import require_admin
 from app.models.asset import Asset
 from app.models.story import Story
 from app.schemas.story import StoryRead, StoryStatusUpdate
@@ -17,7 +18,7 @@ class RejectionPayload(BaseModel):
 # --- Asset Moderation Endpoints ---
 
 @router.get("/assets/pending", response_model=List[dict])
-def list_pending_assets(db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+def list_pending_assets(db: Session = Depends(get_db), admin: dict = Depends(require_admin)):
     assets = db.query(Asset).filter(Asset.status == "pending").all()
     return [
         {
@@ -34,7 +35,7 @@ def list_pending_assets(db: Session = Depends(get_db), admin: dict = Depends(get
     ]
 
 @router.post("/assets/{asset_id}/approve")
-def approve_asset(asset_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+def approve_asset(asset_id: int, db: Session = Depends(get_db), admin: dict = Depends(require_admin)):
     asset = db.query(Asset).filter(Asset.id == asset_id).first()
     if not asset:
         raise HTTPException(status_code=404, detail="Asset not found")
@@ -49,7 +50,7 @@ def approve_asset(asset_id: int, db: Session = Depends(get_db), admin: dict = De
     return {"status": "approved"}
 
 @router.post("/assets/{asset_id}/reject")
-def reject_asset(asset_id: int, payload: RejectionPayload, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+def reject_asset(asset_id: int, payload: RejectionPayload, db: Session = Depends(get_db), admin: dict = Depends(require_admin)):
     if not payload.rejection_reason or not payload.rejection_reason.strip():
         raise HTTPException(status_code=422, detail="Rejection reason required")
 
@@ -69,11 +70,11 @@ def reject_asset(asset_id: int, payload: RejectionPayload, db: Session = Depends
 # --- Story Moderation Endpoints ---
 
 @router.get("/stories/pending", response_model=List[StoryRead])
-def list_pending_stories(db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+def list_pending_stories(db: Session = Depends(get_db), admin: dict = Depends(require_admin)):
     return db.query(Story).filter(Story.status == "pending").all()
 
 @router.patch("/stories/{story_id}/status", response_model=StoryRead)
-def update_story_status(story_id: int, payload: StoryStatusUpdate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin_user)):
+def update_story_status(story_id: int, payload: StoryStatusUpdate, db: Session = Depends(get_db), admin: dict = Depends(require_admin)):
     story = db.query(Story).filter(Story.id == story_id).first()
     if not story:
         raise HTTPException(status_code=404, detail="Story not found")

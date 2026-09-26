@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
+from typing import Optional, Literal
 from datetime import datetime
 
 class StoryCreate(BaseModel):
@@ -23,4 +23,4 @@ class StoryRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class StoryStatusUpdate(BaseModel):
-    status: str  # approved, rejected
+    status: Literal["approved", "rejected"]

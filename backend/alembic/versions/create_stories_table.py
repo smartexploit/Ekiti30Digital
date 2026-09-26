@@ -1,7 +1,7 @@
 """create stories table
 
 Revision ID: create_stories_table
-Revises: 
+Revises: c48668c48e04
 Create Date: 2026-06-06 00:00:00.000000
 
 """
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'create_stories_table'
-down_revision = None
+down_revision = 'c48668c48e04'
 branch_labels = None
 depends_on = None
 
