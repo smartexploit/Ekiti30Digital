@@ -65,3 +65,21 @@ def reject_asset(
     db.commit()
     db.refresh(asset)
     return asset
+
+from app.schemas.story import StoryRead, StoryStatusUpdate
+from app.models.story import Story
+
+@router.get("/stories/pending", response_model=List[StoryRead])
+def list_pending_stories(db: Session = Depends(get_db), admin: dict = Depends(verify_admin_token)):
+    return db.query(Story).filter(Story.status == "pending").all()
+
+@router.patch("/stories/{story_id}/status", response_model=StoryRead)
+def update_story_status(story_id: int, payload: StoryStatusUpdate, db: Session = Depends(get_db), admin: dict = Depends(verify_admin_token)):
+    story = db.query(Story).filter(Story.id == story_id).first()
+    if not story:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+    story.status = payload.status
+    db.commit()
+    db.refresh(story)
+    return story
