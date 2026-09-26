@@ -1,0 +1,33 @@
+import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+
+import { SignOutButton } from "@/components/SignOutButton";
+import { authOptions } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Review desk — EKITI@30 DIGITAL",
+  robots: { index: false },
+};
+
+export default async function AdminPage() {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login?callbackUrl=/admin");
+
+  return (
+    <main className="wrap flex-1 py-12">
+      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-6">
+        <div>
+          <div className="eyebrow-row">
+            <span className="eyebrow-dot" /> Signed in as {session.user?.email}
+          </div>
+          <h1 className="hero-title" style={{ fontSize: "clamp(28px, 3.6vw, 40px)" }}>
+            Review <em>desk</em>
+          </h1>
+        </div>
+        <SignOutButton />
+      </div>
+      <p className="mt-8 text-ink-soft">The pending-uploads queue will appear here.</p>
+    </main>
+  );
+}
