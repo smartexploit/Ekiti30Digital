@@ -1,6 +1,6 @@
 ---
 doc_id: EK-STAT-006
-date: "2012"
+date: "[Disputed/Unverified Year - Pending Review]"
 title: Ekiti State Bureau of Statistics (SBS) established
 category: Institutions
 ---
