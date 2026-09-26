@@ -85,7 +85,8 @@ def build_chunks(manifest_rows, root):
         if not os.path.exists(full):
             errors.append(f"{row['path']}: file listed in manifest but not found on disk")
             continue
-        text = open(full, encoding="utf-8").read()
+        with open(full, encoding="utf-8") as f:
+            text = f.read()
         summary, facts = parse_body_sections(text)
         sids = [s for s in (row.get("source_ids") or "").split(";") if s]
         meta = dict(doc_id=row["id"], source_ids=";".join(sids), source_titles="",
