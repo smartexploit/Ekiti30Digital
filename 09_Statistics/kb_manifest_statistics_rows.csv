@@ -1,3 +1,4 @@
+# NOTE: NON-AUTHORITATIVE WORKING/SOURCE REGISTRY. Authoritative ingestion status governed by 13_Knowledge_Base/kb_manifest.csv
 doc_id,source_title,source_url,class,tier,last_verified,ingestible
 EK-STAT-001,Ekiti State Govt website - About Ekiti,https://www.ekitistate.gov.ng/about-ekiti,primary,1,2026-09-25,yes
 EK-STAT-002,Ekiti State Govt website - About Ekiti,https://www.ekitistate.gov.ng/about-ekiti,primary,1,2026-09-25,yes
