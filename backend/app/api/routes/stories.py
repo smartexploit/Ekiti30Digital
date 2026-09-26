@@ -9,10 +9,13 @@ router = APIRouter(prefix="/api/stories", tags=["stories"])
 
 @router.post("", response_model=StoryRead, status_code=status.HTTP_201_CREATED)
 def create_story(payload: StoryCreate, db: Session = Depends(get_db)):
+    author_name = payload.author or payload.fullName
     db_story = Story(
         title=payload.title,
         content=payload.content,
-        author=payload.author,
+        author=author_name,
+        email=payload.email,
+        category=payload.category,
         status="pending"
     )
     db.add(db_story)

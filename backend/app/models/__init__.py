@@ -1,4 +1,3 @@
-from sqlmodel import SQLModel
+from app.models.base import Base
+from app.models.asset import Asset
 from app.models.story import Story
-
-__all__ = ["SQLModel", "Story"]

@@ -9,5 +9,7 @@ class Story(Base):
     title = Column(String, nullable=False)
     content = Column(Text, nullable=False)
     author = Column(String, nullable=True)
+    email = Column(String, nullable=True)
+    category = Column(String, nullable=True)
     status = Column(String, default="pending", nullable=False)  # pending, approved, rejected
     created_at = Column(DateTime, default=datetime.utcnow)
