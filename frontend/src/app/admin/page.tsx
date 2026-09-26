@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login?callbackUrl=/admin");
+  // Contributors can sign in too, but the review desk is admin-only.
+  if (session.user?.role !== "admin") redirect("/upload");
 
   return (
     <main className="wrap flex-1 py-12">
