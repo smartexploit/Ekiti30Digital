@@ -17,7 +17,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.passwords import hash_password, verify_password
-from app.models.base import get_db
+from app.api.dependencies import get_db
 from app.models.contributor import ContributorAccount
 from app.schemas.contributors import (
     LoginNotApprovedResponse,

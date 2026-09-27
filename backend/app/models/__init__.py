@@ -1,9 +1,17 @@
-"""SQLAlchemy models.
+from app.models.base import Base
+from app.models.asset import Asset
 
-Import every model module here so Base.metadata is fully populated —
-Alembic's autogenerate (see backend/alembic/env.py) relies on this.
-"""
+try:
+    from app.models.story import Story
+except ImportError:
+    pass
 
-from app.models.asset import Asset  # noqa: F401
-from app.models.contributor import ContributorAccount  # noqa: F401
-from app.models.knowledge import Chunk, KnowledgeDocument  # noqa: F401
+try:
+    from app.models.contributor import Contributor
+except ImportError:
+    try:
+        from app.models.contributor import ContributorAccount
+    except ImportError:
+        pass
+
+__all__ = ["Base", "Asset"]

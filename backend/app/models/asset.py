@@ -22,6 +22,8 @@ class Asset(Base):
     contributor_email = Column(String(255), nullable=True)
     rights_status = Column(String(100), nullable=True)
     related_content_id = Column(String(255), nullable=True)
+    source = Column(String(255), nullable=True)
+    location_lga = Column(String(100), nullable=True)
     
     status = Column(String(50), default="pending", nullable=False)
     public_id = Column(String(255), nullable=True)

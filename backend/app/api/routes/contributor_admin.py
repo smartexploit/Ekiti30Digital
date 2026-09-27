@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.auth import AdminUser, require_admin
-from app.models.base import get_db
+from app.api.dependencies import get_db
 from app.models.contributor import ContributorAccount
 from app.schemas.assets import RejectRequest
 from app.schemas.contributors import ContributorOut

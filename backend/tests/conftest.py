@@ -115,3 +115,14 @@ def make_token():
 def admin_headers(make_token):
     token = make_token(sub="admin_user", role="admin")
     return {"Authorization": f"Bearer {token}"}
+
+
+@pytest.fixture
+def normal_user_token_headers(client, make_token):
+    token = make_token({"sub": "test_user", "role": "contributor", "is_superuser": False})
+    return {"Authorization": f"Bearer {token}"}
+
+
+@pytest.fixture
+def superuser_token_headers(admin_headers):
+    return admin_headers

@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Story {
+  id        String   @id @default(uuid())
+  fullName  String
+  email     String
+  title     String
+  category  String   @default("Education")
+  content   String
+  createdAt DateTime @default(now())
+}
