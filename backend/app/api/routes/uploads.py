@@ -1,133 +1,101 @@
-import os
-import hashlib
+"""Member-facing media upload endpoints.
+
+The file itself never passes through this backend: the browser uploads it
+directly to Cloudinary using an unsigned preset. These endpoints only record
+metadata before the upload (init) and the resulting Cloudinary identifiers
+after it (complete). New assets start as "pending" and stay hidden from
+public output until an admin approves them (see admin.py).
+"""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
-from typing import Optional
 
-from app.api.dependencies import get_db
-from app.models.asset import Asset
 from app.core.config import settings
+from app.models.asset import Asset
+from app.models.base import get_db
+from app.schemas.assets import (
+    AssetOut,
+    UploadCompleteRequest,
+    UploadInitRequest,
+    UploadInitResponse,
+)
+from app.services.cloudinary_convention import (
+    ALLOWED_FOLDERS,
+    ALLOWED_FORMATS,
+    MAX_UPLOAD_BYTES,
+    validate_folder,
+)
 
 router = APIRouter(prefix="/api/uploads", tags=["uploads"])
 
-VALID_FOLDERS = {
-    "EKITI30/Historical",
-    "EKITI30/LGAs",
-    "EKITI30/Culture_Tourism",
-    "EKITI30/Community_Stories",
-    "EKITI30/Ekiti_2056"
-}
 
-class InitUploadRequest(BaseModel):
-    folder: str
-    filename: Optional[str] = None
-    contributor: Optional[str] = None
-    rights_status: Optional[str] = None
-    related_content_id: Optional[str] = None
-
-class CompleteUploadRequest(BaseModel):
-    asset_id: Optional[int] = None
-    public_id: str
-    secure_url: str
-
-@router.post("/init", status_code=status.HTTP_201_CREATED)
-def init_upload(payload: InitUploadRequest, db: Session = Depends(get_db)):
-    if payload.folder not in VALID_FOLDERS:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Invalid folder. Must be one of {list(VALID_FOLDERS)}"
-        )
-    if not payload.contributor or not payload.rights_status:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Contributor and rights status are required."
-        )
-
-    cloud_name = getattr(settings, "CLOUDINARY_CLOUD_NAME", None)
-    api_key = getattr(settings, "CLOUDINARY_API_KEY", None)
-    api_secret = getattr(settings, "CLOUDINARY_API_SECRET", None)
-    upload_preset = getattr(settings, "CLOUDINARY_UPLOAD_PRESET", None)
-
-    if not cloud_name or not api_key or not api_secret or not upload_preset:
+def _cloudinary_config() -> tuple[str, str]:
+    if not (settings.CLOUDINARY_CLOUD_NAME and settings.CLOUDINARY_UPLOAD_PRESET):
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Cloudinary credentials not configured."
+            detail="Media uploads are not configured",
+        )
+    return settings.CLOUDINARY_CLOUD_NAME, settings.CLOUDINARY_UPLOAD_PRESET
+
+
+@router.post("/init", response_model=UploadInitResponse, status_code=201)
+def init_upload(body: UploadInitRequest, db: Session = Depends(get_db)):
+    """Create a pending Asset and return what the browser needs to upload it."""
+    cloud_name, upload_preset = _cloudinary_config()
+
+    if not validate_folder(body.folder):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail=f"folder must be one of: {', '.join(ALLOWED_FOLDERS)}",
         )
 
-    asset = Asset(
-        folder=payload.folder,
-        contributor=payload.contributor,
-        rights_status=payload.rights_status,
-        related_content_id=payload.related_content_id,
-        status="pending"
-    )
+    asset = Asset(**body.model_dump(), status="pending")
     db.add(asset)
     db.commit()
     db.refresh(asset)
 
-    timestamp = 1234567890
-    params_to_sign = f"folder={payload.folder}&timestamp={timestamp}{api_secret}"
-    signature = hashlib.sha1(params_to_sign.encode('utf-8')).hexdigest()
+    return UploadInitResponse(
+        asset_id=asset.id,
+        cloud_name=cloud_name,
+        upload_preset=upload_preset,
+        folder=asset.folder,
+        max_file_bytes=MAX_UPLOAD_BYTES,
+        allowed_formats=list(ALLOWED_FORMATS),
+    )
 
-    return {
-        "asset_id": asset.id,
-        "cloud_name": cloud_name,
-        "api_key": api_key,
-        "timestamp": timestamp,
-        "folder": payload.folder,
-        "signature": signature,
-        "upload_preset": upload_preset,
-        "max_file_bytes": 10 * 1024 * 1024,
-        "allowed_formats": ["jpg", "png", "webp", "mp4"],
-        "tags": ["timeline-1996"],
-        "tag": "timeline-1996"
-    }
 
-@router.post("/complete")
-@router.post("/complete/{asset_id}")
-@router.post("/{asset_id}/complete")
-def complete_upload(payload: CompleteUploadRequest, asset_id: Optional[int] = None, db: Session = Depends(get_db)):
-    target_id = asset_id or payload.asset_id
-    if not target_id:
-        raise HTTPException(status_code=400, detail="Asset ID required")
+@router.post("/{asset_id}/complete", response_model=AssetOut)
+def complete_upload(
+    asset_id: int, body: UploadCompleteRequest, db: Session = Depends(get_db)
+):
+    """Record the public_id and secure_url Cloudinary returned for an upload."""
+    cloud_name, _ = _cloudinary_config()
 
-    asset = db.query(Asset).filter(Asset.id == target_id).first()
-    if not asset:
-        raise HTTPException(status_code=404, detail="Asset not found")
-    
-    if asset.public_id is not None:
+    asset = db.get(Asset, asset_id)
+    if asset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+    if asset.status != "pending" or asset.public_id is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Asset already completed"
+            detail="Upload for this asset has already been completed",
         )
 
-    cloud_name = getattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
-    expected_prefix = f"https://res.cloudinary.com/{cloud_name}/image/upload/"
-    
-    if not payload.secure_url.startswith(expected_prefix):
+    # The browser supplies these values, so at least make sure they point
+    # at our own Cloudinary account. This can't prove the file exists —
+    # that would need the Admin API (and so the API secret) server-side.
+    if not body.secure_url.startswith(f"https://res.cloudinary.com/{cloud_name}/"):
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Secure URL does not match our Cloudinary account."
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="secure_url is not a Cloudinary URL for this account",
         )
-
-    if payload.public_id not in payload.secure_url:
+    if body.public_id not in body.secure_url:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Public ID mismatch in URL."
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="public_id does not match secure_url",
         )
 
-    asset.public_id = payload.public_id
-    asset.secure_url = payload.secure_url
-    if hasattr(asset, "cloudinary_url"):
-        asset.cloudinary_url = payload.secure_url
-    asset.status = "pending"  # Keep status pending for admin review
+    asset.public_id = body.public_id
+    asset.cloudinary_url = body.secure_url
     db.commit()
     db.refresh(asset)
-
-    return {
-        "asset_id": asset.id,
-        "id": asset.id,
-        "secure_url": asset.secure_url,
-        "status": asset.status
-    }
+    return asset

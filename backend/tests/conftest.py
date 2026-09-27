@@ -1,45 +1,59 @@
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
+
+import jwt
 import pytest
-from fastapi.testclient import TestClient
+from datetime import datetime, timedelta, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
-from datetime import datetime, timedelta
-import os
-import jwt
+from fastapi.testclient import TestClient
 
-from app.main import app
-from app.models.base import Base
-from app.api.dependencies import get_db
 from app.core.config import settings
+from app.models.base import Base
+from app.api.dependencies import get_db as get_db_api
+from app.main import app as fastapi_app
 
-settings.NEXTAUTH_SECRET = "test-secret-key-123456"
-
-SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+TEST_SECRET = "test-secret-key-1234567890-32-bytes"
+SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
+    SQLALCHEMY_TEST_DATABASE_URL,
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 @pytest.fixture(autouse=True)
-def setup_database():
-    if "CLOUDINARY_CLOUD_NAME" not in os.environ:
-        os.environ["CLOUDINARY_CLOUD_NAME"] = "ekiti-test"
-    if "CLOUDINARY_API_KEY" not in os.environ:
-        os.environ["CLOUDINARY_API_KEY"] = "123456789"
-    if "CLOUDINARY_API_SECRET" not in os.environ:
-        os.environ["CLOUDINARY_API_SECRET"] = "test-secret"
-    if "CLOUDINARY_UPLOAD_PRESET" not in os.environ:
-        os.environ["CLOUDINARY_UPLOAD_PRESET"] = "ekiti30_member_unsigned"
+def configure_test_settings(monkeypatch):
+    """Isolate and synchronize all security and configuration settings per test."""
+    monkeypatch.setattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
+    monkeypatch.setattr(settings, "CLOUDINARY_UPLOAD_PRESET", "ekiti30_member_unsigned")
+    monkeypatch.setattr(settings, "DATABASE_URL", SQLALCHEMY_TEST_DATABASE_URL)
+    
+    cors_list = ["http://localhost:3000", "*"]
+    if hasattr(settings, "cors_origins"):
+        monkeypatch.setattr(settings, "cors_origins", cors_list)
+    if hasattr(settings, "CORS_ORIGINS"):
+        monkeypatch.setattr(settings, "CORS_ORIGINS", cors_list)
 
+    if hasattr(settings, "JWT_SECRET"):
+        monkeypatch.setattr(settings, "JWT_SECRET", TEST_SECRET)
+    if hasattr(settings, "NEXTAUTH_SECRET"):
+        monkeypatch.setattr(settings, "NEXTAUTH_SECRET", TEST_SECRET)
+    if hasattr(settings, "ADMIN_JWT_SECRET"):
+        monkeypatch.setattr(settings, "ADMIN_JWT_SECRET", TEST_SECRET)
+
+@pytest.fixture(autouse=True)
+def setup_test_database():
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
-def db_session():
+def db_session(setup_test_database):
     connection = engine.connect()
     transaction = connection.begin()
     session = TestingSessionLocal(bind=connection)
@@ -50,34 +64,35 @@ def db_session():
 
 @pytest.fixture
 def client(db_session):
-    def override_get_db():
+    def _override_get_db():
         try:
             yield db_session
         finally:
             pass
-    app.dependency_overrides[get_db] = override_get_db
-    with TestClient(app) as client:
-        yield client
-    app.dependency_overrides.clear()
+
+    fastapi_app.dependency_overrides[get_db_api] = _override_get_db
+
+    with TestClient(fastapi_app) as c:
+        yield c
+
+    fastapi_app.dependency_overrides.clear()
 
 @pytest.fixture
 def make_token():
-    def _make_token(email="admin@example.com", role="admin", secret=None, expires_in=None):
-        used_secret = secret if secret is not None else settings.NEXTAUTH_SECRET
-        if expires_in is not None:
-            exp_time = datetime.utcnow() + timedelta(seconds=expires_in)
-        else:
-            exp_time = datetime.utcnow() + timedelta(hours=1)
+    def _generator(sub="admin_user", role="admin", secret=TEST_SECRET, expires_in=3600):
+        now = datetime.now(timezone.utc)
         payload = {
-            "sub": email,
-            "email": email,
+            "sub": sub,
+            "user_id": sub,
             "role": role,
-            "iat": datetime.utcnow(),
-            "exp": exp_time
+            "is_admin": (role == "admin"),
+            "iat": now,
+            "exp": now + timedelta(seconds=expires_in),
         }
-        return jwt.encode(payload, used_secret, algorithm="HS256")
-    return _make_token
+        return jwt.encode(payload, secret, algorithm="HS256")
+    return _generator
 
 @pytest.fixture
 def admin_headers(make_token):
-    return {"Authorization": f"Bearer {make_token(role='admin')}"}
+    token = make_token(sub="admin_user", role="admin")
+    return {"Authorization": f"Bearer {token}"}
