@@ -1,64 +1,49 @@
-from typing import Any, List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+from typing import Any, Optional
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.orm import Session
+
 from app.api import deps
+from app.db.session import get_db
+from app.models.story import Story
 
 router = APIRouter()
 
-# In-memory store or db mock for stories
-_STORIES_STORE = [
-    {
-        "id": "story_default_1",
-        "title": "Historical Roots of Ekiti",
-        "content": "Ekiti is known as the fountain of knowledge with a rich heritage.",
-        "category": "culture",
-        "status": "approved",
-        "user_id": "system"
-    }
-]
-
-class StoryCreate(BaseModel):
-    title: str = Field(..., min_length=3)
-    content: str = Field(..., min_length=10)
-    category: Optional[str] = "general"
-
-class StoryResponse(BaseModel):
-    id: str
-    title: str
-    content: str
-    category: str
-    status: str
-    user_id: str
-
-@router.get("", response_model=List[StoryResponse], status_code=status.HTTP_200_OK)
-def list_stories(
-    status_filter: Optional[str] = "approved",
+@router.get("", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
+def list_public_stories(
+    status_filter: Optional[str] = Query("approved", alias="status"),
+    db: Session = Depends(get_db)
 ) -> Any:
-    """Return stories filtered by status (default approved for public)."""
+    query = db.query(Story)
     if status_filter:
-        return [s for s in _STORIES_STORE if s.get("status") == status_filter]
-    return _STORIES_STORE
+        query = query.filter(Story.status == status_filter)
+    stories = query.all()
+    return [{"id": str(s.id), "title": s.title, "status": s.status} for s in stories]
 
-@router.post("", response_model=StoryResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_story(
-    *,
-    data: StoryCreate,
-    current_user: dict = Depends(deps.get_current_active_contributor),
+    story_in: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_user_payload)
 ) -> Any:
-    """Create a new story submission (default status: pending)."""
-    user_id = current_user.get("sub") or current_user.get("user_id") or "contributor_1"
-    if isinstance(user_id, dict):
-        user_id = user_id.get("id", "contributor_1")
-        
-    story_id = f"story_{abs(hash(data.title + str(user_id))) % 100000}"
+    title = story_in.get("title", "").strip() if isinstance(story_in.get("title"), str) else ""
+    content = story_in.get("content", "").strip() if isinstance(story_in.get("content"), str) else ""
     
-    new_story = {
-        "id": story_id,
-        "title": data.title,
-        "content": data.content,
-        "category": data.category or "general",
-        "status": "pending",
-        "user_id": str(user_id),
-    }
-    _STORIES_STORE.append(new_story)
-    return new_story
+    if not title or not content:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Title and content are required and cannot be empty"
+        )
+    
+    story_kwargs = {"title": title, "content": content, "status": "pending"}
+    if hasattr(Story, "author_id"):
+        story_kwargs["author_id"] = current_user.get("sub")
+    elif hasattr(Story, "user_id"):
+        story_kwargs["user_id"] = current_user.get("sub")
+        
+    story = Story(**story_kwargs)
+    db.add(story)
+    db.commit()
+    db.refresh(story)
+    return {"id": str(story.id), "title": story.title, "status": story.status}

@@ -1,128 +1,98 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
-
-import jwt
 import pytest
-from datetime import datetime, timedelta, timezone
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
-from fastapi.testclient import TestClient
+import jwt
 
+from app.main import app
+from app.db.base_class import Base
+from app.db.session import get_db
 from app.core.config import settings
-from app.models.base import Base
-from app.api.dependencies import get_db as get_db_api
-from app.main import app as fastapi_app
+from app.models.asset import Asset
+from app.models.story import Story
 
-TEST_SECRET = "test-secret-key-1234567890-32-bytes"
-SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///:memory:"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
-    SQLALCHEMY_TEST_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-@pytest.fixture(autouse=True)
-def configure_test_settings(monkeypatch):
-    """Isolate and synchronize all security and configuration settings per test."""
-    if hasattr(settings, "CLOUDINARY_CLOUD_NAME"):
-        try:
-            monkeypatch.setattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
-        except AttributeError:
-            pass
-
-    if hasattr(settings, "CLOUDINARY_UPLOAD_PRESET"):
-        try:
-            monkeypatch.setattr(settings, "CLOUDINARY_UPLOAD_PRESET", "ekiti30_member_unsigned")
-        except AttributeError:
-            pass
-
-    if hasattr(settings, "DATABASE_URL"):
-        try:
-            monkeypatch.setattr(settings, "DATABASE_URL", SQLALCHEMY_TEST_DATABASE_URL)
-        except AttributeError:
-            pass
-
-    if hasattr(settings, "JWT_SECRET"):
-        try:
-            monkeypatch.setattr(settings, "JWT_SECRET", TEST_SECRET)
-        except AttributeError:
-            pass
-
-    if hasattr(settings, "NEXTAUTH_SECRET"):
-        try:
-            monkeypatch.setattr(settings, "NEXTAUTH_SECRET", TEST_SECRET)
-        except AttributeError:
-            pass
-
-    if hasattr(settings, "ADMIN_JWT_SECRET"):
-        try:
-            monkeypatch.setattr(settings, "ADMIN_JWT_SECRET", TEST_SECRET)
-        except AttributeError:
-            pass
-
-@pytest.fixture(autouse=True)
-def setup_test_database():
-    Base.metadata.create_all(bind=engine)
-    yield
+@pytest.fixture(scope="function", autouse=True)
+def db_session():
     Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        Base.metadata.drop_all(bind=engine)
 
-@pytest.fixture
-def db_session(setup_test_database):
-    connection = engine.connect()
-    transaction = connection.begin()
-    session = TestingSessionLocal(bind=connection)
-    yield session
-    session.close()
-    transaction.rollback()
-    connection.close()
-
-@pytest.fixture
+@pytest.fixture(scope="function")
 def client(db_session):
-    def _override_get_db():
+    def override_get_db():
         try:
             yield db_session
         finally:
             pass
-
-    fastapi_app.dependency_overrides[get_db_api] = _override_get_db
-
-    with TestClient(fastapi_app) as c:
+            
+    app.dependency_overrides[get_db] = override_get_db
+    with TestClient(app) as c:
         yield c
+    app.dependency_overrides.clear()
 
-    fastapi_app.dependency_overrides.clear()
+@pytest.fixture
+def contributor_token():
+    payload = {"sub": "test_contributor_id", "role": "contributor", "is_admin": True}
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=getattr(settings, "ALGORITHM", "HS256"))
+    return token
+
+@pytest.fixture
+def admin_token():
+    payload = {"sub": "test_admin_id", "role": "admin", "is_admin": True}
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=getattr(settings, "ALGORITHM", "HS256"))
+    return token
+
+@pytest.fixture
+def normal_user_token():
+    payload = {"sub": "test_user_id", "role": "contributor", "is_admin": False}
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=getattr(settings, "ALGORITHM", "HS256"))
+    return token
+
+@pytest.fixture
+def contributor_token_headers(contributor_token):
+    return {"Authorization": f"Bearer {contributor_token}"}
+
+@pytest.fixture
+def admin_token_headers(admin_token):
+    return {"Authorization": f"Bearer {admin_token}"}
+
+@pytest.fixture
+def normal_user_token_headers(normal_user_token):
+    return {"Authorization": f"Bearer {normal_user_token}"}
 
 @pytest.fixture
 def make_token():
-    def _generator(sub="admin_user", role="admin", secret=TEST_SECRET, expires_in=3600):
-        now = datetime.now(timezone.utc)
-        payload = {
-            "sub": sub,
-            "user_id": sub,
-            "role": role,
-            "is_admin": (role == "admin"),
-            "iat": now,
-            "exp": now + timedelta(seconds=expires_in),
-        }
-        return jwt.encode(payload, secret, algorithm="HS256")
-    return _generator
+    """Flexible token factory supporting both calling styles used in tests:
+    make_token(role="admin", sub="x", ...) and make_token({"sub": "x", ...}).
+    """
+    import time
+
+    def _make(payload_dict=None, **kwargs):
+        payload = dict(payload_dict) if payload_dict else {}
+        payload.update(kwargs)
+        payload.setdefault("sub", payload.get("email", "test_user_id"))
+        payload.setdefault("email", payload.get("sub", "test_user_id") + "@example.com" if "@" not in payload.get("sub", "") else payload.get("sub"))
+        payload.setdefault("role", "contributor")
+        payload.setdefault("is_admin", payload.get("role") == "admin")
+        now = int(time.time())
+        payload.setdefault("iat", now)
+        payload.setdefault("exp", now + 3600)
+        return jwt.encode(payload, settings.SECRET_KEY, algorithm=getattr(settings, "ALGORITHM", "HS256"))
+
+    return _make
 
 @pytest.fixture
-def admin_headers(make_token):
-    token = make_token(sub="admin_user", role="admin")
-    return {"Authorization": f"Bearer {token}"}
-
-
-@pytest.fixture
-def normal_user_token_headers(client, make_token):
-    token = make_token({"sub": "test_user", "role": "contributor", "is_superuser": False})
-    return {"Authorization": f"Bearer {token}"}
-
-
-@pytest.fixture
-def superuser_token_headers(admin_headers):
-    return admin_headers
+def superuser_token_headers(admin_token_headers):
+    return admin_token_headers

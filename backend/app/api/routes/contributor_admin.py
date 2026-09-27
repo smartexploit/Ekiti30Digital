@@ -1,89 +1,62 @@
-from typing import Any, List, Optional
+from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+from sqlalchemy.orm import Session
+
 from app.api import deps
-from app.api.routes.stories import _STORIES_STORE
+from app.db.session import get_db
+from app.models.asset import Asset
+from app.models.story import Story
 
 router = APIRouter()
 
-class StoryStatusUpdate(BaseModel):
-    status: str = Field(...)
-    review_notes: Optional[str] = None
-    reason: Optional[str] = None
-
-class AssetRejectRequest(BaseModel):
-    reason: Optional[str] = None
-
-@router.get("", response_model=dict, status_code=status.HTTP_200_OK)
-@router.get("/", response_model=dict, status_code=status.HTTP_200_OK)
-def admin_root(
-    current_user: dict = Depends(deps.get_current_active_admin),
-) -> Any:
-    return {"status": "ok", "message": "Admin router active"}
-
-@router.get("/pending", response_model=List[dict], status_code=status.HTTP_200_OK)
-@router.get("/stories/pending", response_model=List[dict], status_code=status.HTTP_200_OK)
-def list_pending_stories(
-    current_user: dict = Depends(deps.get_current_active_admin),
-) -> Any:
-    return [s for s in _STORIES_STORE if s.get("status") == "pending"]
-
-@router.get("/assets/pending", response_model=List[dict], status_code=status.HTTP_200_OK)
+@router.get("/assets/pending", status_code=status.HTTP_200_OK)
 def list_pending_assets(
-    current_user: dict = Depends(deps.get_current_active_admin),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_active_admin)
 ) -> Any:
-    return []
+    assets = db.query(Asset).filter(Asset.status == "pending").all()
+    return [{"id": str(a.id), "filename": a.filename, "status": a.status} for a in assets]
 
 @router.post("/assets/{asset_id}/reject", status_code=status.HTTP_200_OK)
 def reject_asset(
-    *,
     asset_id: str,
-    data: Optional[AssetRejectRequest] = None,
-    current_user: dict = Depends(deps.get_current_active_admin),
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_active_admin)
 ) -> Any:
-    if data and not (data.reason):
+    reason = payload.get("reason")
+    if not reason:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Reason required for rejection.",
+            detail="Reason is required to reject an asset"
         )
-    return {"status": "rejected", "asset_id": asset_id}
+    asset = db.query(Asset).filter(Asset.id == asset_id).first()
+    if not asset:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+        
+    asset.status = "rejected"
+    db.commit()
+    return {"id": str(asset.id), "status": asset.status, "reason": reason}
 
 @router.patch("/stories/{story_id}/status", status_code=status.HTTP_200_OK)
-@router.post("/stories/{story_id}/status", status_code=status.HTTP_200_OK)
-def update_story_status(
-    *,
+def moderate_story(
     story_id: str,
-    data: StoryStatusUpdate,
-    current_user: dict = Depends(deps.get_current_active_admin),
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_active_admin)
 ) -> Any:
-    if data.status not in ["approved", "rejected", "pending"]:
+    new_status = payload.get("status")
+    if new_status not in ["approved", "rejected"]:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Invalid status value.",
+            detail="Invalid status. Must be 'approved' or 'rejected'"
         )
-
-    if data.status == "rejected" and not (data.review_notes or data.reason):
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Reason or review notes required for rejection.",
-        )
-
-    target_story = None
-    for story in _STORIES_STORE:
-        if story.get("id") == story_id:
-            target_story = story
-            break
-            
-    if not target_story:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Story not found",
-        )
+    
+    story = db.query(Story).filter(Story.id == story_id).first()
+    if not story:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Story not found")
         
-    target_story["status"] = data.status
-    if data.review_notes:
-        target_story["review_notes"] = data.review_notes
-    if data.reason:
-        target_story["reason"] = data.reason
-        
-    return target_story
+    story.status = new_status
+    db.commit()
+    db.refresh(story)
+    return {"id": str(story.id), "status": story.status}

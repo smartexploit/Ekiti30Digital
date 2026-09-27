@@ -1,17 +1,10 @@
-from app.models.base import Base
+from app.db.base_class import Base
 from app.models.asset import Asset
+from app.models.story import Story
 
 try:
-    from app.models.story import Story
+    from app.models.knowledge import Knowledge
 except ImportError:
     pass
 
-try:
-    from app.models.contributor import Contributor
-except ImportError:
-    try:
-        from app.models.contributor import ContributorAccount
-    except ImportError:
-        pass
-
-__all__ = ["Base", "Asset"]
+__all__ = ["Base", "Asset", "Story"]
