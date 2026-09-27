@@ -29,22 +29,41 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 @pytest.fixture(autouse=True)
 def configure_test_settings(monkeypatch):
     """Isolate and synchronize all security and configuration settings per test."""
-    monkeypatch.setattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
-    monkeypatch.setattr(settings, "CLOUDINARY_UPLOAD_PRESET", "ekiti30_member_unsigned")
-    monkeypatch.setattr(settings, "DATABASE_URL", SQLALCHEMY_TEST_DATABASE_URL)
-    
-    cors_list = ["http://localhost:3000", "*"]
-    if hasattr(settings, "cors_origins"):
-        monkeypatch.setattr(settings, "cors_origins", cors_list)
-    if hasattr(settings, "CORS_ORIGINS"):
-        monkeypatch.setattr(settings, "CORS_ORIGINS", cors_list)
+    if hasattr(settings, "CLOUDINARY_CLOUD_NAME"):
+        try:
+            monkeypatch.setattr(settings, "CLOUDINARY_CLOUD_NAME", "ekiti-test")
+        except AttributeError:
+            pass
+
+    if hasattr(settings, "CLOUDINARY_UPLOAD_PRESET"):
+        try:
+            monkeypatch.setattr(settings, "CLOUDINARY_UPLOAD_PRESET", "ekiti30_member_unsigned")
+        except AttributeError:
+            pass
+
+    if hasattr(settings, "DATABASE_URL"):
+        try:
+            monkeypatch.setattr(settings, "DATABASE_URL", SQLALCHEMY_TEST_DATABASE_URL)
+        except AttributeError:
+            pass
 
     if hasattr(settings, "JWT_SECRET"):
-        monkeypatch.setattr(settings, "JWT_SECRET", TEST_SECRET)
+        try:
+            monkeypatch.setattr(settings, "JWT_SECRET", TEST_SECRET)
+        except AttributeError:
+            pass
+
     if hasattr(settings, "NEXTAUTH_SECRET"):
-        monkeypatch.setattr(settings, "NEXTAUTH_SECRET", TEST_SECRET)
+        try:
+            monkeypatch.setattr(settings, "NEXTAUTH_SECRET", TEST_SECRET)
+        except AttributeError:
+            pass
+
     if hasattr(settings, "ADMIN_JWT_SECRET"):
-        monkeypatch.setattr(settings, "ADMIN_JWT_SECRET", TEST_SECRET)
+        try:
+            monkeypatch.setattr(settings, "ADMIN_JWT_SECRET", TEST_SECRET)
+        except AttributeError:
+            pass
 
 @pytest.fixture(autouse=True)
 def setup_test_database():
