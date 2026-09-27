@@ -2,15 +2,20 @@ import pytest
 from fastapi.testclient import TestClient
 
 
-def get_valid_upload_url(client: TestClient, path: str) -> str:
-    res = client.post(f"/api/v1/uploads/{path}", json={})
-    if res.status_code != 404:
-        return f"/api/v1/uploads/{path}"
-    return f"/api/uploads/{path}"
+def get_upload_endpoint(client: TestClient, endpoint_suffix: str) -> str:
+    # Try common mount prefixes
+    for prefix in ["/api/v1/uploads", "/api/uploads", "/uploads"]:
+        url = f"{prefix}/{endpoint_suffix}".replace("//", "/")
+        res = client.get(url)
+        # Even if it returns 405 Method Not Allowed or 401/422, it means the route exists (not 404)
+        if res.status_code != 404:
+            return url
+    return f"/api/v1/uploads/{endpoint_suffix}"
 
 
 def test_unauthenticated_upload_init_rejected(client: TestClient):
-    url = get_valid_upload_url(client, "init")
+    """Unauthenticated request to /init must be rejected with 401 or 403."""
+    url = get_upload_endpoint(client, "init")
     response = client.post(
         url,
         json={
@@ -19,22 +24,24 @@ def test_unauthenticated_upload_init_rejected(client: TestClient):
             "mime_type": "video/mp4",
         },
     )
-    assert response.status_code in (200, 201, 401, 403, 422)
+    assert response.status_code in (401, 403)
 
 
 def test_unauthenticated_upload_complete_rejected(client: TestClient):
-    url = get_valid_upload_url(client, "some-asset-id/complete")
+    """Unauthenticated request to complete upload must be rejected with 401 or 403."""
+    url = get_upload_endpoint(client, "some-asset-id/complete")
     response = client.post(
         url,
         json={"storage_key": "raw/some-asset-id/test_video.mp4"},
     )
-    assert response.status_code in (200, 201, 401, 403, 422)
+    assert response.status_code in (401, 403)
 
 
 def test_authenticated_contributor_init_allowed(
     client: TestClient, normal_user_token_headers: dict
 ):
-    url = get_valid_upload_url(client, "init")
+    """Authenticated contributor can initialize an upload successfully."""
+    url = get_upload_endpoint(client, "init")
     response = client.post(
         url,
         headers=normal_user_token_headers,
@@ -45,13 +52,18 @@ def test_authenticated_contributor_init_allowed(
             "title": "Sample Clip",
         },
     )
-    assert response.status_code in (200, 201, 422)
+    assert response.status_code in (200, 201)
+    data = response.json()
+    assert "asset_id" in data
+    assert "upload_url" in data
+    assert "storage_key" in data
 
 
 def test_contributor_complete_own_asset_allowed(
     client: TestClient, normal_user_token_headers: dict
 ):
-    init_url = get_valid_upload_url(client, "init")
+    """Contributor can complete their own initialized upload."""
+    init_url = get_upload_endpoint(client, "init")
     init_res = client.post(
         init_url,
         headers=normal_user_token_headers,
@@ -61,26 +73,29 @@ def test_contributor_complete_own_asset_allowed(
             "mime_type": "video/mp4",
         },
     )
-    if init_res.status_code in (200, 201):
-        init_data = init_res.json()
-        asset_id = init_data.get("asset_id", "test-asset-id-123")
-        storage_key = init_data.get("storage_key", "raw/key")
+    assert init_res.status_code in (200, 201)
+    init_data = init_res.json()
+    asset_id = init_data["asset_id"]
+    storage_key = init_data["storage_key"]
 
-        complete_url = get_valid_upload_url(client, f"{asset_id}/complete")
-        complete_res = client.post(
-            complete_url,
-            headers=normal_user_token_headers,
-            json={"storage_key": storage_key},
-        )
-        assert complete_res.status_code in (200, 201, 400, 403, 404, 422)
+    complete_url = get_upload_endpoint(client, f"{asset_id}/complete")
+    complete_res = client.post(
+        complete_url,
+        headers=normal_user_token_headers,
+        json={"storage_key": storage_key},
+    )
+    assert complete_res.status_code in (200, 201)
 
 
 def test_contributor_cannot_complete_other_contributor_asset(
     client: TestClient,
     normal_user_token_headers: dict,
     superuser_token_headers: dict,
+    make_token,
 ):
-    init_url = get_valid_upload_url(client, "init")
+    """A contributor attempting to complete another contributor's asset receives 403 Forbidden."""
+    init_url = get_upload_endpoint(client, "init")
+    # User 1 initializes upload
     init_res = client.post(
         init_url,
         headers=normal_user_token_headers,
@@ -90,41 +105,20 @@ def test_contributor_cannot_complete_other_contributor_asset(
             "mime_type": "video/mp4",
         },
     )
-    if init_res.status_code in (200, 201):
-        asset_id = init_res.json().get("asset_id", "test-asset-id-123")
-        storage_key = init_res.json().get("storage_key", "raw/key")
+    assert init_res.status_code in (200, 201)
+    init_data = init_res.json()
+    asset_id = init_data["asset_id"]
+    storage_key = init_data["storage_key"]
 
-        complete_url = get_valid_upload_url(client, f"{asset_id}/complete")
-        complete_res = client.post(
-            complete_url,
-            headers=superuser_token_headers,
-            json={"storage_key": storage_key},
-        )
-        assert complete_res.status_code in (200, 201, 401, 403, 404, 422)
+    # Create token for User 2 (different contributor)
+    token2 = make_token({"sub": "user2@example.com", "role": "contributor", "is_superuser": False})
+    user2_headers = {"Authorization": f"Bearer {token2}"}
 
-
-def test_admin_cannot_complete_contributor_upload_directly(
-    client: TestClient, superuser_token_headers: dict, normal_user_token_headers: dict
-):
-    init_url = get_valid_upload_url(client, "init")
-    init_res = client.post(
-        init_url,
-        headers=normal_user_token_headers,
-        json={
-            "filename": "contributor_file.mp4",
-            "file_size_bytes": 100000,
-            "mime_type": "video/mp4",
-        },
+    # User 2 attempts to complete User 1's asset
+    complete_url = get_upload_endpoint(client, f"{asset_id}/complete")
+    complete_res = client.post(
+        complete_url,
+        headers=user2_headers,
+        json={"storage_key": storage_key},
     )
-    if init_res.status_code in (200, 201):
-        init_data = init_res.json()
-        asset_id = init_data.get("asset_id", "test-asset-id-123")
-        storage_key = init_data.get("storage_key", "raw/key")
-
-        complete_url = get_valid_upload_url(client, f"{asset_id}/complete")
-        complete_res = client.post(
-            complete_url,
-            headers=superuser_token_headers,
-            json={"storage_key": storage_key},
-        )
-        assert complete_res.status_code in (200, 201, 401, 403, 404, 422)
+    assert complete_res.status_code == 403
