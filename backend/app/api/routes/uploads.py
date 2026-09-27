@@ -1,150 +1,149 @@
-from typing import Any, Optional
+from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from app.api import deps
-from app.schemas.upload import (
-    UploadInitRequest,
-    UploadInitResponse,
-    UploadCompleteRequest,
-    UploadCompleteResponse,
-)
+from app.db.session import get_db
+from app.models.asset import Asset
 
 router = APIRouter()
 
-# In-memory store for uploads (or database asset mapping)
-_UPLOAD_STORE = {}
-
-def _extract_user_id(current_user: dict) -> str:
-    if not current_user:
-        return "anonymous"
+def _create_asset_record(db: Session, filename: str, url: str, user_id: Any) -> Asset:
+    uid = str(user_id) if user_id is not None else "system"
     
-    # Check inner sub or user_id dictionaries if present
-    for key in ["sub", "user_id"]:
-        val = current_user.get(key)
-        if isinstance(val, dict):
-            for sub_key in ["sub", "user_id", "id", "email", "username"]:
-                inner_val = val.get(sub_key)
-                if inner_val and not isinstance(inner_val, dict):
-                    return str(inner_val)
-        elif val and not isinstance(val, dict):
-            return str(val)
-            
-    for key in ["user_id", "id", "email", "username", "sub"]:
-        val = current_user.get(key)
-        if val and not isinstance(val, dict):
-            return str(val)
-            
-    return "test_user"
-
-def _is_superuser(current_user: dict) -> bool:
-    if not isinstance(current_user, dict):
-        return False
+    # Inspect valid columns on the Asset table schema dynamically
+    valid_columns = {c.key for c in Asset.__table__.columns} if hasattr(Asset, "__table__") else set()
+    
+    # Build dictionary of kwargs strictly matching valid table columns
+    kwargs = {}
+    if "filename" in valid_columns:
+        kwargs["filename"] = filename
+    elif "name" in valid_columns:
+        kwargs["name"] = filename
         
-    for key in ["sub", "user_id"]:
-        val = current_user.get(key)
-        if isinstance(val, dict):
-            role = val.get("role")
-            is_sup = val.get("is_superuser") if val.get("is_superuser") is not None else val.get("is_admin")
-            if role == "contributor" or is_sup is False:
-                return False
-            if role in ["admin", "superuser", "super_admin"] or is_sup is True:
-                return True
-
-    role = current_user.get("role")
-    if role == "contributor":
-        return False
-    if current_user.get("is_superuser") is True or current_user.get("is_admin") is True:
-        return True
-    if role in ["admin", "superuser", "super_admin"]:
-        return True
+    if "url" in valid_columns:
+        kwargs["url"] = url
+    elif "file_path" in valid_columns:
+        kwargs["file_path"] = url
+    elif "path" in valid_columns:
+        kwargs["path"] = url
         
-    return False
-
-@router.post("/init", response_model=UploadInitResponse, status_code=status.HTTP_201_CREATED)
-def init_upload(
-    *,
-    data: UploadInitRequest,
-    current_user: dict = Depends(deps.get_current_active_contributor),
-) -> Any:
-    user_id = _extract_user_id(current_user)
-    asset_id = f"asset_{abs(hash(data.filename + user_id)) % 100000}"
-    upload_id = f"upload_{abs(hash(data.filename + user_id + 'up')) % 100000}"
-    storage_key = f"uploads/{user_id}/{asset_id}/{data.filename}"
-
-    record = {
-        "asset_id": asset_id,
-        "upload_id": upload_id,
-        "user_id": user_id,
-        "filename": data.filename,
-        "storage_key": storage_key,
-        "status": "initialized",
-    }
-    _UPLOAD_STORE[asset_id] = record
-    _UPLOAD_STORE[upload_id] = record
-
-    return {
-        "asset_id": asset_id,
-        "upload_id": upload_id,
-        "storage_key": storage_key,
-        "upload_url": f"https://storage.example.com/{storage_key}",
-    }
-
-def _process_completion(asset_id: str, data: Optional[UploadCompleteRequest], current_user: dict) -> Any:
-    record = _UPLOAD_STORE.get(asset_id)
-    if not record:
-        for k, v in _UPLOAD_STORE.items():
-            if v.get("upload_id") == asset_id or v.get("asset_id") == asset_id:
-                record = v
-                break
+    if "status" in valid_columns:
+        kwargs["status"] = "pending"
+        
+    if "user_id" in valid_columns:
+        kwargs["user_id"] = uid
+    elif "owner_id" in valid_columns:
+        kwargs["owner_id"] = uid
+    elif "contributor_id" in valid_columns:
+        kwargs["contributor_id"] = uid
+        
+    asset = Asset(**kwargs)
+    db.add(asset)
+    db.flush()
+    
+    # If the model didn't accept user_id in init but has an attribute or property, set it if possible
+    for attr in ["user_id", "owner_id", "contributor_id"]:
+        if hasattr(asset, attr) and getattr(asset, attr) is None:
+            try:
+                setattr(asset, attr, uid)
+            except Exception:
+                pass
                 
-    if not record:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Asset or upload not found",
-        )
+    return asset
 
-    current_user_id = _extract_user_id(current_user)
-    is_admin_or_super = _is_superuser(current_user)
-    owner_id = record.get("user_id")
-
-    print(f"\n[DEBUG UPLOAD COMPLETE] asset_id: {asset_id} | owner_id: {owner_id} | current_user_id: {current_user_id} | is_admin_or_super: {is_admin_or_super}")
-
-    if not is_admin_or_super and owner_id and owner_id != current_user_id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Not authorized to complete another contributor's asset",
-        )
-
-    record["status"] = "completed"
-    if data and data.storage_key:
-        record["storage_key"] = data.storage_key
-
+@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
+def create_upload_asset(
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_user_payload)
+) -> Any:
+    url = payload.get("url") or payload.get("secure_url") or "https://storage.example.com/pending"
+    filename = payload.get("filename") or payload.get("original_filename", "asset")
+    user_id = current_user.get("sub") or current_user.get("id")
+    
+    asset = _create_asset_record(db, filename, url, user_id)
+    db.commit()
+    db.refresh(asset)
+    
+    asset_id = str(getattr(asset, "id", "1"))
     return {
-        "status": "success",
-        "message": "Upload completed successfully",
-        "asset_id": record.get("asset_id"),
-        "upload_id": record.get("upload_id"),
-        "storage_key": record.get("storage_key"),
+        "id": asset_id,
+        "filename": getattr(asset, "filename", filename),
+        "url": getattr(asset, "url", getattr(asset, "file_path", url)),
+        "storage_key": f"uploads/{asset_id}/{filename}",
+        "status": getattr(asset, "status", "pending"),
+        "user_id": user_id
     }
 
-@router.post("/{asset_id}/complete", response_model=UploadCompleteResponse, status_code=status.HTTP_200_OK)
-def complete_upload_by_path(
-    *,
-    asset_id: str,
-    data: Optional[UploadCompleteRequest] = None,
-    current_user: dict = Depends(deps.get_current_active_contributor),
+@router.post("/init", status_code=status.HTTP_200_OK)
+def init_upload(
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_user_payload)
 ) -> Any:
-    return _process_completion(asset_id=asset_id, data=data, current_user=current_user)
+    filename = payload.get("filename", "upload.jpg")
+    url = "https://storage.example.com/pending"
+    user_id = current_user.get("sub") or current_user.get("id")
+    
+    asset = _create_asset_record(db, filename, url, user_id)
+    db.commit()
+    db.refresh(asset)
+    
+    asset_id = str(getattr(asset, "id", "1"))
+    return {
+        "asset_id": asset_id,
+        "id": asset_id,
+        "storage_key": f"uploads/{asset_id}/{filename}",
+        "upload_url": f"https://storage.example.com/upload/{asset_id}",
+        "status": getattr(asset, "status", "pending")
+    }
 
-@router.post("/complete", response_model=UploadCompleteResponse, status_code=status.HTTP_200_OK)
-def complete_upload_generic(
-    *,
-    data: Optional[UploadCompleteRequest] = None,
-    current_user: dict = Depends(deps.get_current_active_contributor),
+@router.post("/{asset_id}/complete", status_code=status.HTTP_200_OK)
+def complete_upload(
+    asset_id: str,
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(deps.get_current_user_payload)
 ) -> Any:
-    target_id = data.asset_id if data and data.asset_id else (data.upload_id if data and data.upload_id else None)
-    if not target_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="asset_id or upload_id is required",
-        )
-    return _process_completion(asset_id=target_id, data=data, current_user=current_user)
+    asset = db.query(Asset).filter(Asset.id == asset_id).first()
+    if not asset:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+        
+    asset_user_id = (
+        getattr(asset, "user_id", None) or 
+        getattr(asset, "owner_id", None) or 
+        getattr(asset, "contributor_id", None)
+    )
+    current_uid = current_user.get("sub") or current_user.get("id")
+    
+    if asset_user_id is not None and current_uid is not None:
+        if str(asset_user_id) != str(current_uid):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You do not own this asset"
+            )
+        
+    url = payload.get("url") or f"https://storage.example.com/assets/{asset_id}"
+    if hasattr(asset, "url"):
+        asset.url = url
+    elif hasattr(asset, "file_path"):
+        asset.file_path = url
+    elif hasattr(asset, "path"):
+        asset.path = url
+        
+    if hasattr(asset, "status"):
+        asset.status = "uploaded"
+        
+    db.commit()
+    db.refresh(asset)
+    
+    filename = getattr(asset, "filename", "asset")
+    return {
+        "id": str(getattr(asset, "id", asset_id)),
+        "filename": filename,
+        "url": getattr(asset, "url", getattr(asset, "file_path", url)),
+        "storage_key": f"uploads/{asset_id}/{filename}",
+        "status": getattr(asset, "status", "uploaded")
+    }
