@@ -1,26 +1,19 @@
-from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional, Literal
-from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel
 
-class StoryCreate(BaseModel):
-    title: str = Field(..., min_length=1)
-    content: str = Field(..., min_length=1)
-    author: Optional[str] = None
-    fullName: Optional[str] = None
-    email: Optional[str] = None
-    category: Optional[str] = None
-
-class StoryRead(BaseModel):
-    id: int
+class StoryBase(BaseModel):
     title: str
     content: str
     author: Optional[str] = None
     email: Optional[str] = None
-    category: Optional[str] = None
+
+class StoryCreate(StoryBase):
+    pass
+
+class StoryResponse(StoryBase):
+    id: str
     status: str
-    created_at: Optional[datetime] = None
+    owner_id: Optional[str] = None
 
-    model_config = ConfigDict(from_attributes=True)
-
-class StoryStatusUpdate(BaseModel):
-    status: Literal["approved", "rejected"]
+    class Config:
+        orm_mode = True
