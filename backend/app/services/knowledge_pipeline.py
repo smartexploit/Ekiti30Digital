@@ -174,6 +174,13 @@ def local_embed(texts):
 def retrieve(question: str, db: Session, embed=local_embed, limit=5, category=None):
     if db.bind.dialect.name != "postgresql":
         raise RuntimeError("Ask Ekiti vector search requires PostgreSQL with pgvector")
+    # An empty approved corpus should decline immediately, without downloading
+    # or running the embedding model for a question that cannot be answered.
+    eligible = select(KnowledgeDocument.id).where(KnowledgeDocument.ingestible.is_(True))
+    if category:
+        eligible = eligible.where(KnowledgeDocument.class_ == category)
+    if db.scalar(eligible.limit(1)) is None:
+        return []
     vector = embed([question])[0]
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError("question embedding dimension mismatch")

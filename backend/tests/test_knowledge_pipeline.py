@@ -2,13 +2,14 @@
 import csv
 import hashlib
 from pathlib import Path
+from types import SimpleNamespace
 
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
 from app.models.base import Base
 from app.models.knowledge import KnowledgeDocument
-from app.services.knowledge_pipeline import ingest_manifest, verified_facts
+from app.services.knowledge_pipeline import ingest_manifest, retrieve, verified_facts
 
 FIELDS = ["id", "path", "category", "status", "source_tier", "source_ids",
           "last_verified", "file_sha256", "ingestible"]
@@ -102,6 +103,20 @@ def test_uncited_claim_is_rejected():
     from pytest import raises
     with raises(ValueError, match="citation"):
         verified_facts("## Facts\n- A claim without evidence.\n## Sources\n")
+
+
+def test_empty_verified_corpus_skips_embedding():
+    class EmptyPostgresSession:
+        bind = SimpleNamespace(dialect=SimpleNamespace(name="postgresql"))
+
+        def scalar(self, statement):
+            return None
+
+    def unexpected_embed(texts):
+        raise AssertionError("an empty corpus must not embed the question")
+
+    assert retrieve("When was Ekiti State created?", EmptyPostgresSession(),
+                    embed=unexpected_embed) == []
 
 
 def test_ask_route_cites_each_returned_fact(client, monkeypatch):
