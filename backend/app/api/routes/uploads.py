@@ -61,16 +61,24 @@ def _cloudinary_config() -> tuple[str, str]:
 def init_upload(
     body: UploadInitRequest,
     db: Session = Depends(get_db),
-    _user: ContributorUser = Depends(require_contributor),
+    user: ContributorUser = Depends(require_contributor),
 ):
-    """Create a pending Asset and return what the browser needs to upload it."""
+    """Create a pending Asset and return what the browser needs to upload it.
+
+    The uploader's identity is taken from the verified token, not the body.
+    """
     cloud_name, upload_preset = _cloudinary_config()
 
     # Enforced for every caller, whatever their role.
     if not validate_folder(body.folder):
         raise _unprocessable(f"folder must be one of: {', '.join(ALLOWED_FOLDERS)}")
 
-    asset = Asset(**body.model_dump(), status="pending")
+    asset = Asset(
+        **body.model_dump(),
+        contributor=user.display_name,
+        created_by=user.owner_id,
+        status="pending",
+    )
     db.add(asset)
     db.commit()
     db.refresh(asset)
@@ -90,9 +98,12 @@ def complete_upload(
     asset_id: int,
     body: UploadCompleteRequest,
     db: Session = Depends(get_db),
-    _user: ContributorUser = Depends(require_contributor),
+    user: ContributorUser = Depends(require_contributor),
 ):
     """Verify an upload with Cloudinary, then record its public_id and URL.
+
+    Only the account that created the asset may complete it (403 otherwise,
+    checked before anything about the asset's state is revealed).
 
     The browser supplies public_id and secure_url, so nothing is stored
     until the Cloudinary Admin API confirms the resource exists in our
@@ -104,6 +115,15 @@ def complete_upload(
     asset = db.get(Asset, asset_id)
     if asset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+    # Ownership comes first so a non-owner learns nothing about the asset's
+    # state. Strict for every role: admins review assets via /api/admin, they
+    # do not complete other people's uploads. Rows with no owner (created
+    # before this check existed) match nobody.
+    if asset.created_by is None or asset.created_by != user.owner_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You can only complete your own uploads",
+        )
     if asset.status != "pending" or asset.public_id is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

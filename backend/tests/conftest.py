@@ -74,13 +74,13 @@ def _make_token(
     role: str = "admin",
     email: str = "admin@example.com",
     expires_in: int = 3600,
+    name: str | None = None,
 ) -> str:
     now = int(time.time())
-    return jwt.encode(
-        {"sub": email, "email": email, "role": role, "iat": now, "exp": now + expires_in},
-        secret,
-        algorithm="HS256",
-    )
+    claims = {"sub": email, "email": email, "role": role, "iat": now, "exp": now + expires_in}
+    if name is not None:
+        claims["name"] = name
+    return jwt.encode(claims, secret, algorithm="HS256")
 
 
 @pytest.fixture

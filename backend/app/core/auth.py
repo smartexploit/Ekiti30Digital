@@ -37,10 +37,24 @@ class AdminUser:
 
 @dataclass
 class ContributorUser:
-    """The authenticated contributor (or admin) making the request."""
+    """The authenticated contributor (or admin) making the request.
+
+    Every field comes from the verified token, never from request data.
+    """
 
     email: str
     role: str
+    name: str | None = None
+
+    @property
+    def owner_id(self) -> str:
+        """Stable identity used to record and check who owns an asset."""
+        return self.email.strip().lower()
+
+    @property
+    def display_name(self) -> str:
+        """Label shown to reviewers: the account's name, else its email."""
+        return (self.name or "").strip() or self.owner_id
 
 
 def _unauthorized(detail: str) -> HTTPException:
@@ -113,4 +127,7 @@ def require_contributor(
             status_code=status.HTTP_403_FORBIDDEN, detail="Contributor access required"
         )
 
-    return ContributorUser(email=claims["email"], role=role)
+    name = claims.get("name")
+    return ContributorUser(
+        email=claims["email"], role=role, name=name if isinstance(name, str) else None
+    )
