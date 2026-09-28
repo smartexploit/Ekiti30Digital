@@ -15,7 +15,7 @@ FIELDS = ["id", "path", "category", "status", "source_tier", "source_ids",
 
 
 def fixture(tmp_path: Path):
-    root = tmp_path / "13_Knowledge_Base"
+    root = tmp_path
     doc = root / "01_History" / "creation.md"
     doc.parent.mkdir(parents=True)
     doc.write_text("""---
@@ -38,7 +38,8 @@ last_verified: 2026-09-21
                status="verified", source_tier="A", source_ids="SRC-001",
                last_verified="2026-09-21", file_sha256=hashlib.sha256(doc.read_bytes()).hexdigest(),
                ingestible="yes")
-    manifest = root / "kb_manifest.csv"
+    manifest = root / "13_Knowledge_Base" / "kb_manifest.csv"
+    manifest.parent.mkdir()
     return root, doc, row, manifest
 
 
