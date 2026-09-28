@@ -23,3 +23,7 @@ class UploadCompleteResponse(BaseModel):
     asset_id: str
     upload_id: str
     storage_key: str
+
+
+    class Config:
+        extra = "allow"
