@@ -1,0 +1,12 @@
+"""Run from repo root: cd backend && python scripts/ingest_knowledge.py"""
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from app.models.base import SessionLocal
+from app.services.knowledge_pipeline import ingest_manifest, local_embed
+
+root = Path(__file__).resolve().parents[2] / "13_Knowledge_Base"
+with SessionLocal() as db:
+    print(json.dumps(ingest_manifest(root / "kb_manifest.csv", root, db, local_embed), indent=2))

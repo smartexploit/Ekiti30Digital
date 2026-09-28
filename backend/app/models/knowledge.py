@@ -80,6 +80,9 @@ class Chunk(Base):
     chunk_index: Mapped[int]
 
     content: Mapped[str] = mapped_column(Text)
+    source_ids: Mapped[str] = mapped_column(Text, default="")
+    source_titles: Mapped[str] = mapped_column(Text, default="")
+    source_urls: Mapped[str] = mapped_column(Text, default="")
 
     embedding: Mapped[list[float] | None] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
 
