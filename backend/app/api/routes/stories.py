@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from sqlalchemy import select
 from app.models.base import get_db
 from app.models.asset import Asset
 from app.core.auth import ContributorUser, require_contributor
 from app.schemas.assets import UploadInitRequest, AssetOut
+from app.services.assets import get_approved_assets_query
 
 router = APIRouter(prefix="/api/stories", tags=["Stories"])
 
@@ -17,6 +17,9 @@ def create_community_story(
     """
     Submit a new 'My Story' entry for community archiving and admin review.
     Enforces authenticated contributor access and verified identity ownership.
+    
+    Note: Reuses UploadInitRequest schema to treat My Story submissions as 
+    standard Asset records pending review.
     """
     db_asset = Asset(
         folder=story_in.folder if story_in.folder else "EKITI30/Stories",
@@ -39,8 +42,13 @@ def list_community_stories(
     db: Session = Depends(get_db)
 ):
     """
-    List community stories for public viewing or frontend integration.
-    Restored to prevent regressions on GET /api/stories.
+    List approved community stories for public viewing or frontend integration.
+    Enforces moderation compliance by using get_approved_assets_query and 
+    exact folder filtering for 'EKITI30/Stories'.
     """
-    stmt = select(Asset).where(Asset.folder.like("%Stories%")).order_by(Asset.created_at.desc())
-    return db.scalars(stmt).all()
+    stmt = (
+        get_approved_assets_query(db)
+        .filter(Asset.folder == "EKITI30/Stories")
+        .order_by(Asset.created_at.desc())
+    )
+    return stmt.all()
