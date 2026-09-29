@@ -1,7 +1,7 @@
 """create lgas table
 
 Revision ID: 8f07c8fd2528
-Revises: 8600e675dded
+Revises: b7248a6c19a1
 Create Date: 2026-09-28 22:18:56.909662
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = '8f07c8fd2528'
-down_revision: Union[str, Sequence[str], None] = '8600e675dded'
+down_revision: Union[str, Sequence[str], None] = 'b7248a6c19a1'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
