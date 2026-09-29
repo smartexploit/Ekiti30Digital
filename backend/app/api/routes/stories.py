@@ -1,30 +1,46 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from app.models.base import get_db
 from app.models.asset import Asset
+from app.core.auth import ContributorUser, require_contributor
 from app.schemas.assets import UploadInitRequest, AssetOut
 
-router = APIRouter(prefix="/stories", tags=["Stories"])
+router = APIRouter(prefix="/api/stories", tags=["Stories"])
 
 @router.post("/", response_model=AssetOut, status_code=status.HTTP_201_CREATED)
 def create_community_story(
     story_in: UploadInitRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user: ContributorUser = Depends(require_contributor)
 ):
     """
     Submit a new 'My Story' entry for community archiving and admin review.
-    Keeps uploads.py and config.py completely untouched.
+    Enforces authenticated contributor access and verified identity ownership.
     """
     db_asset = Asset(
-        description=story_in.description,
-        folder=story_in.folder,
-        rights_status=story_in.rights_status,
+        folder=story_in.folder if story_in.folder else "EKITI30/Stories",
         source=story_in.source,
         location_lga=story_in.location_lga,
+        description=story_in.description,
+        rights_status=story_in.rights_status,
         related_content_id=story_in.related_content_id,
         status="pending",
+        contributor=user.display_name,
+        created_by=user.owner_id,
     )
     db.add(db_asset)
     db.commit()
     db.refresh(db_asset)
     return db_asset
+
+@router.get("/", response_model=list[AssetOut])
+def list_community_stories(
+    db: Session = Depends(get_db)
+):
+    """
+    List community stories for public viewing or frontend integration.
+    Restored to prevent regressions on GET /api/stories.
+    """
+    stmt = select(Asset).where(Asset.folder.like("%Stories%")).order_by(Asset.created_at.desc())
+    return db.scalars(stmt).all()
