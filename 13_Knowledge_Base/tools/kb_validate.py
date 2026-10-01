@@ -106,6 +106,60 @@ def parse_front_matter(text):
     return fm, "\n".join(lines[end + 1:]), None
 
 
+# ---------------------------------------------------------------- Ask Ekiti citation gate
+FACT_MARKER_RE = re.compile(r"\[(S\d+(?:\s*,\s*S\d+)*)\]\s*$")
+SOURCE_LINE_RE = re.compile(
+    r"^- \[(S\d+)\]\s+(SRC-\d{3}):\s+.*https?://\S+",
+    re.M,
+)
+
+
+def citation_safe_facts(body, declared_source_ids):
+    """Return whether ## Facts contains only locally resolved sourced claims."""
+    sections = {}
+    current = None
+
+    for line in body.splitlines():
+        if line.startswith("## "):
+            current = line[3:].strip()
+            sections[current] = []
+        elif current:
+            sections[current].append(line)
+
+    source_map = {}
+    for line in sections.get("Sources", []):
+        match = SOURCE_LINE_RE.match(line.strip())
+        if match:
+            source_map[match.group(1)] = match.group(2)
+
+    facts = [
+        line.strip()[2:]
+        for line in sections.get("Facts", [])
+        if line.strip().startswith("- ")
+    ]
+
+    if not facts:
+        return False, "document has no ## Facts claims"
+
+    declared = set(declared_source_ids or [])
+
+    for fact in facts:
+        marker = FACT_MARKER_RE.search(fact)
+        if not marker:
+            return False, "a fact is missing its [S#] citation"
+
+        keys = [item.strip() for item in marker.group(1).split(",")]
+
+        for key in keys:
+            if key not in source_map:
+                return False, f"{key} is not resolved in ## Sources"
+
+            if source_map[key] not in declared:
+                return False, f"{source_map[key]} is not declared in source_ids"
+
+    return True, ""
+
+
 # ---------------------------------------------------------------- dates
 PARTIAL_DATE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
 
@@ -426,8 +480,30 @@ def run(root, registry_path, manifest_path, strict, write_manifest, today, quiet
     rows = []
     for d in sorted(docs, key=lambda x: x["path"]):
         fm = d["fm"]
-        ok = fm.get("status") == "verified" and not d["errors"]
-        reason = "" if ok else ("has errors" if d["errors"] else f"status is {fm.get('status', '?')}")
+        verified_ok = fm.get("status") == "verified" and not d["errors"]
+
+        citation_ok, citation_reason = citation_safe_facts(
+            d["body"],
+            fm.get("source_ids") if isinstance(fm.get("source_ids"), list) else [],
+        )
+
+        approved_ok = (
+            fm.get("ask_ekiti_approved") is True
+            and fm.get("status") in ("verified", "needs_review")
+            and not d["errors"]
+            and citation_ok
+        )
+
+        ok = verified_ok or approved_ok
+
+        if ok:
+            reason = ""
+        elif d["errors"]:
+            reason = "has errors"
+        elif fm.get("ask_ekiti_approved") is True and not citation_ok:
+            reason = f"Ask Ekiti approval is not citation-safe: {citation_reason}"
+        else:
+            reason = f"status is {fm.get('status', '?')}"
         rows.append({
             "id": fm.get("id", ""), "path": d["path"], "category": fm.get("category", ""),
             "doc_type": fm.get("doc_type", ""), "status": fm.get("status", ""),
