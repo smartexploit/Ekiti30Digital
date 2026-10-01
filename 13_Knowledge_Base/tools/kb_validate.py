@@ -50,7 +50,8 @@ REQUIRED = ["id", "title", "category", "doc_type", "source_ids", "source_name", 
 SKIP_NAMES = {"README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md"}
 MANIFEST_COLUMNS = ["id", "path", "category", "doc_type", "status", "source_tier", "source_ids",
                     "publication_date", "last_verified", "verified_by", "language", "translation_of",
-                    "period_covered", "file_sha256", "ingestible", "reason"]
+                    "period_covered", "ask_ekiti_approved", "ask_ekiti_approved_by",
+                    "ask_ekiti_approved_date", "file_sha256", "ingestible", "reason"]
 
 
 # ---------------------------------------------------------------- parsing
@@ -310,6 +311,33 @@ def validate_doc(doc, registry, today):
     if exc and not note:
         (E if status == "verified" else W)("tier_c_exception needs a verification_note")
 
+    # ---- Ask Ekiti publication approval
+    # This is deliberately separate from evidence verification. A reviewer may
+    # approve a document for Ask Ekiti while its underlying evidence remains
+    # needs_review, conflict, community tradition, estimate, etc.
+    approval_flag = fm.get("ask_ekiti_approved")
+    approval_by = str(fm.get("ask_ekiti_approved_by", "")).strip()
+    approval_date = str(fm.get("ask_ekiti_approved_date", "")).strip()
+
+    if approval_flag not in (None, True, False):
+        E("ask_ekiti_approved must be true or false")
+
+    if approval_flag is True:
+        if status == "retired":
+            E("retired documents cannot be approved for Ask Ekiti")
+
+        if not approval_by:
+            E("ask_ekiti_approved needs ask_ekiti_approved_by")
+
+        d = parse_full_date(approval_date)
+        if not approval_date or d is None:
+            E("ask_ekiti_approved needs ask_ekiti_approved_date (YYYY-MM-DD)")
+        elif d > today:
+            E("ask_ekiti_approved_date is in the future")
+
+    elif approval_by or approval_date:
+        W("Ask Ekiti approval metadata is set but ask_ekiti_approved is not true")
+
     # ---- language (A9 rule 9)
     if lang == "yo":
         if not fm.get("translation_of"):
@@ -407,6 +435,9 @@ def run(root, registry_path, manifest_path, strict, write_manifest, today, quiet
             "publication_date": fm.get("publication_date", ""), "last_verified": fm.get("last_verified", ""),
             "verified_by": fm.get("verified_by", ""), "language": fm.get("language", ""),
             "translation_of": fm.get("translation_of", ""), "period_covered": fm.get("period_covered", ""),
+            "ask_ekiti_approved": "yes" if fm.get("ask_ekiti_approved") is True else "no",
+            "ask_ekiti_approved_by": fm.get("ask_ekiti_approved_by", ""),
+            "ask_ekiti_approved_date": fm.get("ask_ekiti_approved_date", ""),
             "file_sha256": d["sha"], "ingestible": "yes" if ok else "no", "reason": reason,
         })
     if write_manifest:
