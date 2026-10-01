@@ -70,15 +70,16 @@ def response(question, language, search, category=None):
                 + ". Èyí kò jẹ́rìí sí ipò ní báyìí."
             )
 
-        if any(
-            hit.get("evidence_status") != "verified"
-            for hit in hits
-        ):
-            answer += "\n" + (
-                "Some cited material is approved for Ask Ekiti but is not yet fully verified."
-                if language == "en"
-                else "Díẹ̀ nínú ẹ̀rí náà ni a fọwọ́ sí fún Ask Ekiti, ṣùgbọ́n a kò tíì jẹ́rìí rẹ̀ ní kíkún."
-            )
+    if any(
+        hit.get("evidence_status") != "verified"
+        for hit in hits
+    ):
+        answer += "\n" + (
+            "Some cited material is approved for Ask Ekiti but is not yet fully verified."
+            if language == "en"
+            else "Díẹ̀ nínú ẹ̀rí náà ni a fọwọ́ sí fún Ask Ekiti, ṣùgbọ́n a kò tíì jẹ́rìí rẹ̀ ní kíkún."
+        )
+
     if p.missing:
         prefix = "Not covered by the retrieved sourced evidence: " if language == "en" else "Ẹ̀rí tí a rí kò bo àwọn wọ̀nyí: "
         answer += "\n" + prefix + "; ".join(dict.fromkeys(p.missing)) + "."

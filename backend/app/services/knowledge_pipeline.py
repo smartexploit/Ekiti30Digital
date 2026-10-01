@@ -336,9 +336,18 @@ def ingest_manifest(manifest: Path, root: Path, db: Session, embed):
     return result
 
 
+def _embedding_model():
+    """Load the local embedding model once per process."""
+    if not hasattr(_embedding_model, "_model"):
+        from sentence_transformers import SentenceTransformer
+        _embedding_model._model = SentenceTransformer(
+            settings.EMBEDDING_MODEL
+        )
+    return _embedding_model._model
+
+
 def local_embed(texts):
-    from sentence_transformers import SentenceTransformer
-    model = SentenceTransformer(settings.EMBEDDING_MODEL)
+    model = _embedding_model()
     return model.encode(texts).tolist()
 
 
@@ -348,17 +357,28 @@ def retrieve(question: str, db: Session, embed=local_embed, limit=5, category=No
     if settings.ASK_EKITI_RETRIEVAL_MODE == "fulltext":
         from app.services.knowledge_fulltext import retrieve_fulltext
         return retrieve_fulltext(question, db, limit=limit, category=category)
-    # An empty approved corpus should decline immediately, without downloading
-    # or running the embedding model for a question that cannot be answered.
-    eligible = select(KnowledgeDocument.id).where(KnowledgeDocument.ingestible.is_(True))
-    if category:
-        eligible = eligible.where(KnowledgeDocument.class_ == category)
-    if db.scalar(eligible.limit(1)) is None:
-        return []
-    check_embedding_dimensions(db)
+    # Generate the query embedding before the first database operation.
+    # Loading the local transformer can take long enough for a hosted
+    # PostgreSQL SSL connection to go stale if the connection is opened first.
     vector = embed([question])[0]
+
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError("question embedding dimension mismatch")
+
+    if not all(math.isfinite(float(value)) for value in vector):
+        raise ValueError("question embedding contains a non-finite value")
+
+    eligible = select(KnowledgeDocument.id).where(
+        KnowledgeDocument.ingestible.is_(True)
+    )
+
+    if category:
+        eligible = eligible.where(KnowledgeDocument.class_ == category)
+
+    if db.scalar(eligible.limit(1)) is None:
+        return []
+
+    check_embedding_dimensions(db)
     distance = Chunk.embedding.cosine_distance(vector)
     query = (select(Chunk, KnowledgeDocument, distance.label("distance"))
              .join(KnowledgeDocument).where(KnowledgeDocument.ingestible.is_(True),

@@ -96,14 +96,18 @@ def test_database_dimension_matches():
     check_embedding_dimensions(db)
 
 
-def test_retrieval_checks_database_before_embedding():
+def test_retrieval_checks_database_dimension_after_embedding():
     answers = iter([1, 'vector(12)'])
-    db = SimpleNamespace(bind=SimpleNamespace(dialect=SimpleNamespace(name='postgresql')),
-                         scalar=lambda statement: next(answers))
-    def unexpected_embed(texts):
-        pytest.fail('must reject schema mismatch before embedding')
+    db = SimpleNamespace(
+        bind=SimpleNamespace(dialect=SimpleNamespace(name='postgresql')),
+        scalar=lambda statement: next(answers),
+    )
+
+    def query_embed(texts):
+        return [[0.1] * EMBEDDING_DIMENSIONS for _ in texts]
+
     with pytest.raises(RuntimeError, match='explicit migration'):
-        retrieve('Question?', db, embed=unexpected_embed)
+        retrieve('Question?', db, embed=query_embed)
 
 
 def test_settings_mutation_requires_restart(monkeypatch):
@@ -183,18 +187,26 @@ def test_uncited_claim_is_rejected():
         verified_facts("## Facts\n- A claim without evidence.\n## Sources\n")
 
 
-def test_empty_verified_corpus_skips_embedding():
+def test_empty_corpus_returns_no_hits_after_query_embedding():
     class EmptyPostgresSession:
         bind = SimpleNamespace(dialect=SimpleNamespace(name="postgresql"))
 
         def scalar(self, statement):
             return None
 
-    def unexpected_embed(texts):
-        raise AssertionError("an empty corpus must not embed the question")
+    calls = []
 
-    assert retrieve("When was Ekiti State created?", EmptyPostgresSession(),
-                    embed=unexpected_embed) == []
+    def query_embed(texts):
+        calls.append(texts)
+        return [[0.1] * EMBEDDING_DIMENSIONS for _ in texts]
+
+    assert retrieve(
+        "When was Ekiti State created?",
+        EmptyPostgresSession(),
+        embed=query_embed,
+    ) == []
+
+    assert calls == [["When was Ekiti State created?"]]
 
 
 def test_ask_route_cites_each_returned_fact(client, monkeypatch):
