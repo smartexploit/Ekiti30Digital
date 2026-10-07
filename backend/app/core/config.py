@@ -53,11 +53,15 @@ class Settings(BaseSettings):
     ASK_EKITI_LLM_WEBHOOK_URL: str | None = None
     ASK_EKITI_LLM_WEBHOOK_KEY: str | None = None
 
-    # Model identifier, expected to be passed in the gateway request
-    # payload to select the underlying model/provider. The exact payload
-    # shape is unconfirmed until the gateway's API docs arrive — it may
-    # also need a separate provider field.
+    # Baalebos AI Gateway configuration.
+    # LLM_MODEL is required only when manual routing is selected.
     LLM_MODEL: str | None = None
+    ASK_EKITI_LLM_MODE: Literal["auto", "manual", "fallback"] = "auto"
+    ASK_EKITI_LLM_TIMEOUT_SECONDS: float = Field(
+        default=60.0,
+        gt=0,
+        le=120,
+    )
 
     # Grounded LLM synthesis is opt-in. Retrieval and deterministic
     # citation-safe answers remain available when this is disabled.
