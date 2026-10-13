@@ -63,6 +63,7 @@ class Settings(BaseSettings):
     # citation-safe answers remain available when this is disabled.
     ASK_EKITI_SYNTHESIS_ENABLED: bool = False
     ASK_EKITI_GENERAL_FALLBACK_ENABLED: bool = False
+    ASK_EKITI_WEB_RESEARCH_ENABLED: bool = False
 
     # Temporary direct provider for today's Ask Ekiti deployment.
     # Baalebos remains available as a future provider once reactivated.
@@ -72,7 +73,14 @@ class Settings(BaseSettings):
     GROQ_API_URL: str = (
         "https://api.groq.com/openai/v1/chat/completions"
     )
+    # Legacy/default Groq model.
     GROQ_MODEL: str = "openai/gpt-oss-120b"
+
+    # Keep web research and grounded synthesis on separate model
+    # rate-limit buckets. Research benefits from the larger model;
+    # structured evidence synthesis is suitable for the faster 20B model.
+    GROQ_RESEARCH_MODEL: str = "openai/gpt-oss-120b"
+    GROQ_SYNTHESIS_MODEL: str = "openai/gpt-oss-20b"
     GROQ_TIMEOUT_SECONDS: float = Field(
         default=60.0,
         gt=0,
