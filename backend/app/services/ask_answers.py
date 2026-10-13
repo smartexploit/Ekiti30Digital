@@ -14,6 +14,60 @@ CITATION_KEYS = (
     "ask_ekiti_approved", "ask_ekiti_approved_date", "path"
 )
 
+_CURRENT_TERMS = (
+    "current",
+    "currently",
+    "today",
+    "latest",
+    "right now",
+    "ongoing",
+    "recent",
+    "this year",
+    "present governor",
+    "present commissioner",
+)
+
+_GENERIC_STOPWORDS = {
+    "a", "about", "an", "and", "are", "as", "at", "be", "been",
+    "by", "ekiti", "for", "found", "from", "give", "in", "is",
+    "major", "me", "of", "on", "state", "tell", "that", "the",
+    "their", "there", "these", "this", "to", "what", "which",
+    "who", "with",
+}
+
+
+def _needs_current_source(question):
+    value = question.casefold()
+    return any(term in value for term in _CURRENT_TERMS)
+
+
+def _term_set(value):
+    terms = set()
+
+    for token in re.findall(r"[a-z0-9]+", value.casefold()):
+        if token in _GENERIC_STOPWORDS or len(token) < 3:
+            continue
+
+        # Tiny normalization for common plural forms. This is deliberately
+        # conservative; it is only a guard against obviously unrelated hits.
+        if token.endswith("s") and len(token) > 4:
+            token = token[:-1]
+
+        terms.add(token)
+
+    return terms
+
+
+def _generic_hit_is_relevant(question, hit):
+    question_terms = _term_set(question)
+
+    if not question_terms:
+        return False
+
+    evidence_terms = _term_set(hit.get("content", ""))
+
+    return bool(question_terms & evidence_terms)
+
 
 def _missing_category(category, language):
     labels = {
@@ -50,6 +104,16 @@ def response(
 
     if p.policy:
         return dict(base, answer=message(p.policy, language), reason=p.policy)
+
+    # The current reviewed KB is historical/static knowledge. Until the
+    # controlled current-information layer is implemented, never answer
+    # live/latest/ongoing questions from stale or merely related records.
+    if _needs_current_source(question):
+        return dict(
+            base,
+            answer=message("insufficient", language),
+            reason="no_supported_match",
+        )
 
     hits = []
 
@@ -147,13 +211,27 @@ def response(
 
     else:
         # Generic Ekiti question with no explicit domain.
+        requested_ids = entities(question)
+
         hits = search(
             question,
             category=None,
-            doc_ids=entities(question),
+            doc_ids=requested_ids,
             fact_kind=None,
             limit=5,
         )
+
+        # Hybrid/vector retrieval can return records that are about Ekiti
+        # but do not answer the user's actual generic question. If no
+        # explicit entity constrained the search, require at least one
+        # meaningful question/evidence term in common before treating a
+        # retrieved record as supporting evidence.
+        if not requested_ids:
+            hits = [
+                hit
+                for hit in hits
+                if _generic_hit_is_relevant(question, hit)
+            ]
 
     seen = set()
     statements, citations = [], []
@@ -165,9 +243,15 @@ def response(
 
         seen.add(key)
 
+        # Grounded LLM synthesis receives the original sourced fact,
+        # regardless of output language. The selected language controls
+        # synthesis, while the evidence itself remains unchanged.
+        #
+        # Without a synthesizer, Yoruba continues using the bounded,
+        # deterministic translations already supported by Ask Ekiti.
         content = (
             hit["content"]
-            if language == "en"
+            if language == "en" or synthesizer is not None
             else yoruba_fact(hit["content"])
         )
 
@@ -212,6 +296,34 @@ def response(
     )
 
     answer = synthesis["answer"]
+
+    # If live Yoruba synthesis fails, never silently return an English
+    # generated fallback as though it were Yoruba. Use a reviewed bounded
+    # translation when one exists; otherwise state that translation is not
+    # available.
+    if (
+        language == "yo"
+        and synthesizer is not None
+        and synthesis["mode"] == "fallback"
+    ):
+        reviewed = []
+
+        for item in statements:
+            translated = yoruba_fact(item["text"])
+
+            if translated is None:
+                reviewed = []
+                break
+
+            reviewed.append(
+                f"{translated} [{item['citation_index'] + 1}]"
+            )
+
+        answer = (
+            "\n".join(reviewed)
+            if reviewed
+            else message("translation", "yo")
+        )
 
     signatures = defaultdict(set)
 

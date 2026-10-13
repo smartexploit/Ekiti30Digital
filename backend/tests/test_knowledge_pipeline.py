@@ -245,7 +245,17 @@ def test_broad_topic_question_does_not_focus_one_document():
     )
 
 
-def test_empty_corpus_returns_no_hits_after_query_embedding():
+def test_empty_corpus_returns_no_hits_after_query_embedding(
+    monkeypatch,
+):
+    from app.core.config import settings
+
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_RETRIEVAL_MODE",
+        "vector",
+    )
+
     class EmptyPostgresSession:
         bind = SimpleNamespace(dialect=SimpleNamespace(name="postgresql"))
 
@@ -269,17 +279,61 @@ def test_empty_corpus_returns_no_hits_after_query_embedding():
 
 def test_ask_route_cites_each_returned_fact(client, monkeypatch):
     from app.api.routes import ask_ekiti
-    hit = {"doc_id": "history-state-creation-1996", "content": "Ekiti State was created in 1996.",
-           "source_ids": ["SRC-001"], "source_titles": ["State announcement"],
-           "source_urls": ["https://example.org/announcement"],
-           "source_url": "https://example.org/announcement", "category": "history",
-           "tier": "A", "last_verified": "2026-09-21", "path": "01_History/creation.md"}
-    monkeypatch.setattr(ask_ekiti, "retrieve", lambda *args, **kwargs: [hit])
-    response = client.post("/api/ask-ekiti", json={"question": "When was Ekiti State created?"})
+
+    hit = {
+        "doc_id": "history-state-creation-1996",
+        "content": "Ekiti State was created on 1 October 1996.",
+        "source_ids": ["SRC-001"],
+        "source_titles": ["State announcement"],
+        "source_urls": ["https://example.org/announcement"],
+        "source_url": "https://example.org/announcement",
+        "category": "history",
+        "tier": "A",
+        "last_verified": "2026-09-21",
+        "path": "01_History/creation.md",
+    }
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "retrieve",
+        lambda *args, **kwargs: [hit],
+    )
+
+    # This test is about routing/citations, not the external LLM.
+    monkeypatch.setattr(
+        ask_ekiti,
+        "get_grounded_synthesizer",
+        lambda: None,
+    )
+
+    response = client.post(
+        "/api/ask-ekiti",
+        json={"question": "When was Ekiti State created?"},
+    )
+
     assert response.status_code == 200
     assert response.json()["citations"][0]["source_ids"] == ["SRC-001"]
     assert response.json()["citations"][0]["tier"] == "A"
-    assert client.post("/api/ask-ekiti", json={"question": "When?", "language": "yo"}).status_code == 503
+
+    # Yoruba is now a supported first-class language rather than a 503 gate.
+    yoruba = client.post(
+        "/api/ask-ekiti",
+        json={
+            "question": (
+                "Ní ọjọ́ wo ni a dá Ìpínlẹ̀ Èkìtì sílẹ̀?"
+            ),
+            "language": "yo",
+        },
+    )
+
+    assert yoruba.status_code == 200
+
+    payload = yoruba.json()
+
+    assert payload["language"] == "yo"
+    assert payload["answer_status"] == "answered"
+    assert "1996" in payload["answer"]
+    assert payload["citations"][0]["source_ids"] == ["SRC-001"]
 
 
 def test_ask_route_declines_without_evidence(client, monkeypatch):

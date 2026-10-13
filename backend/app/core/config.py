@@ -62,6 +62,27 @@ class Settings(BaseSettings):
     # Grounded LLM synthesis is opt-in. Retrieval and deterministic
     # citation-safe answers remain available when this is disabled.
     ASK_EKITI_SYNTHESIS_ENABLED: bool = False
+    ASK_EKITI_GENERAL_FALLBACK_ENABLED: bool = False
+
+    # Temporary direct provider for today's Ask Ekiti deployment.
+    # Baalebos remains available as a future provider once reactivated.
+    ASK_EKITI_LLM_PROVIDER: Literal["groq", "baalebos"] = "groq"
+
+    GROQ_API_KEY: str | None = None
+    GROQ_API_URL: str = (
+        "https://api.groq.com/openai/v1/chat/completions"
+    )
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
+    GROQ_TIMEOUT_SECONDS: float = Field(
+        default=60.0,
+        gt=0,
+        le=120,
+    )
+    GROQ_TEMPERATURE: float = Field(
+        default=0.2,
+        ge=0,
+        le=2,
+    )
 
     # Embeddings are generated locally with sentence-transformers (free,
     # self-hosted) rather than through the gateway. The model is
