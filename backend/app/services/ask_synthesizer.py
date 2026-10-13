@@ -7,6 +7,11 @@ from typing import Any
 import httpx
 
 from app.core.config import settings
+from app.services.ask_grounding import (
+    build_evidence_packet,
+    render_grounded_statements,
+    validate_synthesis,
+)
 
 GroundedSynthesizer = Callable[
     [dict[str, Any]],
@@ -82,7 +87,10 @@ def _parse_groq_response(payload: Any) -> dict[str, Any]:
     return value
 
 
-def _call_groq(packet: dict[str, Any]) -> dict[str, Any]:
+def _call_groq(
+    packet: dict[str, Any],
+    model: str | None = None,
+) -> dict[str, Any]:
     if not settings.GROQ_API_KEY:
         raise RuntimeError(
             "Ask Ekiti synthesis is enabled but "
@@ -90,7 +98,7 @@ def _call_groq(packet: dict[str, Any]) -> dict[str, Any]:
         )
 
     body = {
-        "model": settings.GROQ_MODEL,
+        "model": model or settings.GROQ_SYNTHESIS_MODEL,
         "messages": [
             {
                 "role": "system",
@@ -288,7 +296,7 @@ def answer_general_ekiti(
         }
 
     body = {
-        "model": settings.GROQ_MODEL,
+        "model": settings.GROQ_SYNTHESIS_MODEL,
         "messages": [
             {
                 "role": "system",
@@ -339,6 +347,366 @@ def answer_general_ekiti(
         ) from exc
 
     return _parse_general_groq_response(payload)
+
+
+
+def _web_research_system_prompt(language: str) -> str:
+    if language == "yo":
+        language_rule = (
+            "Answer in clear Standard Yoruba. Preserve official names, "
+            "people's names, dates, numbers, titles and place names accurately."
+        )
+    else:
+        language_rule = "Answer in clear English."
+
+    return (
+        "You are the web-research layer for Ask Ekiti. "
+        "The user is asking about Ekiti State, Nigeria. "
+        "Use browser search to research the question before answering. "
+        "Do not answer factual claims only from model memory. "
+        "Prefer primary and authoritative sources such as the Ekiti State "
+        "Government, Nigerian government agencies, INEC, official public "
+        "institutions, universities and other primary sources. "
+        "When primary sources are unavailable, use reputable established "
+        "news or institutional sources and cross-check important claims. "
+        "For current officeholders, projects, elections, appointments, "
+        "policies and other time-sensitive facts, prioritize the newest "
+        "reliable information and distinguish current facts from historical "
+        "facts. "
+        "Do not invent facts, URLs, quotations or citations. "
+        "Keep the final answer focused on the user's question. "
+        "Use the citations produced by browser search for factual claims. "
+        + language_rule
+    )
+
+
+
+def _web_source_rank(url: str) -> int:
+    """Prefer authoritative Nigerian/Ekiti sources."""
+    value = url.casefold()
+
+    if "ekitistate.gov.ng" in value:
+        return 0
+
+    if ".gov.ng" in value:
+        return 1
+
+    if ".edu.ng" in value:
+        return 2
+
+    if "wikipedia.org" in value:
+        return 4
+
+    return 3
+
+
+def _clean_web_source_title(
+    title: str | None,
+    content: str,
+    url: str,
+) -> str:
+    """Return a human-readable title for browser-opened sources."""
+    value = title.strip() if isinstance(title, str) else ""
+
+    # Groq browser.open may return titles like:
+    # "www.example.gov.ng - viewing lines [0 - 96] of 96"
+    # The actual page title is usually present near the top of content.
+    if " - viewing lines [" in value:
+        for line in content.splitlines()[:8]:
+            if line.startswith("L2: "):
+                candidate = line.removeprefix("L2: ").strip()
+                if candidate:
+                    return candidate
+
+    if value:
+        return value
+
+    return url
+
+
+def _extract_web_evidence(payload: Any) -> list[dict[str, str]]:
+    """Extract pages actually opened by Groq browser search.
+
+    Search-result titles alone are not evidence. Prefer browser.open/find
+    results containing page text, deduplicate by URL, and keep the richest
+    copy of each page.
+    """
+    if not isinstance(payload, dict):
+        return []
+
+    choices = payload.get("choices")
+
+    if not isinstance(choices, list) or not choices:
+        return []
+
+    message = choices[0].get("message")
+
+    if not isinstance(message, dict):
+        return []
+
+    executed = message.get("executed_tools")
+
+    if not isinstance(executed, list):
+        return []
+
+    by_url: dict[str, dict[str, str]] = {}
+
+    for tool in executed:
+        if not isinstance(tool, dict):
+            continue
+
+        search_results = tool.get("search_results")
+
+        if not isinstance(search_results, dict):
+            continue
+
+        results = search_results.get("results")
+
+        if not isinstance(results, list):
+            continue
+
+        for result in results:
+            if not isinstance(result, dict):
+                continue
+
+            url = result.get("url")
+            title = result.get("title")
+            content = result.get("content")
+
+            if (
+                not isinstance(url, str)
+                or not url.strip()
+                or not isinstance(content, str)
+                or not content.strip()
+            ):
+                continue
+
+            item = {
+                "title": _clean_web_source_title(
+                    title,
+                    content,
+                    url.strip(),
+                ),
+                "url": url.strip(),
+                # Keep the second grounded Groq call small enough for
+                # low-token-rate deployments. Browser search can return very
+                # large opened pages; only a focused excerpt is needed for
+                # grounded synthesis.
+                "content": content.strip()[:2500],
+            }
+
+            existing = by_url.get(item["url"])
+
+            if (
+                existing is None
+                or len(item["content"]) > len(existing["content"])
+            ):
+                by_url[item["url"]] = item
+
+    ranked = sorted(
+        by_url.values(),
+        key=lambda item: (
+            _web_source_rank(item["url"]),
+            -len(item["content"]),
+        ),
+    )
+
+    # When authoritative Nigerian government sources are available, keep
+    # them first while still allowing a small number of corroborating
+    # sources for questions that need comparison or freshness.
+    official = [
+        item
+        for item in ranked
+        if _web_source_rank(item["url"]) <= 1
+    ]
+
+    if official:
+        others = [
+            item
+            for item in ranked
+            if item not in official
+        ]
+        return (official[:2] + others[:1])[:3]
+
+    return ranked[:3]
+
+
+def answer_web_researched(
+    question: str,
+    language: str,
+) -> dict[str, Any]:
+    """Research the web, then ground a second synthesis on opened pages."""
+    if not settings.GROQ_API_KEY:
+        raise RuntimeError(
+            "GROQ_API_KEY is not configured"
+        )
+
+    body = {
+        "model": settings.GROQ_RESEARCH_MODEL,
+        "messages": [
+            {
+                "role": "system",
+                "content": _web_research_system_prompt(language),
+            },
+            {
+                "role": "user",
+                "content": question,
+            },
+        ],
+        "temperature": settings.GROQ_TEMPERATURE,
+        "max_completion_tokens": 1000,
+        "reasoning_effort": "low",
+        "tool_choice": "required",
+        "tools": [
+            {
+                "type": "browser_search",
+            }
+        ],
+    }
+
+    research_models = [
+        settings.GROQ_RESEARCH_MODEL,
+    ]
+
+    if (
+        settings.GROQ_SYNTHESIS_MODEL
+        not in research_models
+    ):
+        research_models.append(
+            settings.GROQ_SYNTHESIS_MODEL
+        )
+
+    payload = None
+    research_model = None
+    last_status = None
+
+    for candidate_model in research_models:
+        body["model"] = candidate_model
+
+        try:
+            response = httpx.post(
+                settings.GROQ_API_URL,
+                headers={
+                    "Authorization": (
+                        f"Bearer {settings.GROQ_API_KEY}"
+                    ),
+                    "Content-Type": "application/json",
+                },
+                json=body,
+                timeout=settings.GROQ_TIMEOUT_SECONDS,
+            )
+
+            response.raise_for_status()
+
+        except httpx.HTTPStatusError as exc:
+            last_status = exc.response.status_code
+
+            # Groq applies model-specific rate-limit buckets.
+            # If one GPT-OSS model is temporarily exhausted,
+            # try the other supported browser-search model.
+            if last_status == 429:
+                continue
+
+            raise RuntimeError(
+                "Groq web research returned HTTP "
+                f"{last_status}"
+            ) from exc
+
+        except httpx.RequestError as exc:
+            raise RuntimeError(
+                "Groq web research request failed"
+            ) from exc
+
+        try:
+            payload = response.json()
+        except ValueError as exc:
+            raise RuntimeError(
+                "Groq web research returned invalid JSON"
+            ) from exc
+
+        research_model = candidate_model
+        break
+
+    if payload is None or research_model is None:
+        raise RuntimeError(
+            "Groq web research is temporarily rate limited"
+        )
+
+    sources = _extract_web_evidence(payload)
+
+    if not sources:
+        raise RuntimeError(
+            "Groq web research returned no usable source evidence"
+        )
+
+    citations = []
+    statements = []
+
+    for index, source in enumerate(sources):
+        citations.append(
+            {
+                "doc_id": f"web-{index + 1}",
+                "category": "web",
+                "source_ids": [f"WEB-{index + 1}"],
+                "source_titles": [source["title"]],
+                "source_urls": [source["url"]],
+                "source_url": source["url"],
+                "tier": "web",
+                "last_verified": None,
+                "evidence_status": "web_researched",
+                "ask_ekiti_approved": False,
+                "ask_ekiti_approved_date": None,
+                "path": None,
+            }
+        )
+
+        statements.append(
+            {
+                "text": source["content"],
+                "citation_index": index,
+            }
+        )
+
+    packet = build_evidence_packet(
+        question,
+        language,
+        statements,
+        citations,
+    )
+
+    # Important: do not expose the first browser-generated prose.
+    # The final answer must come from a second structured synthesis that
+    # is restricted to the retrieved web evidence above.
+    synthesis_model = settings.GROQ_SYNTHESIS_MODEL
+
+    # Avoid immediately using the same rate-limit bucket that performed
+    # browser research.
+    if research_model == synthesis_model:
+        synthesis_model = settings.GROQ_RESEARCH_MODEL
+
+    raw = _call_groq(
+        packet,
+        model=synthesis_model,
+    )
+
+    validated = validate_synthesis(
+        raw,
+        evidence_count=len(packet["evidence"]),
+    )
+
+    used_citations = []
+
+    for statement in validated:
+        for citation in statement["citations"]:
+            if citation not in used_citations:
+                used_citations.append(citation)
+
+    return {
+        "status": "answered",
+        "answer": render_grounded_statements(validated),
+        "citations": citations,
+        "used_citations": used_citations,
+    }
 
 
 def get_grounded_synthesizer() -> GroundedSynthesizer | None:

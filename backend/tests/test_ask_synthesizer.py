@@ -137,7 +137,7 @@ def test_groq_request_and_response_contract(monkeypatch):
     )
 
     assert captured["headers"]["Authorization"] == "Bearer secret"
-    assert captured["body"]["model"] == settings.GROQ_MODEL
+    assert captured["body"]["model"] == settings.GROQ_SYNTHESIS_MODEL
     assert captured["body"]["response_format"] == {
         "type": "json_object"
     }
@@ -334,6 +334,15 @@ def test_api_uses_general_ekiti_fallback_when_kb_has_no_match(
         True,
     )
 
+    # This test exercises the legacy/model-memory fallback behavior.
+    # Web research is tested separately and must not depend on the
+    # developer's active shell environment.
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_WEB_RESEARCH_ENABLED",
+        False,
+    )
+
     monkeypatch.setattr(
         ask_ekiti,
         "get_grounded_synthesizer",
@@ -389,6 +398,15 @@ def test_api_rejects_irrelevant_generic_kb_hits_and_uses_fallback(
         True,
     )
 
+    # This test exercises the legacy/model-memory fallback behavior.
+    # Web research is tested separately and must not depend on the
+    # developer's active shell environment.
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_WEB_RESEARCH_ENABLED",
+        False,
+    )
+
     monkeypatch.setattr(
         ask_ekiti,
         "get_grounded_synthesizer",
@@ -440,6 +458,15 @@ def test_api_current_question_requires_fresh_source(
         True,
     )
 
+    # This test exercises the legacy/model-memory fallback behavior.
+    # Web research is tested separately and must not depend on the
+    # developer's active shell environment.
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_WEB_RESEARCH_ENABLED",
+        False,
+    )
+
     monkeypatch.setattr(
         ask_ekiti,
         "get_grounded_synthesizer",
@@ -486,3 +513,266 @@ def test_api_current_question_requires_fresh_source(
 
     assert payload["reason"] == "needs_current_source"
     assert payload["citations"] == []
+
+
+def test_web_research_uses_browser_search(monkeypatch):
+    from app.services.ask_synthesizer import answer_web_researched
+
+    requests = []
+
+    class FakeResponse:
+        def __init__(self, payload):
+            self._payload = payload
+
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, *, headers, json, timeout):
+        requests.append(json)
+
+        # First request: browser research.
+        if "tools" in json:
+            return FakeResponse(
+                {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": "Untrusted first-pass prose.",
+                                "executed_tools": [
+                                    {
+                                        "type": "browser.open",
+                                        "search_results": {
+                                            "results": [
+                                                {
+                                                    "title": (
+                                                        "Office of the Governor"
+                                                    ),
+                                                    "url": (
+                                                        "https://www."
+                                                        "ekitistate.gov.ng/"
+                                                        "governor"
+                                                    ),
+                                                    "content": (
+                                                        "Abiodun Abayomi "
+                                                        "Oyebanji is profiled "
+                                                        "by the Office of the "
+                                                        "Governor."
+                                                    ),
+                                                }
+                                            ]
+                                        },
+                                    }
+                                ],
+                            }
+                        }
+                    ]
+                }
+            )
+
+        # Second request: structured grounded synthesis.
+        return FakeResponse(
+            {
+                "choices": [
+                    {
+                        "message": {
+                            "content": (
+                                '{"statements":['
+                                '{"text":"Abiodun Abayomi Oyebanji '
+                                'is profiled by the Office of the '
+                                'Governor.",'
+                                '"citations":[1]}]}'
+                            )
+                        }
+                    }
+                ]
+            }
+        )
+
+    monkeypatch.setattr(settings, "GROQ_API_KEY", "secret")
+    monkeypatch.setattr(
+        "app.services.ask_synthesizer.httpx.post",
+        fake_post,
+    )
+
+    result = answer_web_researched(
+        "Who is Biodun Oyebanji in Ekiti?",
+        "en",
+    )
+
+    assert result["status"] == "answered"
+    assert "Oyebanji" in result["answer"]
+    assert result["used_citations"] == [1]
+    assert result["citations"][0]["source_urls"] == [
+        "https://www.ekitistate.gov.ng/governor"
+    ]
+
+    assert len(requests) == 2
+
+    browser_body = requests[0]
+    grounded_body = requests[1]
+
+    assert browser_body["tools"] == [
+        {"type": "browser_search"}
+    ]
+    assert browser_body["tool_choice"] == "required"
+    assert "response_format" not in browser_body
+
+    # The second call must not browse again. It receives only the evidence
+    # retrieved by the first call and returns structured JSON.
+    assert "tools" not in grounded_body
+    assert grounded_body["response_format"] == {
+        "type": "json_object"
+    }
+
+
+
+def test_api_uses_web_research_when_kb_has_no_match(
+    client,
+    monkeypatch,
+):
+    from app.api.routes import ask_ekiti
+
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_WEB_RESEARCH_ENABLED",
+        True,
+    )
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_GENERAL_FALLBACK_ENABLED",
+        True,
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "get_grounded_synthesizer",
+        lambda: None,
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "retrieve",
+        lambda *args, **kwargs: [],
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "answer_web_researched",
+        lambda question, language: {
+            "status": "answered",
+            "answer": (
+                "Web researched Ekiti answer. 〖1†L1-L4〗"
+            ),
+        },
+    )
+
+    response = client.post(
+        "/api/ask-ekiti",
+        json={
+            "question": "Who is Biodun Oyebanji in Ekiti?",
+            "language": "en",
+        },
+    )
+
+    assert response.status_code == 200
+
+    payload = response.json()
+
+    assert payload["coverage"] == "web_researched"
+    assert payload["reason"] == "web_research_fallback"
+    assert payload["synthesis_mode"] == "web"
+    assert payload["web_researched"] is True
+    assert payload["general_ai"] is False
+    assert payload["citations"] == []
+
+
+def test_web_research_takes_priority_over_general_ai(
+    client,
+    monkeypatch,
+):
+    from app.api.routes import ask_ekiti
+
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_WEB_RESEARCH_ENABLED",
+        True,
+    )
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_GENERAL_FALLBACK_ENABLED",
+        True,
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "get_grounded_synthesizer",
+        lambda: None,
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "retrieve",
+        lambda *args, **kwargs: [],
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "answer_web_researched",
+        lambda question, language: {
+            "status": "answered",
+            "answer": "Fresh researched answer.",
+        },
+    )
+
+    def general_must_not_run(*args, **kwargs):
+        pytest.fail(
+            "General model-memory fallback must not run "
+            "when web research is enabled"
+        )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "answer_general_ekiti",
+        general_must_not_run,
+    )
+
+    response = client.post(
+        "/api/ask-ekiti",
+        json={
+            "question": "Tell me about an Ekiti public figure.",
+            "language": "en",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["synthesis_mode"] == "web"
+
+
+def test_web_source_title_uses_actual_page_title():
+    from app.services.ask_synthesizer import _clean_web_source_title
+
+    title = (
+        "www.ekitistate.gov.ng - viewing lines "
+        "[0 - 96] of 96"
+    )
+
+    content = (
+        "L0: \n"
+        "L1: URL: https://www.ekitistate.gov.ng/example\n"
+        "L2: Office of the Governor – Ekiti State Government Website\n"
+        "L3: \n"
+        "L4: # Office of the Governor"
+    )
+
+    result = _clean_web_source_title(
+        title,
+        content,
+        "https://www.ekitistate.gov.ng/example",
+    )
+
+    assert result == (
+        "Office of the Governor – Ekiti State Government Website"
+    )
