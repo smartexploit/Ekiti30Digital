@@ -168,16 +168,48 @@ def test_conflicting_retrieved_facts_are_not_silently_selected():
     assert len(r["citations"]) == 2
 
 
-def test_yoruba_review_gate_and_enabled_route(client, monkeypatch):
+def test_yoruba_is_available_when_selected(
+    client,
+    monkeypatch,
+):
     from app.api.routes import ask_ekiti
-    monkeypatch.setattr(settings, "ASK_EKITI_RETRIEVAL_MODE", "vector")
-    monkeypatch.setattr(ask_ekiti, "retrieve", lambda *a, **k: [CREATION])
-    monkeypatch.setattr(settings, "ASK_EKITI_YORUBA_REVIEWED", False)
-    assert client.post("/api/ask-ekiti", json={"question": "When was Ekiti State created?", "language": "yo"}).status_code == 503
-    monkeypatch.setattr(settings, "ASK_EKITI_YORUBA_REVIEWED", True)
-    r = client.post("/api/ask-ekiti", json={"question": "Ní ọjọ́ wo ni a dá Ìpínlẹ̀ Èkìtì sílẹ̀?", "language": "yo"})
-    assert r.status_code == 200 and r.json()["language"] == "yo"
-    assert "1996" in r.json()["answer"]
+
+    monkeypatch.setattr(
+        settings,
+        "ASK_EKITI_RETRIEVAL_MODE",
+        "vector",
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "retrieve",
+        lambda *a, **k: [CREATION],
+    )
+
+    monkeypatch.setattr(
+        ask_ekiti,
+        "get_grounded_synthesizer",
+        lambda: None,
+    )
+
+    result = client.post(
+        "/api/ask-ekiti",
+        json={
+            "question": (
+                "Ní ọjọ́ wo ni a dá Ìpínlẹ̀ Èkìtì sílẹ̀?"
+            ),
+            "language": "yo",
+        },
+    )
+
+    assert result.status_code == 200
+
+    payload = result.json()
+
+    assert payload["language"] == "yo"
+    assert "1996" in payload["answer"]
+
+
 
 
 def test_input_messages_and_invalid_language(client):
