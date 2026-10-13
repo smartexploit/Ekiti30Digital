@@ -8,6 +8,7 @@ import httpx
 
 from app.core.config import settings
 from app.services.ask_grounding import (
+    GroundingError,
     build_evidence_packet,
     render_grounded_statements,
     validate_synthesis,
@@ -579,6 +580,7 @@ def answer_web_researched(
     payload = None
     research_model = None
     last_status = None
+    rate_limited_models: set[str] = set()
 
     for candidate_model in research_models:
         body["model"] = candidate_model
@@ -605,6 +607,7 @@ def answer_web_researched(
             # If one GPT-OSS model is temporarily exhausted,
             # try the other supported browser-search model.
             if last_status == 429:
+                rate_limited_models.add(candidate_model)
                 continue
 
             raise RuntimeError(
@@ -679,20 +682,31 @@ def answer_web_researched(
     # is restricted to the retrieved web evidence above.
     synthesis_model = settings.GROQ_SYNTHESIS_MODEL
 
-    # Avoid immediately using the same rate-limit bucket that performed
-    # browser research.
+    # Prefer a different model for synthesis after browser research,
+    # but never switch back to a model that already returned HTTP 429.
     if research_model == synthesis_model:
-        synthesis_model = settings.GROQ_RESEARCH_MODEL
+        alternate_model = settings.GROQ_RESEARCH_MODEL
+
+        if (
+            alternate_model != research_model
+            and alternate_model not in rate_limited_models
+        ):
+            synthesis_model = alternate_model
 
     raw = _call_groq(
         packet,
         model=synthesis_model,
     )
 
-    validated = validate_synthesis(
-        raw,
-        evidence_count=len(packet["evidence"]),
-    )
+    try:
+        validated = validate_synthesis(
+            raw,
+            evidence_count=len(packet["evidence"]),
+        )
+    except GroundingError as exc:
+        raise RuntimeError(
+            "Web research synthesis failed grounding validation"
+        ) from exc
 
     used_citations = []
 

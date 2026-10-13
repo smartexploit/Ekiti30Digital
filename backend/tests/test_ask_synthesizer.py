@@ -776,3 +776,222 @@ def test_web_source_title_uses_actual_page_title():
     assert result == (
         "Office of the Governor – Ekiti State Government Website"
     )
+
+
+def test_web_research_does_not_reuse_rate_limited_model(
+    monkeypatch,
+):
+    import httpx
+
+    from app.services.ask_synthesizer import answer_web_researched
+
+    models_used = []
+
+    class FakeResponse:
+        def __init__(self, payload):
+            self._payload = payload
+
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, *, headers, json, timeout):
+        model = json["model"]
+        models_used.append(model)
+
+        # First research model is rate limited.
+        if (
+            "tools" in json
+            and model == "openai/gpt-oss-120b"
+        ):
+            request = httpx.Request("POST", url)
+            response = httpx.Response(
+                429,
+                request=request,
+            )
+            raise httpx.HTTPStatusError(
+                "rate limited",
+                request=request,
+                response=response,
+            )
+
+        # Second research model succeeds.
+        if "tools" in json:
+            return FakeResponse(
+                {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": "First-pass prose.",
+                                "executed_tools": [
+                                    {
+                                        "type": "browser.open",
+                                        "search_results": {
+                                            "results": [
+                                                {
+                                                    "title": (
+                                                        "Ekiti State "
+                                                        "Government"
+                                                    ),
+                                                    "url": (
+                                                        "https://www."
+                                                        "ekitistate.gov.ng/"
+                                                        "example"
+                                                    ),
+                                                    "content": (
+                                                        "Ekiti State has "
+                                                        "an official "
+                                                        "government portal."
+                                                    ),
+                                                }
+                                            ]
+                                        },
+                                    }
+                                ],
+                            }
+                        }
+                    ]
+                }
+            )
+
+        # Grounded synthesis should stay on 20B instead of
+        # returning to the already rate-limited 120B model.
+        return FakeResponse(
+            {
+                "choices": [
+                    {
+                        "message": {
+                            "content": (
+                                '{"statements":['
+                                '{"text":"Ekiti State has an '
+                                'official government portal.",'
+                                '"citations":[1]}]}'
+                            )
+                        }
+                    }
+                ]
+            }
+        )
+
+    monkeypatch.setattr(settings, "GROQ_API_KEY", "secret")
+    monkeypatch.setattr(
+        settings,
+        "GROQ_RESEARCH_MODEL",
+        "openai/gpt-oss-120b",
+    )
+    monkeypatch.setattr(
+        settings,
+        "GROQ_SYNTHESIS_MODEL",
+        "openai/gpt-oss-20b",
+    )
+    monkeypatch.setattr(
+        "app.services.ask_synthesizer.httpx.post",
+        fake_post,
+    )
+
+    result = answer_web_researched(
+        "Tell me about Ekiti State.",
+        "en",
+    )
+
+    assert result["status"] == "answered"
+    assert models_used == [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b",
+        "openai/gpt-oss-20b",
+    ]
+
+
+def test_web_research_grounding_error_becomes_runtime_error(
+    monkeypatch,
+):
+    from app.services.ask_grounding import GroundingError
+    from app.services.ask_synthesizer import answer_web_researched
+
+    class FakeResponse:
+        def __init__(self, payload):
+            self._payload = payload
+
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, *, headers, json, timeout):
+        if "tools" in json:
+            return FakeResponse(
+                {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": "First-pass prose.",
+                                "executed_tools": [
+                                    {
+                                        "type": "browser.open",
+                                        "search_results": {
+                                            "results": [
+                                                {
+                                                    "title": (
+                                                        "Ekiti State "
+                                                        "Government"
+                                                    ),
+                                                    "url": (
+                                                        "https://www."
+                                                        "ekitistate.gov.ng/"
+                                                        "example"
+                                                    ),
+                                                    "content": (
+                                                        "Verified source "
+                                                        "evidence."
+                                                    ),
+                                                }
+                                            ]
+                                        },
+                                    }
+                                ],
+                            }
+                        }
+                    ]
+                }
+            )
+
+        return FakeResponse(
+            {
+                "choices": [
+                    {
+                        "message": {
+                            "content": (
+                                '{"statements":['
+                                '{"text":"Invalid synthesis.",'
+                                '"citations":[1]}]}'
+                            )
+                        }
+                    }
+                ]
+            }
+        )
+
+    def fail_validation(*args, **kwargs):
+        raise GroundingError("invalid grounded synthesis")
+
+    monkeypatch.setattr(settings, "GROQ_API_KEY", "secret")
+    monkeypatch.setattr(
+        "app.services.ask_synthesizer.httpx.post",
+        fake_post,
+    )
+    monkeypatch.setattr(
+        "app.services.ask_synthesizer.validate_synthesis",
+        fail_validation,
+    )
+
+    with pytest.raises(
+        RuntimeError,
+        match="failed grounding validation",
+    ):
+        answer_web_researched(
+            "Tell me about Ekiti State.",
+            "en",
+        )
